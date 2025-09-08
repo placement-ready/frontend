@@ -162,7 +162,7 @@ export default function ResumeDashboardPage() {
 								</div>
 								{/* Actions */}
 								<div className="grid grid-cols-2 gap-2">
-									<button className="flex items-center justify-center gap-1 text-sm px-3 py-2 border-2 border-green-200 rounded-lg hover:bg-green-50 hover:border-green-300 transition-all duration-200 text-green-700 font-medium">
+									<button className="flex items-center justify-center gap-1 text-sm px-3 py-2 border-2 border-green-200 rounded-lg hover:bg-green-50 hover:border-green-300 transition-all duration-200 text-green-700 font-medium" onClick={() => router.push(`/dashboard/resume/create?resumeId=${resume.id}`)}>
 										<FaPencilAlt className="h-4 w-4" /> Edit
 									</button>
 									<button className="flex items-center justify-center gap-1 text-sm px-3 py-2 border-2 border-emerald-200 rounded-lg hover:bg-emerald-50 hover:border-emerald-300 transition-all duration-200 text-emerald-700 font-medium">
