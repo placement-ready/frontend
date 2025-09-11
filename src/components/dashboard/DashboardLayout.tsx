@@ -250,7 +250,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 						</div>
 
 						{/* Right Section - Actions & Profile */}
-						<div className="flex items-center gap-2">
+						<div className="flex items-center gap-4">
 							{/* Notifications */}
 							<div className="relative notifications-dropdown">
 								<button
@@ -324,15 +324,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 									</div>
 								)}
 							</div>
-
-							{/* Settings */}
-							<Link
-								href="/dashboard/settings"
-								className="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors duration-200"
-								aria-label="Settings"
-							>
-								<MdSettings size={20} />
-							</Link>
 
 							{/* Profile Dropdown */}
 							<div className="relative profile-dropdown">
