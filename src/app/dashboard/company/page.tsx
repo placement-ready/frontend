@@ -1,21 +1,20 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-// Demo: Replace with real company/question data or API integration
 const companyQuestions: Record<string, string[]> = {
   Google: [
     "Describe a time you solved a complex problem.",
-    "How do you approach learning a new technology?",
+    "How do you approach learning a technology?",
     "What is your experience with scalable systems?",
   ],
   Amazon: [
     "Tell me about a time you disagreed with a teammate.",
-    "How do you prioritize when working under deadlines?",
+    "How do you prioritize under deadlines?",
     "How would you improve our service?",
   ],
   Microsoft: [
-    "Give an example of working on a diverse team.",
+    "Example of working on a diverse team.",
     "What motivates you to join Microsoft?",
     "Describe a time you handled feedback.",
   ],
@@ -24,82 +23,39 @@ const companyQuestions: Record<string, string[]> = {
 const companies = Object.keys(companyQuestions);
 
 const CompanyQuestions: React.FC = () => {
-  // Fix: Initialize to the first company's name, type as string
   const [selectedCompany, setSelectedCompany] = useState<string>(companies[0]);
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(160deg, #f6fff8 0%, #e6f9ee 100%)',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      fontFamily: 'Inter, sans-serif',
-      paddingBottom: 40,
-    }}>
-      <div style={{
-        marginTop: 56,
-        background: '#fff',
-        padding: '2.2rem 2rem',
-        borderRadius: 20,
-        boxShadow: '0 4px 24px rgba(44, 178, 125, 0.09)',
-        minWidth: 400,
-        maxWidth: '92vw',
-        textAlign: 'center'
-      }}>
-        <div style={{
-          width: 56,
-          height: 56,
-          background: '#ccf4e7',
-          borderRadius: '50%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          margin: '0 auto 1.1rem auto',
-        }}>
-          <span role="img" aria-label="company-question" style={{ fontSize: 30 }}>💼</span>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col items-center font-sans py-10 px-4">
+      <div className="mt-14 bg-white dark:bg-gray-800 rounded-2xl px-8 py-10 max-w-lg w-full shadow-lg">
+        <div className="w-14 h-14 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-6">
+          <span role="img" aria-label="company-question" className="text-3xl">
+            💼
+          </span>
         </div>
-        <h2 style={{ fontWeight: 700, marginBottom: 8, color: '#0e2b20' }}>
+        <h2 className="text-center text-2xl font-extrabold mb-2 text-gray-900 dark:text-gray-100">
           Company Interview Questions
         </h2>
-        <p style={{ color: '#2db47d', marginBottom: 22, fontWeight: 500 }}>
-          Prepare with real question sets for top companies.
+        <p className="text-center text-green-700 dark:text-green-400 font-semibold mb-6">
+          Prepare with real questions from top companies.
         </p>
         <select
           value={selectedCompany}
-          onChange={e => setSelectedCompany(e.target.value)}
-          style={{
-            padding: '12px 16px',
-            borderRadius: 12,
-            border: '1px solid #c2e3d5',
-            marginBottom: 18,
-            fontSize: 16,
-            outline: 'none',
-            width: '65%',
-          }}
+          onChange={(e) => setSelectedCompany(e.target.value)}
+          className="block mx-auto w-2/3 text-base px-4 py-3 rounded-lg border border-green-300 dark:border-green-700 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 outline-none transition duration-200 mb-6"
         >
-          {companies.map(company => (
-            <option key={company} value={company}>{company}</option>
+          {companies.map((company) => (
+            <option key={company} value={company}>
+              {company}
+            </option>
           ))}
         </select>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 14,
-          marginTop: 10,
-        }}>
+        <div className="flex flex-col gap-4">
           {companyQuestions[selectedCompany].map((q, idx) => (
-            <div key={idx} style={{
-              background: '#f6fff8',
-              borderRadius: 13,
-              padding: '16px 18px',
-              color: '#102c1c',
-              fontSize: 16,
-              textAlign: 'left',
-              border: '1px solid #e0f7ea',
-              boxShadow: '0 2px 8px rgba(44, 178, 125, 0.04)'
-            }}>
+            <div
+              key={idx}
+              className="bg-green-50 dark:bg-green-900 text-green-900 dark:text-green-300 px-5 py-4 rounded-lg text-left text-lg border border-green-200 dark:border-green-700 shadow-sm"
+            >
               {q}
             </div>
           ))}
