@@ -117,9 +117,18 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
 		}
 
 		// Don't render heading when sidebar is collapsed
-		// if (item.type === "heading" && !isOpen) {
-		// 	return null;
-		// }
+		if (item.type === "heading" && !isOpen) {
+			return (
+				<li key={item.id} className="w-full">
+					<div className={`mb-2 mt-4 ${indentClass}`}>
+						<div className="h-px bg-green-400/50 mx-1"></div>
+					</div>
+					<ul className="space-y-1 mb-4">
+						{item.children?.map((child) => renderMenuItem(child, depth + 1))}
+					</ul>
+				</li>
+			);
+		}
 
 		// Regular link item
 		const content = (

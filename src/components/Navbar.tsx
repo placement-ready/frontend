@@ -11,25 +11,23 @@ import {
 	DropdownItem,
 } from "./ui/Dropdown";
 import {
-	SunIcon,
-	BellIcon,
-	ChartBarIcon,
-	BookOpenIcon,
 	HomeIcon,
-	BoltIcon,
-	BriefcaseIcon,
+	PlayCircleIcon,
+	InformationCircleIcon,
+	CurrencyDollarIcon,
+	AcademicCapIcon,
+	ArrowTrendingUpIcon,
+	BookOpenIcon,
+	SunIcon,
 	MagnifyingGlassIcon,
 	Bars3Icon,
 	XMarkIcon,
-	SparklesIcon,
-	DocumentTextIcon,
-	AcademicCapIcon,
-	BuildingOfficeIcon,
-	CalendarIcon,
+	BeakerIcon,
 	ArrowRightIcon,
 	UserIcon,
 	ArrowRightStartOnRectangleIcon,
 } from "@heroicons/react/24/outline";
+import { MdPsychology } from "react-icons/md";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -67,7 +65,7 @@ const Navbar = () => {
 	return (
 		<>
 			<nav className="bg-white/90 backdrop-blur-lg shadow-sm border-b border-green-100/50 fixed top-0 w-full z-50 transition-all duration-300">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="w-full px-4 sm:px-6 lg:px-8">
 					<div className="flex items-center justify-between h-16">
 						{/* Logo + Brand */}
 						<div className="flex items-center gap-3">
@@ -86,90 +84,73 @@ const Navbar = () => {
 						</div>
 
 						{/* Desktop Menu */}
-						<div className="hidden lg:flex items-center space-x-1">
+						<div className="hidden lg:flex items-center justify-evenly space-x-1">
 							<Link
 								href="/"
-								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
+								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-green-600 bg-green-50/80 font-medium transition-all duration-200 group"
 							>
 								<HomeIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
 								<span className="font-medium">Home</span>
 							</Link>
-							<Link
-								href="/dashboard/dsa"
-								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<ChartBarIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">Practice</span>
-							</Link>
-							<Link
-								href="/dashboard/studyPlan"
-								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<BookOpenIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">Study Plan</span>
-							</Link>
 
-							{/* AI Tools Dropdown */}
+							{/* Features Dropdown */}
 							<DropdownRoot>
 								<DropdownTrigger
-									icon={<BoltIcon className="h-5 w-5" />}
-									label="AI Tools"
+									icon={<BeakerIcon className="h-5 w-5" />}
+									label="Features"
 									className="hover:bg-green-50/80"
 								/>
 								<DropdownContent width="w-64">
 									<DropdownMenu>
-										<DropdownItem
-											icon={<SparklesIcon className="h-5 w-5" />}
-											label="Resume Builder"
-											description="AI-powered resume creation"
-											href="/dashboard/resume"
-										/>
-										<DropdownItem
-											icon={<DocumentTextIcon className="h-5 w-5" />}
-											label="Cover Letter"
-											description="Generate personalized letters"
-											href="#"
-										/>
 										<DropdownItem
 											icon={<AcademicCapIcon className="h-5 w-5" />}
-											label="Interview Prep"
-											description="AI interview simulation"
-											href="#"
+											label="Learning Paths"
+											description="Structured learning journeys"
+											href="/features/learning-paths"
+										/>
+										<DropdownItem
+											icon={<MdPsychology className="h-5 w-5" />}
+											label="AI Mentor"
+											description="Personalized AI guidance"
+											href="/features/ai-mentor"
+										/>
+										<DropdownItem
+											icon={<ArrowTrendingUpIcon className="h-5 w-5" />}
+											label="Progress Tracking"
+											description="Monitor your advancement"
+											href="/features/progress-tracking"
+										/>
+										<DropdownItem
+											icon={<BookOpenIcon className="h-5 w-5" />}
+											label="Resource Library"
+											description="Comprehensive study materials"
+											href="/features/resource-library"
 										/>
 									</DropdownMenu>
 								</DropdownContent>
 							</DropdownRoot>
 
-							{/* Job Tools Dropdown */}
-							<DropdownRoot>
-								<DropdownTrigger
-									icon={<BriefcaseIcon className="h-5 w-5" />}
-									label="Job Tools"
-									className="hover:bg-green-50/80"
-								/>
-								<DropdownContent width="w-64">
-									<DropdownMenu>
-										<DropdownItem
-											icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-											label="Job Search"
-											description="Find relevant opportunities"
-											href="#"
-										/>
-										<DropdownItem
-											icon={<BuildingOfficeIcon className="h-5 w-5" />}
-											label="Company Research"
-											description="Deep dive into companies"
-											href="#"
-										/>
-										<DropdownItem
-											icon={<CalendarIcon className="h-5 w-5" />}
-											label="Application Tracker"
-											description="Track your applications"
-											href="#"
-										/>
-									</DropdownMenu>
-								</DropdownContent>
-							</DropdownRoot>
+							<Link
+								href="/how-it-works"
+								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
+							>
+								<PlayCircleIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+								<span className="font-medium">How It Works</span>
+							</Link>
+							<Link
+								href="/pricing"
+								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
+							>
+								<CurrencyDollarIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+								<span className="font-medium">Pricing</span>
+							</Link>
+							<Link
+								href="/about"
+								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
+							>
+								<InformationCircleIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+								<span className="font-medium">About Us</span>
+							</Link>
 						</div>
 
 						{/* Right Side Actions */}
@@ -178,10 +159,6 @@ const Navbar = () => {
 							<div className="flex items-center space-x-2">
 								<button className="p-2.5 hover:bg-green-50/80 rounded-xl transition-all duration-200 group hover:shadow-md cursor-pointer">
 									<MagnifyingGlassIcon className="h-5 w-5 text-gray-500 group-hover:text-green-600 group-hover:scale-110 transition-all duration-200" />
-								</button>
-								<button className="p-2.5 hover:bg-green-50/80 rounded-xl transition-all duration-200 group hover:shadow-md relative cursor-pointer">
-									<BellIcon className="h-5 w-5 text-gray-500 group-hover:text-green-600 group-hover:scale-110 transition-all duration-200" />
-									<div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-gradient-to-r from-red-400 to-red-500 rounded-full animate-pulse shadow-sm"></div>
 								</button>
 								<button className="p-2.5 hover:bg-green-50/80 rounded-xl transition-all duration-200 group hover:shadow-md cursor-pointer">
 									<SunIcon className="h-5 w-5 text-emerald-500 group-hover:text-emerald-600 group-hover:scale-110 group-hover:rotate-12 transition-all duration-200" />
@@ -311,86 +288,71 @@ const Navbar = () => {
 
 							{/* Mobile Navigation Links */}
 							<Link
-								href="#"
-								className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
+								href="/"
+								className="flex items-center gap-3 px-4 py-3 rounded-xl text-green-600 bg-green-50/80 font-medium transition-all duration-200 group"
 							>
 								<HomeIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">Learning App</span>
-							</Link>
-							<Link
-								href="#"
-								className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<ChartBarIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">Practice</span>
-							</Link>
-							<Link
-								href="#"
-								className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<BookOpenIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">Study Plan</span>
+								<span className="font-medium">Home (Active)</span>
 							</Link>
 
-							{/* Mobile AI Tools Section */}
+							{/* Mobile Features Section */}
 							<div className="py-3">
 								<div className="px-4 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">
-									AI Tools
+									Features
 								</div>
 								<div className="space-y-1">
 									<Link
-										href="#"
-										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
-									>
-										<SparklesIcon className="h-4 w-4" />
-										<span>Resume Builder</span>
-									</Link>
-									<Link
-										href="#"
-										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
-									>
-										<DocumentTextIcon className="h-4 w-4" />
-										<span>Cover Letter</span>
-									</Link>
-									<Link
-										href="#"
+										href="/features/learning-paths"
 										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
 									>
 										<AcademicCapIcon className="h-4 w-4" />
-										<span>Interview Prep</span>
+										<span>Learning Paths</span>
+									</Link>
+									<Link
+										href="/features/ai-mentor"
+										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
+									>
+										<MdPsychology className="h-4 w-4" />
+										<span>AI Mentor</span>
+									</Link>
+									<Link
+										href="/features/progress-tracking"
+										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
+									>
+										<ArrowTrendingUpIcon className="h-4 w-4" />
+										<span>Progress Tracking</span>
+									</Link>
+									<Link
+										href="/features/resource-library"
+										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
+									>
+										<BookOpenIcon className="h-4 w-4" />
+										<span>Resource Library</span>
 									</Link>
 								</div>
 							</div>
 
-							{/* Mobile Job Tools Section */}
-							<div className="py-3">
-								<div className="px-4 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">
-									Job Tools
-								</div>
-								<div className="space-y-1">
-									<Link
-										href="#"
-										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
-									>
-										<MagnifyingGlassIcon className="h-4 w-4" />
-										<span>Job Search</span>
-									</Link>
-									<Link
-										href="#"
-										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
-									>
-										<BuildingOfficeIcon className="h-4 w-4" />
-										<span>Company Research</span>
-									</Link>
-									<Link
-										href="#"
-										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
-									>
-										<CalendarIcon className="h-4 w-4" />
-										<span>Application Tracker</span>
-									</Link>
-								</div>
-							</div>
+							<Link
+								href="/how-it-works"
+								className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
+							>
+								<PlayCircleIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+								<span className="font-medium">How It Works</span>
+							</Link>
+							<Link
+								href="/pricing"
+								className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
+							>
+								<CurrencyDollarIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+								<span className="font-medium">Pricing</span>
+							</Link>
+							<Link
+								href="/about"
+								className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
+							>
+								<InformationCircleIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+								<span className="font-medium">About Us</span>
+							</Link>
 
 							{/* Mobile Action Buttons */}
 							<div className="py-3 mb-6">
@@ -401,10 +363,6 @@ const Navbar = () => {
 									<div className="flex gap-2">
 										<button className="p-2.5 hover:bg-green-50/80 rounded-xl transition-all duration-200">
 											<MagnifyingGlassIcon className="h-5 w-5 text-gray-500 hover:text-green-600" />
-										</button>
-										<button className="p-2.5 hover:bg-green-50/80 rounded-xl transition-all duration-200 relative">
-											<BellIcon className="h-5 w-5 text-gray-500 hover:text-green-600" />
-											<div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full"></div>
 										</button>
 										<button className="p-2.5 hover:bg-green-50/80 rounded-xl transition-all duration-200">
 											<SunIcon className="h-5 w-5 text-emerald-500 hover:text-emerald-600" />
