@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Send, Bot, Plus } from "lucide-react";
+import { FiSend, FiPlus } from "react-icons/fi";
+import { FaRobot } from "react-icons/fa";
 import { useAskMentor } from "@/lib/queries/mentor";
 
 type MentorCategory = "guidance" | "feedback" | "knowledge";
@@ -91,7 +92,7 @@ const MentorChatbot: React.FC = () => {
 		<div className="min-h-screen bg-green-50 flex flex-col max-w-4xl mx-auto relative px-4 sm:px-6">
 			{/* Mentor Card */}
 			<div className="bg-white shadow rounded-xl flex items-center px-4 sm:px-6 py-4 my-4">
-				<Bot className="w-8 h-8 sm:w-10 sm:h-10 text-green-600 bg-green-100 rounded-full p-2 mr-3 sm:mr-4 flex-shrink-0" />
+  <FaRobot className="w-8 h-8 sm:w-10 sm:h-10 text-green-600 bg-green-100 rounded-full p-2 mr-3 sm:mr-4 flex-shrink-0" />
 				<div className="min-w-0 flex-1">
 					<h2 className="font-semibold text-lg sm:text-xl text-green-800 truncate">
 						HireMind AI Mentor
@@ -163,7 +164,7 @@ const MentorChatbot: React.FC = () => {
       {/* Input */}
       <div className="absolute left-0 right-0 bottom-0 px-4 sm:px-6 py-3 bg-white dark:bg-gray-800 border-t border-green-100 dark:border-green-700 flex items-center gap-2 sm:gap-3">
         <label className="flex items-center cursor-pointer flex-shrink-0">
-          <Plus className="w-6 h-6 sm:w-7 sm:h-7 text-green-600 dark:text-green-400" />
+          <FiPlus className="w-6 h-6 sm:w-7 sm:h-7 text-green-600 dark:text-green-400" />
           <input type="file" accept="image/*" className="hidden" />
         </label>
         <textarea
@@ -184,7 +185,7 @@ const MentorChatbot: React.FC = () => {
           onClick={() => handleSendMessage()}
           disabled={!inputValue.trim() || isTyping}
         >
-          <Send className="w-5 h-5 sm:w-6 sm:h-6" />
+          <FiSend className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
       </div>
     </div>

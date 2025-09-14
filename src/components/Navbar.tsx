@@ -11,23 +11,6 @@ import {
   DropdownItem,
 } from "./ui/Dropdown";
 import {
-<<<<<<< HEAD
-	HomeIcon,
-	PlayCircleIcon,
-	InformationCircleIcon,
-	CurrencyDollarIcon,
-	AcademicCapIcon,
-	ArrowTrendingUpIcon,
-	BookOpenIcon,
-	SunIcon,
-	MagnifyingGlassIcon,
-	Bars3Icon,
-	XMarkIcon,
-	BeakerIcon,
-	ArrowRightIcon,
-	UserIcon,
-	ArrowRightStartOnRectangleIcon,
-=======
   SunIcon,
   BellIcon,
   ChartBarIcon,
@@ -47,9 +30,7 @@ import {
   UserIcon,
   ArrowRightStartOnRectangleIcon,
   MoonIcon,
->>>>>>> origin/vn
 } from "@heroicons/react/24/outline";
-import { MdPsychology } from "react-icons/md";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "../providers/ThemeContext";
@@ -78,110 +59,6 @@ const Navbar = () => {
     return () => document.body.classList.remove("overflow-hidden");
   }, [mobileMenuOpen]);
 
-<<<<<<< HEAD
-	return (
-		<>
-			<nav className="bg-white/90 backdrop-blur-lg shadow-sm border-b border-green-100/50 fixed top-0 w-full z-50 transition-all duration-300">
-				<div className="w-full px-4 sm:px-6 lg:px-8">
-					<div className="flex items-center justify-between h-16">
-						{/* Logo + Brand */}
-						<div className="flex items-center gap-3">
-							<div className="bg-gradient-to-br from-emerald-400 via-green-400 to-green-500 rounded-xl p-2.5 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 hover:rotate-3">
-								<Image
-									src="/brain.png"
-									alt="Brain Logo"
-									width={24}
-									height={24}
-									className="object-contain cursor-pointer"
-								/>
-							</div>
-							<span className="text-2xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 bg-clip-text text-transparent hover:from-green-700 hover:via-emerald-700 hover:to-green-800 transition-all duration-300 cursor-pointer">
-								Hire<span className="text-emerald-600">Mind</span>
-							</span>
-						</div>
-
-						{/* Desktop Menu */}
-						<div className="hidden lg:flex items-center justify-evenly space-x-1">
-							<Link
-								href="/"
-								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-green-600 bg-green-50/80 font-medium transition-all duration-200 group"
-							>
-								<HomeIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">Home</span>
-							</Link>
-
-							{/* Features Dropdown */}
-							<DropdownRoot>
-								<DropdownTrigger
-									icon={<BeakerIcon className="h-5 w-5" />}
-									label="Features"
-									className="hover:bg-green-50/80"
-								/>
-								<DropdownContent width="w-64">
-									<DropdownMenu>
-										<DropdownItem
-											icon={<AcademicCapIcon className="h-5 w-5" />}
-											label="Learning Paths"
-											description="Structured learning journeys"
-											href="/features/learning-paths"
-										/>
-										<DropdownItem
-											icon={<MdPsychology className="h-5 w-5" />}
-											label="AI Mentor"
-											description="Personalized AI guidance"
-											href="/features/ai-mentor"
-										/>
-										<DropdownItem
-											icon={<ArrowTrendingUpIcon className="h-5 w-5" />}
-											label="Progress Tracking"
-											description="Monitor your advancement"
-											href="/features/progress-tracking"
-										/>
-										<DropdownItem
-											icon={<BookOpenIcon className="h-5 w-5" />}
-											label="Resource Library"
-											description="Comprehensive study materials"
-											href="/features/resource-library"
-										/>
-									</DropdownMenu>
-								</DropdownContent>
-							</DropdownRoot>
-
-							<Link
-								href="/how-it-works"
-								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<PlayCircleIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">How It Works</span>
-							</Link>
-							<Link
-								href="/pricing"
-								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<CurrencyDollarIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">Pricing</span>
-							</Link>
-							<Link
-								href="/about"
-								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<InformationCircleIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">About Us</span>
-							</Link>
-						</div>
-
-						{/* Right Side Actions */}
-						<div className="hidden md:flex items-center space-x-3">
-							{/* Action Icons */}
-							<div className="flex items-center space-x-2">
-								<button className="p-2.5 hover:bg-green-50/80 rounded-xl transition-all duration-200 group hover:shadow-md cursor-pointer">
-									<MagnifyingGlassIcon className="h-5 w-5 text-gray-500 group-hover:text-green-600 group-hover:scale-110 transition-all duration-200" />
-								</button>
-								<button className="p-2.5 hover:bg-green-50/80 rounded-xl transition-all duration-200 group hover:shadow-md cursor-pointer">
-									<SunIcon className="h-5 w-5 text-emerald-500 group-hover:text-emerald-600 group-hover:scale-110 group-hover:rotate-12 transition-all duration-200" />
-								</button>
-							</div>
-=======
   const dropdownTriggerClass =
     "flex items-center gap-2 px-4 py-2.5 rounded-xl text-foreground hover:text-green-600 hover:bg-green-50/80 dark:hover:bg-slate-800 dark:hover:text-green-500 transition-all duration-200 group";
 
@@ -292,7 +169,6 @@ const Navbar = () => {
                 </DropdownContent>
               </DropdownRoot>
             </div>
->>>>>>> origin/vn
 
             {/* Right Side Actions */}
             <div className="hidden md:flex items-center space-x-3">
@@ -381,119 +257,9 @@ const Navbar = () => {
         </div>
       </nav>
 
-<<<<<<< HEAD
-							{/* Mobile Navigation Links */}
-							<Link
-								href="/"
-								className="flex items-center gap-3 px-4 py-3 rounded-xl text-green-600 bg-green-50/80 font-medium transition-all duration-200 group"
-							>
-								<HomeIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">Home (Active)</span>
-							</Link>
-
-							{/* Mobile Features Section */}
-							<div className="py-3">
-								<div className="px-4 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">
-									Features
-								</div>
-								<div className="space-y-1">
-									<Link
-										href="/features/learning-paths"
-										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
-									>
-										<AcademicCapIcon className="h-4 w-4" />
-										<span>Learning Paths</span>
-									</Link>
-									<Link
-										href="/features/ai-mentor"
-										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
-									>
-										<MdPsychology className="h-4 w-4" />
-										<span>AI Mentor</span>
-									</Link>
-									<Link
-										href="/features/progress-tracking"
-										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
-									>
-										<ArrowTrendingUpIcon className="h-4 w-4" />
-										<span>Progress Tracking</span>
-									</Link>
-									<Link
-										href="/features/resource-library"
-										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
-									>
-										<BookOpenIcon className="h-4 w-4" />
-										<span>Resource Library</span>
-									</Link>
-								</div>
-							</div>
-
-							<Link
-								href="/how-it-works"
-								className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<PlayCircleIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">How It Works</span>
-							</Link>
-							<Link
-								href="/pricing"
-								className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<CurrencyDollarIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">Pricing</span>
-							</Link>
-							<Link
-								href="/about"
-								className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<InformationCircleIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">About Us</span>
-							</Link>
-
-							{/* Mobile Action Buttons */}
-							<div className="py-3 mb-6">
-								<div className="flex items-center justify-between mb-4">
-									<span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-										Quick Actions
-									</span>
-									<div className="flex gap-2">
-										<button className="p-2.5 hover:bg-green-50/80 rounded-xl transition-all duration-200">
-											<MagnifyingGlassIcon className="h-5 w-5 text-gray-500 hover:text-green-600" />
-										</button>
-										<button className="p-2.5 hover:bg-green-50/80 rounded-xl transition-all duration-200">
-											<SunIcon className="h-5 w-5 text-emerald-500 hover:text-emerald-600" />
-										</button>
-									</div>
-								</div>
-
-								{/* Mobile CTA Button - Only show for non-authenticated users */}
-								{!isAuthenticated && (
-									<button
-										onClick={() => {
-											setMobileMenuOpen(false);
-											router.push("/dashboard");
-										}}
-										className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 group"
-									>
-										<span>Get Started</span>
-										<ArrowRightIcon className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
-									</button>
-								)}
-							</div>
-						</div>
-					</div>
-				</div>
-			</nav>
-
-			{/* Spacer to offset fixed navbar height */}
-			<div className="h-16" aria-hidden="true" />
-		</>
-	);
-=======
       <div className="h-16" aria-hidden="true" />
     </>
   );
->>>>>>> origin/vn
 };
 
 export default Navbar;
