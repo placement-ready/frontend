@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiLogOut } from "react-icons/fi";
+import { MdLogout } from "react-icons/md";
 import { useAuth } from "@/hooks/useAuth";
 
 interface SidebarMenuItem {
@@ -333,7 +333,7 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
 										aria-label="Logout"
 										title="Logout"
 									>
-										   <FiLogOut size={18} />
+										<MdLogout size={18} />
 									</button>
 								)}
 							</div>
@@ -368,7 +368,7 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
 										aria-label="Logout"
 										title="Logout"
 									>
-										   <FiLogOut size={18} />
+										<MdLogout size={18} />
 									</button>
 								)}
 							</div>
