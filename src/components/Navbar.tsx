@@ -26,13 +26,24 @@ import {
 	ArrowRightIcon,
 	UserIcon,
 	ArrowRightStartOnRectangleIcon,
+	BellIcon,
+	ChartBarIcon,
+	BoltIcon,
+	BriefcaseIcon,
+	SparklesIcon,
+	DocumentTextIcon,
+	BuildingOfficeIcon,
+	CalendarIcon,
+	MoonIcon,
 } from "@heroicons/react/24/outline";
 import { MdPsychology } from "react-icons/md";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { useTheme } from "../providers/ThemeContext";
 
 const Navbar = () => {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+	const { theme, toggleTheme } = useTheme();
 	const { user, isAuthenticated, logout } = useAuth();
 	const router = useRouter();
 	const pathname = usePathname();
@@ -47,18 +58,10 @@ const Navbar = () => {
 		}
 	};
 
-	// Close mobile menu on route change
-	useEffect(() => {
-		setMobileMenuOpen(false);
-	}, [pathname]);
+	useEffect(() => setMobileMenuOpen(false), [pathname]);
 
-	// Lock body scroll when mobile menu is open
 	useEffect(() => {
-		if (mobileMenuOpen) {
-			document.body.classList.add("overflow-hidden");
-		} else {
-			document.body.classList.remove("overflow-hidden");
-		}
+		document.body.classList.toggle("overflow-hidden", mobileMenuOpen);
 		return () => document.body.classList.remove("overflow-hidden");
 	}, [mobileMenuOpen]);
 
@@ -165,7 +168,6 @@ const Navbar = () => {
 								</button>
 							</div>
 
-							{/* Get Started Button */}
 							{isAuthenticated ? (
 								<DropdownRoot>
 									<DropdownTrigger
@@ -181,7 +183,7 @@ const Navbar = () => {
 											</span>
 										}
 										label={user?.name || "User"}
-										className="flex items-center gap-2 px-4 py-2 hover:text-white bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105"
+										className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105"
 									/>
 									<DropdownContent width="w-64" position="right">
 										<DropdownMenu>
@@ -201,7 +203,7 @@ const Navbar = () => {
 							) : (
 								<button
 									onClick={() => router.push("/dashboard")}
-									className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 group ml-2 cursor-pointer"
+									className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 group ml-2"
 								>
 									<span>Get Started</span>
 									<ArrowRightIcon className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
@@ -389,7 +391,6 @@ const Navbar = () => {
 				</div>
 			</nav>
 
-			{/* Spacer to offset fixed navbar height */}
 			<div className="h-16" aria-hidden="true" />
 		</>
 	);

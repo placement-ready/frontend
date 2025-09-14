@@ -70,7 +70,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 	const [showProfileMenu, setShowProfileMenu] = useState(false);
 	const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
 	const [notifications, setNotifications] = useState<NotificationItem[]>([]);
-
 	const { user, logout } = useAuth();
 	const pathname = usePathname();
 
@@ -92,7 +91,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 				setShowSearchSuggestions(false);
 			}
 		};
-
 		document.addEventListener("mousedown", handleClickOutside);
 		return () => document.removeEventListener("mousedown", handleClickOutside);
 	}, []);
@@ -114,7 +112,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
 	const handleSearch = (query: string) => {
 		console.log("Searching for:", query);
-		// Implement search functionality
 		setShowSearchSuggestions(false);
 	};
 
@@ -153,48 +150,47 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 	return (
 		<>
 			<Sidebar config={menuItems} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-			<div className="flex-col w-full">
-				<header className={`sticky top-0 z-30 w-full bg-white/95 backdrop-blur-sm shadow-lg`}>
+			<div className="flex flex-col w-full">
+				<header
+					className={`sticky top-0 z-30 w-full bg-white/95 backdrop-blur-sm shadow-lg dark:bg-gray-900/95`}
+				>
 					<div className="flex items-center justify-between h-20 px-4 lg:px-6">
-						{/* Left Section - Sidebar Toggle & Breadcrumb */}
+						{/* Left Section */}
 						<div className="flex items-center gap-4">
 							{/* Mobile Sidebar Toggle */}
 							<button
 								onClick={onSidebarToggle}
-								className="lg:hidden p-2 rounded-lg text-green-600 hover:bg-green-50 transition-colors duration-200"
+								className="lg:hidden p-2 rounded-lg text-green-600 hover:bg-green-50 transition-colors duration-200 dark:hover:bg-green-900"
 								aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
 							>
 								{isSidebarOpen ? <SidebarClose size={24} /> : <SidebarOpen size={24} />}
 							</button>
-
 							{/* Desktop Sidebar Toggle */}
 							<button
 								onClick={onSidebarToggle}
-								className="hidden lg:flex p-2 rounded-lg text-green-600 hover:bg-green-50 transition-colors duration-200"
+								className="hidden lg:flex p-2 rounded-lg text-green-600 hover:bg-green-50 transition-colors duration-200 dark:hover:bg-green-900"
 								aria-label={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
 							>
 								{isSidebarOpen ? <SidebarClose size={32} /> : <SidebarOpen size={32} />}
 							</button>
-
-							{/* Current Page Title */}
+							{/* Current Page */}
 							<div className="hidden sm:block">
-								<h1 className="text-lg font-semibold text-gray-800">{getCurrentPageTitle()}</h1>
-								<p className="text-xs text-gray-500 mt-0.5">
+								<h1 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+									{getCurrentPageTitle()}
+								</h1>
+								<p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
 									Welcome back, {user?.name?.split(" ")[0] || "User"}!
 								</p>
 							</div>
 						</div>
-
-						{/* Center Section - Search */}
+						{/* Center Section */}
 						<div className="flex-1 max-w-2xl mx-4 relative search-container">
 							<div
-								className={`
-						relative flex items-center
-						${isSearchFocused ? "ring-2 ring-green-400 ring-opacity-50" : ""}
-						bg-gray-50 rounded-xl transition-all duration-200
-					`}
+								className={`relative flex items-center bg-gray-50 rounded-xl ${
+									isSearchFocused ? "ring-2 ring-green-400 ring-opacity-50" : ""
+								} transition-all duration-200 dark:bg-gray-800`}
 							>
-								<MdSearch className="absolute left-3 text-gray-400" size={20} />
+								<MdSearch className="absolute left-3 text-gray-400 dark:text-gray-500" size={20} />
 								<input
 									type="text"
 									value={searchQuery}
@@ -206,21 +202,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 									onBlur={() => setIsSearchFocused(false)}
 									onKeyDown={(e) => e.key === "Enter" && handleSearch(searchQuery)}
 									placeholder="Search problems, companies, topics..."
-									className="w-full pl-10 pr-4 py-2.5 bg-transparent border-0 outline-none text-gray-700 placeholder-gray-400 text-sm"
+									className="w-full pl-10 pr-4 py-2.5 bg-transparent border-0 outline-none text-gray-700 placeholder-gray-400 text-sm dark:text-gray-300 dark:placeholder-gray-500"
 								/>
 								{searchQuery && (
 									<button
 										onClick={() => setSearchQuery("")}
-										className="absolute right-3 text-gray-400 hover:text-gray-600"
+										className="absolute right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
 									>
 										<MdClose size={16} />
 									</button>
 								)}
 							</div>
-
-							{/* Search Suggestions Dropdown */}
 							{showSearchSuggestions && (
-								<div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
+								<div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700 py-2 z-50">
 									{searchSuggestions
 										.filter((suggestion) =>
 											suggestion.toLowerCase().includes(searchQuery.toLowerCase())
@@ -233,9 +227,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 													setSearchQuery(suggestion);
 													handleSearch(suggestion);
 												}}
-												className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150"
+												className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors duration-150"
 											>
-												<MdSearch className="inline mr-2 text-gray-400" size={16} />
+												<MdSearch
+													className="inline mr-2 text-gray-400 dark:text-gray-500"
+													size={16}
+												/>
 												{suggestion}
 											</button>
 										))}
@@ -243,19 +240,20 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 										!searchSuggestions.some((s) =>
 											s.toLowerCase().includes(searchQuery.toLowerCase())
 										) && (
-											<div className="px-4 py-2 text-sm text-gray-500">No suggestions found</div>
+											<div className="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">
+												No suggestions found
+											</div>
 										)}
 								</div>
 							)}
 						</div>
-
-						{/* Right Section - Actions & Profile */}
+						{/* Right Section */}
 						<div className="flex items-center gap-4">
 							{/* Notifications */}
 							<div className="relative notifications-dropdown">
 								<button
 									onClick={() => setShowNotifications(!showNotifications)}
-									className="relative p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors duration-200"
+									className="relative p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-700"
 									aria-label="Notifications"
 								>
 									<MdNotifications size={20} />
@@ -265,16 +263,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 										</span>
 									)}
 								</button>
-
 								{/* Notifications Dropdown */}
 								{showNotifications && (
-									<div className="absolute right-0 top-full mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
-										<div className="flex items-center justify-between px-4 py-2 border-b border-gray-100">
-											<h3 className="font-semibold text-gray-800">Notifications</h3>
+									<div className="absolute right-0 top-full mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700 py-2 z-50">
+										<div className="flex items-center justify-between px-4 py-2 border-b border-gray-100 dark:border-gray-700">
+											<h3 className="font-semibold text-gray-800 dark:text-gray-200">
+												Notifications
+											</h3>
 											{unreadNotifications.length > 0 && (
 												<button
 													onClick={markAllAsRead}
-													className="text-xs text-green-600 hover:text-green-700"
+													className="text-xs text-green-600 hover:text-green-700 dark:text-green-400"
 												>
 													Mark all as read
 												</button>
@@ -286,37 +285,43 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 													<button
 														key={notification.id}
 														onClick={() => handleNotificationClick(notification.id)}
-														className={`w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors duration-150 ${
-															!notification.isRead ? "bg-green-50" : ""
+														className={`w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors duration-150 dark:hover:bg-gray-700 ${
+															!notification.isRead ? "bg-green-50 dark:bg-green-800" : ""
 														}`}
 													>
 														<div className="flex items-start gap-3">
 															<div
 																className={`w-2 h-2 rounded-full mt-2 ${
-																	!notification.isRead ? "bg-green-500" : "bg-gray-300"
+																	!notification.isRead
+																		? "bg-green-500 dark:bg-green-400"
+																		: "bg-gray-300 dark:bg-gray-600"
 																}`}
 															/>
 															<div className="flex-1">
-																<h4 className="font-medium text-sm text-gray-800">
+																<h4 className="font-medium text-sm text-gray-800 dark:text-gray-200">
 																	{notification.title}
 																</h4>
-																<p className="text-xs text-gray-600 mt-1">{notification.message}</p>
-																<p className="text-xs text-gray-400 mt-1">{notification.time}</p>
+																<p className="text-xs text-gray-600 dark:text-gray-400">
+																	{notification.message}
+																</p>
+																<p className="text-xs text-gray-400 dark:text-gray-500">
+																	{notification.time}
+																</p>
 															</div>
 														</div>
 													</button>
 												))
 											) : (
-												<div className="px-4 py-8 text-center text-gray-500">
+												<div className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
 													<MdNotifications size={24} className="mx-auto mb-2 opacity-50" />
 													<p className="text-sm">No notifications yet</p>
 												</div>
 											)}
 										</div>
-										<div className="border-t border-gray-100 px-4 py-2">
+										<div className="border-t border-gray-100 dark:border-gray-700 px-4 py-2">
 											<Link
 												href="/dashboard/notifications"
-												className="text-xs text-green-600 hover:text-green-700"
+												className="text-xs text-green-600 hover:text-green-700 dark:text-green-400"
 											>
 												View all notifications
 											</Link>
@@ -329,7 +334,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 							<div className="relative profile-dropdown">
 								<button
 									onClick={() => setShowProfileMenu(!showProfileMenu)}
-									className="flex items-center gap-2 p-1 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+									className="flex items-center gap-2 p-1 rounded-lg hover:bg-gray-100 transition-colors duration-200 dark:hover:bg-gray-700"
 								>
 									{user?.avatar ? (
 										<Image
@@ -348,17 +353,20 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 									)}
 									<MdKeyboardArrowDown className="text-gray-400 hidden sm:block" size={16} />
 								</button>
-
 								{/* Profile Dropdown Menu */}
 								{showProfileMenu && (
-									<div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
-										<div className="px-4 py-2 border-b border-gray-100">
-											<p className="font-medium text-gray-800 text-sm">{user?.name || "User"}</p>
-											<p className="text-xs text-gray-500">{user?.email || "user@example.com"}</p>
+									<div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700 py-2 z-50">
+										<div className="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
+											<p className="font-medium text-gray-800 dark:text-gray-200 text-sm">
+												{user?.name || "User"}
+											</p>
+											<p className="text-xs text-gray-500 dark:text-gray-400">
+												{user?.email || "user@example.com"}
+											</p>
 										</div>
 										<Link
 											href="/dashboard/profile"
-											className="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150"
+											className="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150 dark:text-gray-300 dark:hover:bg-gray-700"
 											onClick={() => setShowProfileMenu(false)}
 										>
 											<MdPerson size={16} />
@@ -366,19 +374,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 										</Link>
 										<Link
 											href="/dashboard/settings"
-											className="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150"
+											className="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150 dark:text-gray-300 dark:hover:bg-gray-700"
 											onClick={() => setShowProfileMenu(false)}
 										>
 											<MdSettings size={16} />
 											Settings
 										</Link>
-										<hr className="my-2 border-gray-100" />
+										<hr className="my-2 border-gray-100 dark:border-gray-700" />
 										<button
 											onClick={() => {
 												setShowProfileMenu(false);
 												handleLogout();
 											}}
-											className="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 transition-colors duration-150"
+											className="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900 transition-colors duration-150"
 										>
 											<MdLogout size={16} />
 											Sign Out
@@ -389,7 +397,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 						</div>
 					</div>
 				</header>
-				<main className="flex-1 p-4 md:p-6 lg:p-8 bg-green-50">{children}</main>
+				<main className="flex-1 p-4 md:p-6 lg:p-8 bg-green-50 dark:bg-gray-900">{children}</main>
 			</div>
 		</>
 	);
