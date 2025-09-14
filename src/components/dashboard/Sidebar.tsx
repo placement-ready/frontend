@@ -95,12 +95,11 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
 	const renderMenuItem = (item: SidebarMenuItem, depth: number = 0) => {
 		const isActive = item.href ? isActiveLink(item.href) : false;
 		const hasChildren = item.children && item.children.length > 0;
-		const indentClass = depth > 0 ? `ml-${depth * 4}` : "";
 
 		if (item.type === "heading" && hasChildren && isOpen) {
 			return (
 				<li key={item.id} className="w-full">
-					<div className={`mb-2 mt-4 ${indentClass}`}>
+					<div className={`mb-2 mt-4`}>
 						<div className="flex items-center gap-3 px-4 py-2">
 							<span className="text-lg text-green-600 flex-shrink-0">{item.icon}</span>
 							<span className="text-sm font-bold text-green-700 uppercase tracking-wide">
@@ -120,7 +119,7 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
 		if (item.type === "heading" && !isOpen) {
 			return (
 				<li key={item.id} className="w-full">
-					<div className={`mb-2 mt-4 ${indentClass}`}>
+					<div className={`mb-2 mt-4`}>
 						<div className="h-px bg-green-400/50 mx-1"></div>
 					</div>
 					<ul className="space-y-1 mb-4">
@@ -180,7 +179,6 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
 									? "bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg transform scale-[1.02]"
 									: "bg-white/50 backdrop-blur-sm text-green-700 hover:bg-white/80 hover:text-green-600 hover:shadow-md border border-green-200/30"
 							}
-							${indentClass}
 						`}
 					>
 						{content}
@@ -197,7 +195,6 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
 							${isOpen ? "justify-start" : "justify-center"}
 							group transition-all duration-200
 							focus:outline-none bg-white/50 backdrop-blur-sm text-green-700 hover:bg-white/80 hover:text-green-600 hover:shadow-md border border-green-200/30
-							${indentClass}
 						`}
 					>
 						{content}

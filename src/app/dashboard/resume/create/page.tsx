@@ -8,12 +8,28 @@ import {
 	GraduationCap,
 	Sparkles,
 	Award,
-	Plus,
-	X,
 	Download,
 	Play,
 	Loader2,
+	ChevronLeft,
+	ChevronRight,
 } from "lucide-react";
+import {
+	useGetResumes,
+	useUpdateResume,
+	useGetTemplateById,
+	useCompileResume,
+} from "@/lib/queries";
+import type { ResumeData } from "@/types/api/common";
+import {
+	PersonalInfoSection,
+	ExperienceSection,
+	EducationSection,
+	SkillsSection,
+	AchievementsSection,
+	PreviewPlaceholder,
+} from "@/components/resume";
+import type { ResumeExperience, ResumeEducation } from "@/components/resume/types";
 
 // Unique ID generator
 const generateUniqueId = (() => {
@@ -21,660 +37,417 @@ const generateUniqueId = (() => {
 	return () => counter++;
 })();
 
-type SectionId = "personal" | "experience" | "education" | "skills" | "achievements";
+type PageId = "personal" | "experience" | "education" | "skills" | "achievements";
 
-interface PersonalInfo {
-	fullName: string;
-	email: string;
-	phone: string;
-	location: string;
-	website: string;
-	summary: string;
-}
-
-interface Experience {
-	id: number;
-	title: string;
-	company: string;
-	location: string;
-	startDate: string;
-	endDate: string;
-	current: boolean;
-	description: string;
-}
-
-interface Education {
-	id: number;
-	degree: string;
-	school: string;
-	location: string;
-	graduationDate: string;
-	gpa: string;
-}
-
-interface ResumeData {
-	personal: PersonalInfo;
-	experience: Experience[];
-	education: Education[];
-	skills: string[];
-	achievements: string[];
-}
-
-type Template = {
-	_id: string;
-	title: string;
-	description: string;
-	link: string;
-	templateFile: string;
-};
-
-// API calls with NO userId
-const fetchResumeData = async () => {
-	try {
-		const res = await fetch(`http://localhost:5000/api/resume-info`);
-		if (res.ok) return await res.json();
-		return null;
-	} catch (error) {
-		console.error("Error fetching resume data:", error);
-		return null;
-	}
-};
-
-const fetchTemplate = async (templateId: string) => {
-	try {
-		const res = await fetch(`http://localhost:5000/api/resume-templates/${templateId}`);
-		return await res.json();
-	} catch (error) {
-		console.error("Error fetching template:", error);
-		return null;
-	}
-};
-
-const saveResumeData = async (data: ResumeData & { template?: string }) => {
-	try {
-		const res = await fetch(`http://localhost:5000/api/resume-info`, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(data),
-		});
-		return await res.json();
-	} catch (error) {
-		console.error("Error saving resume data:", error);
-		throw error;
-	}
-};
-
-const fetchHtmlPreview = async () => {
-	try {
-		const res = await fetch(`http://localhost:5000/api/render-html`, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-		});
-		return await res.text();
-	} catch (error) {
-		console.error("Error fetching HTML preview:", error);
-		return "";
-	}
-};
-
-const fetchPdf = async () => {
-	try {
-		const res = await fetch(`http://localhost:5000/api/render-resume`, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-		});
-		return await res.blob();
-	} catch (error) {
-		console.error("Error fetching PDF:", error);
-		throw error;
-	}
-};
-
-const Input = React.memo<{
-	label: string;
-	value: string;
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	placeholder?: string;
-	type?: string;
-	disabled?: boolean;
-}>(({ label, value, onChange, placeholder = "", type = "text", disabled = false }) => (
-	<div>
-		<label className="block mb-1.5 text-sm font-medium text-gray-700">{label}</label>
-		<input
-			type={type}
-			value={value}
-			onChange={onChange}
-			placeholder={placeholder}
-			disabled={disabled}
-			className="w-full px-3 py-2 bg-white rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 focus:outline-none disabled:bg-gray-200 transition-colors caret-green-600"
-		/>
-	</div>
-));
-Input.displayName = "Input";
-
-const Textarea = React.memo<{
-	label: string;
-	value: string;
-	onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-	placeholder?: string;
-	rows?: number;
-	aiClick?: () => void;
-}>(({ label, value, onChange, placeholder = "", rows = 4, aiClick }) => (
-	<div>
-		<div className="flex justify-between items-center mb-1.5">
-			<label className="text-sm font-medium text-gray-700">{label}</label>
-			{aiClick && (
-				<button
-					type="button"
-					onClick={aiClick}
-					className="flex items-center text-green-600 text-xs font-semibold hover:text-green-700"
+// Header component for resume name and status
+const ResumeHeader = React.memo<{
+	name: string;
+	status: "draft" | "complete";
+	updateName: (name: string) => void;
+	updateStatus: (status: "draft" | "complete") => void;
+}>(({ name, status, updateName, updateStatus }) => (
+	<div className="bg-white p-6 rounded-xl shadow-lg mb-6 border border-gray-200">
+		<div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+			<div className="flex-grow">
+				<label className="block text-sm font-medium text-gray-700 mb-2">Resume Name</label>
+				<input
+					type="text"
+					value={name}
+					onChange={(e) => updateName(e.target.value)}
+					placeholder="My Software Engineer Resume"
+					className="w-full max-w-md px-3 py-2 bg-white rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-colors caret-green-600"
+				/>
+			</div>
+			<div>
+				<label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+				<select
+					value={status}
+					onChange={(e) => updateStatus(e.target.value as "draft" | "complete")}
+					className="px-3 py-2 bg-white rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-colors"
 				>
-					<Sparkles className="w-3 h-3 mr-1" /> AI Suggest
-				</button>
-			)}
-		</div>
-		<textarea
-			rows={rows}
-			value={value}
-			onChange={onChange}
-			placeholder={placeholder}
-			className="w-full px-3 py-2 bg-white rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 focus:outline-none resize-vertical transition-colors caret-green-600"
-		/>
-	</div>
-));
-Textarea.displayName = "Textarea";
-
-const PersonalInfoSection = React.memo<{
-	personal: PersonalInfo;
-	updatePersonal: (field: keyof PersonalInfo, value: string) => void;
-	generateAISuggestion: (type: "summary" | "description") => string;
-}>(({ personal, updatePersonal, generateAISuggestion }) => (
-	<div className="space-y-4">
-		<Input
-			label="Full Name *"
-			value={personal.fullName}
-			onChange={(e) => updatePersonal("fullName", e.target.value)}
-			placeholder="John Doe"
-		/>
-		<Input
-			label="Email *"
-			type="email"
-			value={personal.email}
-			onChange={(e) => updatePersonal("email", e.target.value)}
-			placeholder="john.doe@email.com"
-		/>
-		<Input
-			label="Phone Number"
-			type="tel"
-			value={personal.phone}
-			onChange={(e) => updatePersonal("phone", e.target.value)}
-			placeholder="+1 234 567 890"
-		/>
-		<Input
-			label="Location"
-			value={personal.location}
-			onChange={(e) => updatePersonal("location", e.target.value)}
-			placeholder="New York, NY"
-		/>
-		<Input
-			label="Website/Portfolio"
-			type="url"
-			value={personal.website}
-			onChange={(e) => updatePersonal("website", e.target.value)}
-			placeholder="https://johndoe.dev"
-		/>
-		<Textarea
-			label="Professional Summary"
-			value={personal.summary}
-			onChange={(e) => updatePersonal("summary", e.target.value)}
-			placeholder="A brief summary of your career..."
-			rows={5}
-			aiClick={() => updatePersonal("summary", generateAISuggestion("summary"))}
-		/>
-	</div>
-));
-PersonalInfoSection.displayName = "PersonalInfoSection";
-
-const ExperienceSection = React.memo<{
-	experience: Experience[];
-	updateExperience: (id: number, field: keyof Experience, value: string | boolean) => void;
-	addExperience: () => void;
-	removeExperience: (id: number) => void;
-	generateAISuggestion: (type: "summary" | "description") => string;
-}>(({ experience, updateExperience, addExperience, removeExperience, generateAISuggestion }) => (
-	<div className="space-y-6">
-		{experience.map((exp) => (
-			<div
-				key={exp.id}
-				className="bg-white rounded-lg p-5 border border-gray-200 relative space-y-4"
-			>
-				{experience.length > 1 && (
-					<button
-						onClick={() => removeExperience(exp.id)}
-						className="absolute top-2 right-2 text-gray-400 hover:text-red-500"
-					>
-						<X size={18} />
-					</button>
-				)}
-				<Input
-					label="Job Title *"
-					value={exp.title}
-					onChange={(e) => updateExperience(exp.id, "title", e.target.value)}
-					placeholder="Software Engineer"
-				/>
-				<Input
-					label="Company *"
-					value={exp.company}
-					onChange={(e) => updateExperience(exp.id, "company", e.target.value)}
-					placeholder="Tech Solutions Inc."
-				/>
-				<Input
-					label="Location"
-					value={exp.location}
-					onChange={(e) => updateExperience(exp.id, "location", e.target.value)}
-					placeholder="San Francisco, CA"
-				/>
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-					<Input
-						label="Start Date"
-						type="month"
-						value={exp.startDate}
-						onChange={(e) => updateExperience(exp.id, "startDate", e.target.value)}
-					/>
-					<Input
-						label="End Date"
-						type="month"
-						value={exp.endDate}
-						onChange={(e) => updateExperience(exp.id, "endDate", e.target.value)}
-						disabled={exp.current}
-					/>
-				</div>
-				<label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-					<input
-						type="checkbox"
-						checked={exp.current}
-						onChange={(e) => updateExperience(exp.id, "current", e.target.checked)}
-						className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
-					/>
-					Currently work here
-				</label>
-				<Textarea
-					label="Description & Achievements"
-					value={exp.description}
-					onChange={(e) => updateExperience(exp.id, "description", e.target.value)}
-					placeholder="Describe your responsibilities and achievements..."
-					rows={5}
-					aiClick={() =>
-						updateExperience(exp.id, "description", generateAISuggestion("description"))
-					}
-				/>
+					<option value="draft">Draft</option>
+					<option value="complete">Complete</option>
+				</select>
 			</div>
-		))}
-		<button
-			onClick={addExperience}
-			className="w-full flex items-center justify-center gap-2 py-2.5 px-4 text-sm font-semibold rounded-lg text-white bg-green-600 hover:bg-green-700 transition-colors"
-		>
-			<Plus size={16} /> Add Experience
-		</button>
-	</div>
-));
-ExperienceSection.displayName = "ExperienceSection";
-
-const EducationSection = React.memo<{
-	education: Education[];
-	updateEducation: (id: number, field: keyof Education, value: string) => void;
-	addEducation: () => void;
-	removeEducation: (id: number) => void;
-}>(({ education, updateEducation, addEducation, removeEducation }) => (
-	<div className="space-y-6">
-		{education.map((edu) => (
-			<div
-				key={edu.id}
-				className="bg-white rounded-lg p-5 border border-gray-200 relative space-y-4"
-			>
-				{education.length > 1 && (
-					<button
-						onClick={() => removeEducation(edu.id)}
-						className="absolute top-2 right-2 text-gray-400 hover:text-red-500"
-					>
-						<X size={18} />
-					</button>
-				)}
-				<Input
-					label="Degree/Qualification *"
-					value={edu.degree}
-					onChange={(e) => updateEducation(edu.id, "degree", e.target.value)}
-					placeholder="B.Sc. in Computer Science"
-				/>
-				<Input
-					label="School/University *"
-					value={edu.school}
-					onChange={(e) => updateEducation(edu.id, "school", e.target.value)}
-					placeholder="University of Technology"
-				/>
-				<Input
-					label="Location"
-					value={edu.location}
-					onChange={(e) => updateEducation(edu.id, "location", e.target.value)}
-					placeholder="California, USA"
-				/>
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-					<Input
-						label="Graduation Date"
-						type="month"
-						value={edu.graduationDate}
-						onChange={(e) => updateEducation(edu.id, "graduationDate", e.target.value)}
-					/>
-					<Input
-						label="GPA (Optional)"
-						value={edu.gpa}
-						onChange={(e) => updateEducation(edu.id, "gpa", e.target.value)}
-						placeholder="3.8 / 4.0"
-					/>
-				</div>
-			</div>
-		))}
-		<button
-			onClick={addEducation}
-			className="w-full flex items-center justify-center gap-2 py-2.5 px-4 text-sm font-semibold rounded-lg text-white bg-green-600 hover:bg-green-700 transition-colors"
-		>
-			<Plus size={16} /> Add Education
-		</button>
-	</div>
-));
-EducationSection.displayName = "EducationSection";
-
-const SkillsSection = React.memo<{
-	skills: string[];
-	newSkill: string;
-	setNewSkill: (skill: string) => void;
-	addSkill: () => void;
-	removeSkill: (index: number) => void;
-}>(({ skills, newSkill, setNewSkill, addSkill, removeSkill }) => (
-	<div>
-		<div className="flex items-center gap-2 mb-4">
-			<input
-				value={newSkill}
-				onChange={(e) => setNewSkill(e.target.value)}
-				onKeyDown={(e) => e.key === "Enter" && addSkill()}
-				placeholder="e.g., JavaScript"
-				className="flex-grow px-3 py-2 bg-white rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-colors caret-green-600"
-			/>
-			<button
-				type="button"
-				onClick={addSkill}
-				className="px-5 py-2 text-sm font-semibold rounded-lg text-white bg-green-600 hover:bg-green-700 transition-colors"
-			>
-				Add
-			</button>
-		</div>
-		<div className="flex flex-wrap gap-2 pt-2">
-			{skills.map((skill, i) => (
-				<span
-					key={`skill-${i}`}
-					className="flex items-center gap-1.5 bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full"
-				>
-					{skill}
-					<button
-						type="button"
-						onClick={() => removeSkill(i)}
-						className="text-green-600 hover:text-red-500"
-					>
-						<X size={14} />
-					</button>
-				</span>
-			))}
-			{skills.length === 0 && <p className="text-sm text-gray-500 italic">No skills added yet.</p>}
 		</div>
 	</div>
 ));
-SkillsSection.displayName = "SkillsSection";
-
-const AchievementsSection = React.memo<{
-	achievements: string[];
-	newAchievement: string;
-	setNewAchievement: (achievement: string) => void;
-	addAchievement: () => void;
-	removeAchievement: (index: number) => void;
-}>(({ achievements, newAchievement, setNewAchievement, addAchievement, removeAchievement }) => (
-	<div>
-		<div className="flex items-center gap-2 mb-4">
-			<input
-				value={newAchievement}
-				onChange={(e) => setNewAchievement(e.target.value)}
-				onKeyDown={(e) => e.key === "Enter" && addAchievement()}
-				placeholder="e.g., Won 'Best Project' award"
-				className="flex-grow px-3 py-2 bg-white rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-colors caret-green-600"
-			/>
-			<button
-				type="button"
-				onClick={addAchievement}
-				className="px-5 py-2 text-sm font-semibold rounded-lg text-white bg-green-600 hover:bg-green-700 transition-colors"
-			>
-				Add
-			</button>
-		</div>
-		<ul className="list-disc list-inside space-y-2 text-gray-700">
-			{achievements.map((ach, i) => (
-				<li key={`achievement-${i}`} className="flex justify-between items-center text-sm">
-					<span>{ach}</span>
-					<button
-						type="button"
-						onClick={() => removeAchievement(i)}
-						className="text-gray-400 hover:text-red-500"
-					>
-						<X size={16} />
-					</button>
-				</li>
-			))}
-			{achievements.length === 0 && (
-				<p className="text-sm text-gray-500 italic">No achievements added yet.</p>
-			)}
-		</ul>
-	</div>
-));
-AchievementsSection.displayName = "AchievementsSection";
-
-const PreviewPlaceholder = React.memo<{
-	compileResume: () => void;
-	isCompiling: boolean;
-}>(({ compileResume, isCompiling }) => (
-	<div className="h-full flex items-center justify-center bg-gray-50">
-		<div className="text-center">
-			<div className="w-24 h-24 mx-auto mb-4 bg-gray-200 rounded-lg flex items-center justify-center">
-				<Play size={40} className="text-gray-400" />
-			</div>
-			<h3 className="text-lg font-semibold text-gray-600 mb-2">Preview Not Available</h3>
-			<p className="text-sm text-gray-500 mb-4">
-				Click &ldquo;Compile Resume&rdquo; to generate your preview
-			</p>
-			<button
-				onClick={compileResume}
-				disabled={isCompiling}
-				className="flex items-center justify-center gap-2 py-2 px-4 text-sm font-semibold rounded-lg text-white bg-green-600 hover:bg-green-700 disabled:bg-green-400 transition-colors mx-auto"
-			>
-				{isCompiling ? (
-					<>
-						<Loader2 size={16} className="animate-spin" /> Compiling...
-					</>
-				) : (
-					<>
-						<Play size={16} /> Compile Resume
-					</>
-				)}
-			</button>
-		</div>
-	</div>
-));
-PreviewPlaceholder.displayName = "PreviewPlaceholder";
+ResumeHeader.displayName = "ResumeHeader";
 
 const ResumeBuilder: React.FC = () => {
 	const params = useSearchParams();
 	const router = useRouter();
 	const templateId = params.get("templateId");
 
-	const [activeSection, setActiveSection] = useState<SectionId>("personal");
-	const [isCompiling, setIsCompiling] = useState(false);
+	const [currentPage, setCurrentPage] = useState<PageId>("personal");
 	const [showPreview, setShowPreview] = useState(false);
 	const [htmlPreview, setHtmlPreview] = useState<string>("");
-	const [isLoading, setIsLoading] = useState(true);
-	const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
 
-	const [resumeData, setResumeData] = useState<ResumeData>(() => ({
-		personal: { fullName: "", email: "", phone: "", location: "", website: "", summary: "" },
+	// React Query hooks
+	const { data: existingResumeData, isLoading: isLoadingResume } = useGetResumes();
+	const { data: templateData, isLoading: isLoadingTemplate } = useGetTemplateById(
+		templateId || "",
+		!!templateId
+	);
+	const updateResume = useUpdateResume();
+	const compileResumeMutation = useCompileResume();
+
+	const isLoading = isLoadingResume || isLoadingTemplate;
+
+	const [resumeData, setResumeData] = useState<ResumeData>({
+		name: "Untitled Resume",
+		status: "draft",
+		fullName: "",
+		email: "",
+		phone: "",
+		location: "",
+		website: "",
+		summary: "",
 		experience: [
 			{
-				id: generateUniqueId(),
-				title: "",
+				jobTitle: "",
 				company: "",
 				location: "",
 				startDate: "",
 				endDate: "",
-				current: false,
 				description: "",
 			},
 		],
 		education: [
-			{ id: generateUniqueId(), degree: "", school: "", location: "", graduationDate: "", gpa: "" },
+			{
+				institution: "",
+				degree: "",
+				fieldOfStudy: "",
+				startDate: "",
+				endDate: "",
+			},
 		],
 		skills: [],
 		achievements: [],
-	}));
+		template: templateId || "",
+	});
+
+	const [experienceList, setExperienceList] = useState<ResumeExperience[]>([
+		{
+			id: generateUniqueId(),
+			jobTitle: "",
+			company: "",
+			location: "",
+			startDate: "",
+			endDate: "",
+			current: false,
+			description: "",
+		},
+	]);
+
+	const [educationList, setEducationList] = useState<ResumeEducation[]>([
+		{
+			id: generateUniqueId(),
+			institution: "",
+			degree: "",
+			fieldOfStudy: "",
+			startDate: "",
+			endDate: "",
+			gpa: "",
+		},
+	]);
 
 	const [newSkill, setNewSkill] = useState<string>("");
 	const [newAchievement, setNewAchievement] = useState<string>("");
 
-	const sections = [
+	useEffect(() => {
+		if (existingResumeData?.data && existingResumeData.data.length > 0) {
+			const apiData = existingResumeData.data[0];
+			setResumeData(apiData);
+
+			// Convert experience data for local editing
+			setExperienceList(
+				apiData.experience.map((exp: ResumeData["experience"][0], index: number) => ({
+					id: index + 1,
+					jobTitle: exp.jobTitle,
+					company: exp.company,
+					location: exp.location,
+					startDate: exp.startDate,
+					endDate: exp.endDate,
+					current: false,
+					description: exp.description,
+				}))
+			);
+
+			// Convert education data for local editing
+			setEducationList(
+				apiData.education.map((edu: ResumeData["education"][0], index: number) => ({
+					id: index + 1,
+					institution: edu.institution,
+					degree: edu.degree,
+					fieldOfStudy: edu.fieldOfStudy,
+					startDate: edu.startDate,
+					endDate: edu.endDate,
+					gpa: "",
+				}))
+			);
+		}
+	}, [existingResumeData]);
+
+	const pages = [
 		{ id: "personal", label: "Personal Info", icon: User },
 		{ id: "experience", label: "Experience", icon: Briefcase },
 		{ id: "education", label: "Education", icon: GraduationCap },
 		{ id: "skills", label: "Skills", icon: Sparkles },
 		{ id: "achievements", label: "Achievements", icon: Award },
-	];
+	] as const;
+
+	const currentPageIndex = pages.findIndex((page) => page.id === currentPage);
+	const isFirstPage = currentPageIndex === 0;
+	const isLastPage = currentPageIndex === pages.length - 1;
+
+	const goToNextPage = () => {
+		if (!isLastPage) {
+			setCurrentPage(pages[currentPageIndex + 1].id);
+		}
+	};
+
+	const goToPreviousPage = () => {
+		if (!isFirstPage) {
+			setCurrentPage(pages[currentPageIndex - 1].id);
+		}
+	};
 
 	useEffect(() => {
 		if (!templateId) {
 			router.replace("/dashboard/resume/templates");
 			return;
 		}
-		const initializeData = async () => {
-			setIsLoading(true);
-			try {
-				const template = await fetchTemplate(templateId);
-				setSelectedTemplate(template);
-				const existingData = await fetchResumeData();
-				if (existingData && existingData.template === templateId) {
-					setResumeData(existingData);
-				}
-			} catch (error) {
-				console.error("Error initializing data:", error);
-			} finally {
-				setIsLoading(false);
-			}
-		};
-		initializeData();
 	}, [templateId, router]);
 
 	const compileResume = useCallback(async () => {
-		setIsCompiling(true);
 		try {
-			await saveResumeData({ ...resumeData, template: templateId || undefined });
-			const html = await fetchHtmlPreview();
-			setHtmlPreview(html);
+			const result = await compileResumeMutation.mutateAsync(resumeData);
+			setHtmlPreview(result.html);
 			setShowPreview(true);
 		} catch (error) {
 			console.error("Error compiling resume:", error);
-		} finally {
-			setIsCompiling(false);
 		}
-	}, [resumeData, templateId]);
+	}, [resumeData, compileResumeMutation]);
 
-	const downloadPDF = useCallback(async () => {
-		if (!showPreview) return;
+	const saveResume = useCallback(async () => {
 		try {
-			const pdfBlob = await fetchPdf();
-			const url = window.URL.createObjectURL(pdfBlob);
-			const link = document.createElement("a");
-			link.href = url;
-			link.setAttribute("download", `${resumeData.personal?.fullName || "resume"}.pdf`);
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
-			window.URL.revokeObjectURL(url);
+			await updateResume.mutateAsync(resumeData);
 		} catch (error) {
-			console.error("Error downloading PDF:", error);
+			console.error("Error saving resume:", error);
 		}
-	}, [showPreview, resumeData]);
+	}, [resumeData, updateResume]);
 
-	const updatePersonal = useCallback((field: keyof PersonalInfo, value: string) => {
-		setResumeData((prev) => ({ ...prev, personal: { ...prev.personal, [field]: value } }));
+	const downloadPDF = useCallback(() => {
+		if (!showPreview || !htmlPreview) return;
+
+		// Create a new window with the HTML content for printing
+		const printWindow = window.open("", "_blank");
+		if (!printWindow) return;
+
+		printWindow.document.write(`
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<title>${resumeData.fullName || resumeData.name || "Resume"}</title>
+					<style>
+						@media print {
+							body { margin: 0; }
+							@page { margin: 0.5in; }
+						}
+						body { font-family: Arial, sans-serif; }
+					</style>
+				</head>
+				<body>
+					${htmlPreview}
+				</body>
+			</html>
+		`);
+
+		printWindow.document.close();
+		printWindow.focus();
+
+		// Trigger print dialog
+		setTimeout(() => {
+			printWindow.print();
+		}, 250);
+	}, [showPreview, htmlPreview, resumeData]);
+
+	// Update functions
+	const updateField = useCallback((field: string, value: string) => {
+		setResumeData((prev) => ({
+			...prev,
+			[field]: value,
+		}));
 	}, []);
+
+	const updateName = useCallback((name: string) => {
+		setResumeData((prev) => ({
+			...prev,
+			name: name,
+		}));
+	}, []);
+
+	const updateStatus = useCallback((status: "draft" | "complete") => {
+		setResumeData((prev) => ({
+			...prev,
+			status: status,
+		}));
+	}, []);
+
 	const updateExperience = useCallback(
-		(id: number, field: keyof Experience, value: string | boolean) => {
+		(id: number, field: keyof ResumeExperience, value: string | boolean) => {
+			setExperienceList((prev) =>
+				prev.map((exp) => (exp.id === id ? { ...exp, [field]: value } : exp))
+			);
+
+			// Update the main resume data
 			setResumeData((prev) => ({
 				...prev,
-				experience: prev.experience.map((exp) =>
-					exp.id === id ? { ...exp, [field]: value } : exp
+				experience: experienceList.map((exp) =>
+					exp.id === id
+						? {
+								jobTitle: field === "jobTitle" ? (value as string) : exp.jobTitle,
+								company: field === "company" ? (value as string) : exp.company,
+								location: field === "location" ? (value as string) : exp.location,
+								startDate: field === "startDate" ? (value as string) : exp.startDate,
+								endDate: field === "endDate" ? (value as string) : exp.endDate,
+								description: field === "description" ? (value as string) : exp.description,
+						  }
+						: {
+								jobTitle: exp.jobTitle,
+								company: exp.company,
+								location: exp.location,
+								startDate: exp.startDate,
+								endDate: exp.endDate,
+								description: exp.description,
+						  }
 				),
 			}));
 		},
-		[]
+		[experienceList]
 	);
+
 	const addExperience = useCallback(() => {
+		const newExp = {
+			id: generateUniqueId(),
+			jobTitle: "",
+			company: "",
+			location: "",
+			startDate: "",
+			endDate: "",
+			current: false,
+			description: "",
+		};
+		setExperienceList((prev) => [...prev, newExp]);
+
 		setResumeData((prev) => ({
 			...prev,
 			experience: [
 				...prev.experience,
 				{
-					id: generateUniqueId(),
-					title: "",
+					jobTitle: "",
 					company: "",
 					location: "",
 					startDate: "",
 					endDate: "",
-					current: false,
 					description: "",
 				},
 			],
 		}));
 	}, []);
-	const removeExperience = useCallback((id: number) => {
-		setResumeData((prev) => ({ ...prev, experience: prev.experience.filter((e) => e.id !== id) }));
-	}, []);
-	const updateEducation = useCallback((id: number, field: keyof Education, value: string) => {
-		setResumeData((prev) => ({
-			...prev,
-			education: prev.education.map((edu) => (edu.id === id ? { ...edu, [field]: value } : edu)),
-		}));
-	}, []);
+
+	const removeExperience = useCallback(
+		(id: number) => {
+			setExperienceList((prev) => prev.filter((e) => e.id !== id));
+			setResumeData((prev) => ({
+				...prev,
+				experience: prev.experience.filter((_, index) => experienceList[index]?.id !== id),
+			}));
+		},
+		[experienceList]
+	);
+
+	const updateEducation = useCallback(
+		(id: number, field: keyof ResumeEducation, value: string) => {
+			setEducationList((prev) =>
+				prev.map((edu) => (edu.id === id ? { ...edu, [field]: value } : edu))
+			);
+
+			// Update the main resume data
+			setResumeData((prev) => ({
+				...prev,
+				education: educationList.map((edu) =>
+					edu.id === id
+						? {
+								institution: field === "institution" ? value : edu.institution,
+								degree: field === "degree" ? value : edu.degree,
+								fieldOfStudy: field === "fieldOfStudy" ? value : edu.fieldOfStudy,
+								startDate: field === "startDate" ? value : edu.startDate,
+								endDate: field === "endDate" ? value : edu.endDate,
+						  }
+						: {
+								institution: edu.institution,
+								degree: edu.degree,
+								fieldOfStudy: edu.fieldOfStudy,
+								startDate: edu.startDate,
+								endDate: edu.endDate,
+						  }
+				),
+			}));
+		},
+		[educationList]
+	);
+
 	const addEducation = useCallback(() => {
+		const newEdu = {
+			id: generateUniqueId(),
+			institution: "",
+			degree: "",
+			fieldOfStudy: "",
+			startDate: "",
+			endDate: "",
+			gpa: "",
+		};
+		setEducationList((prev) => [...prev, newEdu]);
+
 		setResumeData((prev) => ({
 			...prev,
 			education: [
 				...prev.education,
 				{
-					id: generateUniqueId(),
+					institution: "",
 					degree: "",
-					school: "",
-					location: "",
-					graduationDate: "",
-					gpa: "",
+					fieldOfStudy: "",
+					startDate: "",
+					endDate: "",
 				},
 			],
 		}));
 	}, []);
-	const removeEducation = useCallback((id: number) => {
-		setResumeData((prev) => ({ ...prev, education: prev.education.filter((e) => e.id !== id) }));
-	}, []);
+
+	const removeEducation = useCallback(
+		(id: number) => {
+			setEducationList((prev) => prev.filter((e) => e.id !== id));
+			setResumeData((prev) => ({
+				...prev,
+				education: prev.education.filter((_, index) => educationList[index]?.id !== id),
+			}));
+		},
+		[educationList]
+	);
+
 	const addSkill = useCallback(() => {
 		if (newSkill.trim()) {
 			setResumeData((prev) => ({ ...prev, skills: [...prev.skills, newSkill.trim()] }));
 			setNewSkill("");
 		}
 	}, [newSkill]);
+
 	const removeSkill = useCallback((index: number) => {
 		setResumeData((prev) => ({ ...prev, skills: prev.skills.filter((_, i) => i !== index) }));
 	}, []);
+
 	const addAchievement = useCallback(() => {
 		if (newAchievement.trim()) {
 			setResumeData((prev) => ({
@@ -684,6 +457,7 @@ const ResumeBuilder: React.FC = () => {
 			setNewAchievement("");
 		}
 	}, [newAchievement]);
+
 	const removeAchievement = useCallback((index: number) => {
 		setResumeData((prev) => ({
 			...prev,
@@ -717,19 +491,32 @@ const ResumeBuilder: React.FC = () => {
 						<p className="mt-2 text-gray-600">
 							Create your professional resume with our intuitive builder
 						</p>
-						{selectedTemplate && (
+						{templateData?.data && (
 							<p className="text-sm text-green-600 font-medium">
-								Using template: {selectedTemplate.title}
+								Using template: {templateData.data[0]?.title || "Selected Template"}
 							</p>
 						)}
 					</div>
 					<div className="flex items-center gap-3">
 						<button
+							onClick={saveResume}
+							disabled={updateResume.isPending}
+							className="flex items-center gap-2 py-2.5 px-4 text-sm font-semibold rounded-lg text-white bg-gray-600 hover:bg-gray-700 disabled:bg-gray-400 transition-colors"
+						>
+							{updateResume.isPending ? (
+								<>
+									<Loader2 size={16} className="animate-spin" /> Saving...
+								</>
+							) : (
+								"Save Resume"
+							)}
+						</button>
+						<button
 							onClick={compileResume}
-							disabled={isCompiling}
+							disabled={compileResumeMutation.isPending}
 							className="flex items-center gap-2 py-2.5 px-4 text-sm font-semibold rounded-lg text-white bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 transition-colors"
 						>
-							{isCompiling ? (
+							{compileResumeMutation.isPending ? (
 								<>
 									<Loader2 size={16} className="animate-spin" /> Compiling...
 								</>
@@ -749,53 +536,62 @@ const ResumeBuilder: React.FC = () => {
 					</div>
 				</div>
 			</div>
+
+			{/* Resume Header */}
+			<ResumeHeader
+				name={resumeData.name}
+				status={resumeData.status}
+				updateName={updateName}
+				updateStatus={updateStatus}
+			/>
+
 			<div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-12">
 				{/* Form Editor */}
 				<div className="bg-white p-6 lg:p-8 rounded-2xl shadow-lg mb-8 lg:mb-0">
 					<div className="mb-6">
-						<h2 className="text-xl font-semibold text-gray-800">Editor</h2>
+						<div className="flex items-center justify-between">
+							<h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+								{React.createElement(pages[currentPageIndex].icon, { size: 20 })}
+								{pages[currentPageIndex].label}
+							</h2>
+							<div className="text-sm text-gray-500">
+								Page {currentPageIndex + 1} of {pages.length}
+							</div>
+						</div>
 					</div>
-					<div className="flex flex-wrap gap-2 border-b border-gray-200 pb-4 mb-6">
-						{sections.map((section) => (
-							<button
-								key={section.id}
-								onClick={() => setActiveSection(section.id as SectionId)}
-								className={`flex items-center gap-2 px-4 py-2 text-sm rounded-full font-semibold ${
-									activeSection === section.id
-										? "bg-green-600 text-white"
-										: "bg-gray-100 text-gray-600 hover:bg-green-100 hover:text-green-700"
-								}`}
-							>
-								<section.icon size={16} /> {section.label}
-							</button>
-						))}
-					</div>
-					<div>
-						{activeSection === "personal" && (
+
+					{/* Page Content */}
+					<div className="mb-8">
+						{currentPage === "personal" && (
 							<PersonalInfoSection
-								personal={resumeData.personal}
-								updatePersonal={updatePersonal}
+								fullName={resumeData.fullName}
+								email={resumeData.email}
+								phone={resumeData.phone}
+								location={resumeData.location}
+								website={resumeData.website}
+								summary={resumeData.summary}
+								updateField={updateField}
 								generateAISuggestion={generateAISuggestion}
 							/>
 						)}
-						{activeSection === "experience" && (
+						{currentPage === "experience" && (
 							<ExperienceSection
-								experience={resumeData.experience}
+								experience={experienceList}
 								updateExperience={updateExperience}
 								addExperience={addExperience}
 								removeExperience={removeExperience}
 								generateAISuggestion={generateAISuggestion}
 							/>
 						)}
-						{activeSection === "education" && (
+						{currentPage === "education" && (
 							<EducationSection
-								education={resumeData.education}
+								education={educationList}
 								updateEducation={updateEducation}
 								addEducation={addEducation}
 								removeEducation={removeEducation}
 							/>
 						)}
-						{activeSection === "skills" && (
+						{currentPage === "skills" && (
 							<SkillsSection
 								skills={resumeData.skills}
 								newSkill={newSkill}
@@ -804,7 +600,7 @@ const ResumeBuilder: React.FC = () => {
 								removeSkill={removeSkill}
 							/>
 						)}
-						{activeSection === "achievements" && (
+						{currentPage === "achievements" && (
 							<AchievementsSection
 								achievements={resumeData.achievements}
 								newAchievement={newAchievement}
@@ -814,7 +610,42 @@ const ResumeBuilder: React.FC = () => {
 							/>
 						)}
 					</div>
+
+					{/* Navigation Buttons */}
+					<div className="flex justify-between items-center pt-4 border-t border-gray-200">
+						<button
+							onClick={goToPreviousPage}
+							disabled={isFirstPage}
+							className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+						>
+							<ChevronLeft size={16} />
+							Previous
+						</button>
+
+						<div className="flex gap-2">
+							{pages.map((page, index) => (
+								<button
+									key={page.id}
+									onClick={() => setCurrentPage(page.id)}
+									className={`w-3 h-3 rounded-full transition-colors ${
+										index === currentPageIndex ? "bg-green-600" : "bg-gray-300 hover:bg-gray-400"
+									}`}
+									title={page.label}
+								/>
+							))}
+						</div>
+
+						<button
+							onClick={goToNextPage}
+							disabled={isLastPage}
+							className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg text-white bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+						>
+							Next
+							<ChevronRight size={16} />
+						</button>
+					</div>
 				</div>
+
 				{/* Preview */}
 				<div className="hidden lg:block">
 					<div className="lg:sticky top-24">
@@ -822,12 +653,16 @@ const ResumeBuilder: React.FC = () => {
 							{showPreview ? (
 								<div dangerouslySetInnerHTML={{ __html: htmlPreview }} />
 							) : (
-								<PreviewPlaceholder compileResume={compileResume} isCompiling={isCompiling} />
+								<PreviewPlaceholder
+									compileResume={compileResume}
+									isCompiling={compileResumeMutation.isPending}
+								/>
 							)}
 						</div>
 					</div>
 				</div>
 			</div>
+
 			{/* Mobile Preview Section */}
 			<div className="lg:hidden mt-8">
 				<div className="bg-white rounded-2xl shadow-lg border border-gray-200">
@@ -838,7 +673,10 @@ const ResumeBuilder: React.FC = () => {
 						{showPreview ? (
 							<div dangerouslySetInnerHTML={{ __html: htmlPreview }} />
 						) : (
-							<PreviewPlaceholder compileResume={compileResume} isCompiling={isCompiling} />
+							<PreviewPlaceholder
+								compileResume={compileResume}
+								isCompiling={compileResumeMutation.isPending}
+							/>
 						)}
 					</div>
 				</div>
