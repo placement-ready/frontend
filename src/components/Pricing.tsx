@@ -3,46 +3,44 @@ import React from "react";
 
 const pricingPlans = [
   {
-    name: "Starter",
-    description: "Best option for personal use & for your next project.",
-    price: 29,
+    name: "Standard",
+    price: 1,
     period: "/month",
     features: [
-      "Individual configuration",
-      "No setup, or hidden fees",
-      "Team size: 1 developer",
-      "Premium support: 6 months",
-      "Free updates: 6 months",
+      "Company-wise Questions",
+      "DSA practice sheets",
+      "Core subjects preparation",
+      "User reviews & experience-sharing",
+      "Time or question limit for focused initial practice"
     ],
     buttonText: "Get started",
     isPopular: false,
   },
   {
-    name: "Company",
-    description: "Relevant for multiple users, extended & premium support.",
-    price: 99,
+    name: "Pro",
+    price: 2,
     period: "/month",
     features: [
-      "Individual configuration",
-      "No setup, or hidden fees",
-      "Team size: 10 developers",
-      "Premium support: 24 months",
-      "Free updates: 24 months",
+      "Standard features",
+      "Mock interviews",
+      "AI-generated questions",
+      "Interview scheduling",
+      "Reminders",
+      "1:1 bot-driven interview practice",
     ],
     buttonText: "Get started",
     isPopular: true,
   },
   {
-    name: "Enterprise",
-    description: "Best for large scale uses and extended redistribution rights.",
-    price: 499,
+    name: "Pro+",
+    price: 5,
     period: "/month",
     features: [
-      "Individual configuration",
-      "No setup, or hidden fees",
-      "Team size: 100+ developers",
-      "Premium support: 36 months",
-      "Free updates: 36 months",
+      "Standard & Pro features",
+      "Session Summary",
+      "AI Mentor",
+      "Resume Building",
+      "Top Company Interview Q&A"
     ],
     buttonText: "Get started",
     isPopular: false,
@@ -94,10 +92,11 @@ const Pricing: React.FC = () => {
                     : "border-gray-200 hover:border-emerald-200 dark:border-gray-700 dark:hover:border-emerald-600"
                 }`}
               >
-                {/* Plan name and description */}
+                {/* Plan name only */}
                 <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">{plan.name}</h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{plan.description}</p>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                    {plan.name}
+                  </h3>
                 </div>
 
                 {/* Price */}
@@ -141,7 +140,9 @@ const Pricing: React.FC = () => {
 
         {/* Bottom text */}
         <div className="text-center mt-12">
-          <p className="text-gray-500 dark:text-gray-400">All plans include a 14-day free trial. No credit card required.</p>
+          <p className="text-gray-500">
+            All plans include a 14-day free trial. No credit card required.
+          </p>
         </div>
       </div>
     </section>
