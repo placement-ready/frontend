@@ -27,6 +27,11 @@ const MentorChatbot: React.FC = () => {
 	const messageEndRef = useRef<HTMLDivElement>(null);
 	const askMentor = useAskMentor();
 
+	// Clear all chat messages
+	const handleClearChat = () => {
+		setMessages([]);
+	};
+
 	useEffect(() => {
 		if (messageEndRef.current) messageEndRef.current.scrollIntoView({ behavior: "smooth" });
 	}, [messages]);
@@ -83,16 +88,26 @@ const MentorChatbot: React.FC = () => {
 	return (
 		<div className="min-h-screen bg-green-50 flex flex-col max-w-4xl mx-auto relative px-4 sm:px-6">
 			{/* Mentor Card */}
-			<div className="bg-white shadow rounded-xl flex items-center px-4 sm:px-6 py-4 my-4">
-				<Bot className="w-8 h-8 sm:w-10 sm:h-10 text-green-600 bg-green-100 rounded-full p-2 mr-3 sm:mr-4 flex-shrink-0" />
-				<div className="min-w-0 flex-1">
-					<h2 className="font-semibold text-lg sm:text-xl text-green-800 truncate">
-						HireMind AI Mentor
-					</h2>
-					<p className="text-xs sm:text-sm text-gray-600">
-						Active now – Upload files or ask anything!
-					</p>
+			<div className="bg-white shadow rounded-xl flex items-center px-4 sm:px-6 py-4 my-4 justify-between">
+				<div className="flex items-center min-w-0 flex-1">
+					<Bot className="w-8 h-8 sm:w-10 sm:h-10 text-green-600 bg-green-100 rounded-full p-2 mr-3 sm:mr-4 flex-shrink-0" />
+					<div className="min-w-0 flex-1">
+						<h2 className="font-semibold text-lg sm:text-xl text-green-800 truncate">
+							HireMind AI Mentor
+						</h2>
+						<p className="text-xs sm:text-sm text-gray-600">
+							Active now – Upload files or ask anything!
+						</p>
+					</div>
 				</div>
+				{/* Clear Chat Button */}
+				<button
+					onClick={handleClearChat}
+					disabled={messages.length === 0}
+					className="ml-4 px-3 py-1.5 text-xs sm:text-sm bg-red-100 text-red-600 rounded-lg shadow hover:bg-red-200 transition disabled:opacity-50 disabled:cursor-not-allowed"
+				>
+					Clear Chat
+				</button>
 			</div>
 
 			{/* Messages Container */}
