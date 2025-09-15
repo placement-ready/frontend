@@ -34,19 +34,13 @@ const MentorChatbot: React.FC = () => {
 	};
 
   useEffect(() => {
-    if (messageEndRef.current)
-      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    if (messageEndRef.current) messageEndRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Send a text message
-  const handleSendMessage = async (
-    text?: string,
-    category?: Message["category"]
-  ) => {
+  const handleSendMessage = async (text?: string, category?: Message["category"]) => {
     const messageText = text || inputValue.trim();
     if (!messageText) return;
 
-    // Display user message
     setMessages((prev) => [
       ...prev,
       {
@@ -107,24 +101,16 @@ const MentorChatbot: React.FC = () => {
       <div className="flex-1 flex flex-col min-h-0 mb-32">
         <div className="flex-1 overflow-y-auto px-2 py-4 space-y-4 max-h-[calc(100vh-300px)]">
           {messages.map(({ id, text, isBot, timestamp, category }) => (
-            <div
-              key={id}
-              className={`flex ${isBot ? "justify-start" : "justify-end"}`}
-            >
+            <div key={id} className={`flex ${isBot ? "justify-start" : "justify-end"}`}>
               <div
-                className={`rounded-xl shadow px-4 sm:px-5 py-3 max-w-[85%] sm:max-w-[75%] lg:max-w-[65%] ${
-                  isBot
-                    ? "bg-white dark:bg-gray-800"
-                    : "bg-green-500 text-white"
-                }`}
+                className={`rounded-xl shadow px-4 sm:px-5 py-3 max-w-[85%] sm:max-w-[75%] lg:max-w-[65%]
+                  ${isBot ? "bg-white dark:bg-gray-800" : "bg-green-500 text-white"}
+                `}
               >
                 <p className="whitespace-pre-wrap text-sm sm:text-base">{text}</p>
                 <div className="mt-2 flex items-center text-xs justify-between gap-2">
                   <span className="opacity-50 flex-shrink-0 text-gray-600 dark:text-gray-400">
-                    {timestamp.toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
+                    {timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                   </span>
                   {category && (
                     <span className="bg-green-100 dark:bg-green-700 text-green-800 dark:text-green-200 px-2 py-0.5 rounded-full text-xs flex-shrink-0">
@@ -153,7 +139,7 @@ const MentorChatbot: React.FC = () => {
         {quickActions.map(({ text, category }) => (
           <button
             key={text}
-            className="px-3 py-2 text-xs sm:text-sm bg-green-500 text-white rounded-full shadow hover:bg-green-600 transition font-semibold flex-shrink-0"
+            className="px-3 py-2 text-xs sm:text-sm bg-green-500 hover:bg-green-600 text-white rounded-full shadow transition font-semibold flex-shrink-0"
             onClick={() => handleSendMessage(text, category)}
           >
             {text}
@@ -169,7 +155,7 @@ const MentorChatbot: React.FC = () => {
         </label>
         <textarea
           value={inputValue}
-          className="flex-1 p-2 sm:p-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-green-400 resize-none text-sm sm:text-base min-h-[40px] sm:min-h-[48px] dark:bg-gray-900 text-gray-900 dark:text-white transition-colors caret-green-600"
+          className="flex-1 p-2 sm:p-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-green-400 resize-none text-sm sm:text-base min-h-[40px] sm:min-h-[48px] bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors caret-green-600"
           placeholder="Type your question or concern here..."
           rows={1}
           onChange={(e) => setInputValue(e.target.value)}

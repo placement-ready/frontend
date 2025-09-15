@@ -30,7 +30,6 @@ import {
 } from "react-icons/md";
 import { FaRegMoon } from "react-icons/fa";
 import { useTheme } from "@/providers/ThemeContext";
-// You can add more icons from other react-icons packages if needed
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 
