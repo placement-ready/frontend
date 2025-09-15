@@ -150,9 +150,16 @@ button {
   color: #34d399 !important; 
 }
 
-svg {
+
+/* Only apply fill:none to Heroicons, not all SVGs */
+svg.heroicon, svg[data-icon][xmlns*="heroicons"] {
   fill: none;
   stroke: currentColor;
+}
+
+/* Allow react-icons (FontAwesome, etc.) to use their default fill */
+svg:not(.heroicon):not([xmlns*="heroicons"]) {
+  fill: currentColor;
 }
 
 .icon {

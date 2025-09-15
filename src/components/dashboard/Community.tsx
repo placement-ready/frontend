@@ -95,7 +95,7 @@ const InterviewCard = ({
     `}
   >
     <div className="absolute top-4 right-4">
-      <FaBuilding className="text-emerald-500 dark:text-emerald-400 text-lg" />
+  <FaBuilding className="text-emerald-500 dark:text-emerald-400 text-lg" />
     </div>
     <div className="relative z-10">
       <h3 className="text-xl font-bold text-emerald-800 mb-2 dark:text-emerald-300">
@@ -105,7 +105,7 @@ const InterviewCard = ({
         {interview.position}
       </p>
       <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-400">
-        <FaCalendarAlt className="text-sm" />
+  <FaCalendarAlt className="text-sm" />
         <span className="text-sm font-medium">{interview.dateTime}</span>
       </div>
     </div>
@@ -127,7 +127,7 @@ const QuestionCard = ({
     className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm transition-all duration-300 cursor-pointer relative overflow-hidden"
   >
     <div className="absolute top-4 right-4">
-      <FaQuestionCircle className="text-blue-500 dark:text-blue-400 text-lg" />
+  <FaQuestionCircle className="text-blue-500 dark:text-blue-400 text-lg" />
     </div>
     <div className="relative z-10">
       <div className="flex items-start justify-between mb-4">
@@ -147,7 +147,7 @@ const QuestionCard = ({
         </p>
       </div>
       <div className="flex items-center space-x-2">
-        <FaUsers className="text-green-500 text-sm" />
+  <FaUsers className="text-green-500 text-sm" />
         <span className="text-green-600 font-medium dark:text-green-400">
           Shared by {question.user}
         </span>
