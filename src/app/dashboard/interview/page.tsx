@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const practiceQuestions = [
-  "Tell me about yourself.",
-  "Describe a challenging project and how you handled it.",
-  "How do you stay updated with industry trends?",
-  "Give an example of a conflict at work and how you resolved it.",
-  "Why do you want to work with us?",
+  'Tell me about yourself.',
+  'Describe a challenging project and how you handled it.',
+  'How do you stay updated with industry trends?',
+  'Give an example of a conflict at work and how you resolved it.',
+  'Why do you want to work with us?',
 ];
 
 const InterviewPractice: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answered, setAnswered] = useState<string[]>([]);
-  const [userAnswer, setUserAnswer] = useState("");
+  const [userAnswer, setUserAnswer] = useState('');
 
   const handleNext = () => {
     if (userAnswer.trim()) {
       const updated = [...answered];
       updated[currentIndex] = userAnswer;
       setAnswered(updated);
-      setUserAnswer("");
+      setUserAnswer('');
       if (currentIndex < practiceQuestions.length - 1) {
         setCurrentIndex(currentIndex + 1);
       }
@@ -30,14 +30,14 @@ const InterviewPractice: React.FC = () => {
   const handlePrev = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
-      setUserAnswer(answered[currentIndex - 1] || "");
+      setUserAnswer(answered[currentIndex - 1] || '');
     }
   };
 
   const handleReset = () => {
     setCurrentIndex(0);
     setAnswered([]);
-    setUserAnswer("");
+    setUserAnswer('');
   };
 
   return (
@@ -74,8 +74,8 @@ const InterviewPractice: React.FC = () => {
             disabled={currentIndex === 0}
             className={`px-6 py-3 rounded-lg font-semibold transition transform ${
               currentIndex === 0
-                ? "bg-green-100 text-green-400 cursor-not-allowed"
-                : "bg-white dark:bg-gray-700 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-800 hover:scale-105 shadow-md"
+                ? 'bg-green-100 text-green-400 cursor-not-allowed'
+                : 'bg-white dark:bg-gray-700 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-800 hover:scale-105 shadow-md'
             }`}
           >
             Previous
@@ -84,7 +84,7 @@ const InterviewPractice: React.FC = () => {
             onClick={handleNext}
             className="px-6 py-3 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold transition shadow-md hover:scale-105"
           >
-            {currentIndex === practiceQuestions.length - 1 ? "Finish" : "Next"}
+            {currentIndex === practiceQuestions.length - 1 ? 'Finish' : 'Next'}
           </button>
           <button
             onClick={handleReset}

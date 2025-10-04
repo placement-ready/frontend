@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 import {
   BookOpen,
   ListOrdered,
@@ -21,29 +21,43 @@ import {
   KeyRound,
   SplitSquareVertical,
   MapPinned,
-} from "lucide-react";
+} from 'lucide-react';
 
 const topicIcons: Record<string, React.ReactNode> = {
   basic: <BookOpen size={32} strokeWidth={2} className="text-emerald-600 dark:text-emerald-400" />,
   arrays: <ListOrdered size={32} strokeWidth={2} className="text-green-600 dark:text-green-400" />,
-  "binary-search": <Search size={32} strokeWidth={2} className="text-emerald-500 dark:text-emerald-400" />,
+  'binary-search': (
+    <Search size={32} strokeWidth={2} className="text-emerald-500 dark:text-emerald-400" />
+  ),
   strings: <Type size={32} strokeWidth={2} className="text-green-500 dark:text-green-400" />,
-  recursion: <RefreshCw size={32} strokeWidth={2} className="text-emerald-600 dark:text-emerald-400" />,
+  recursion: (
+    <RefreshCw size={32} strokeWidth={2} className="text-emerald-600 dark:text-emerald-400" />
+  ),
   linkedlist: <LinkIcon size={32} strokeWidth={2} className="text-green-600 dark:text-green-400" />,
   bit: <ActivitySquare size={32} strokeWidth={2} className="text-green-700 dark:text-green-400" />,
-  "stack-queue": <Layers3 size={32} strokeWidth={2} className="text-teal-600 dark:text-teal-400" />,
-  "two-pointers": <ArrowUpRight size={32} strokeWidth={2} className="text-emerald-700 dark:text-emerald-400" />,
-  "sliding-window": <Columns2 size={32} strokeWidth={2} className="text-lime-600 dark:text-lime-400" />,
+  'stack-queue': <Layers3 size={32} strokeWidth={2} className="text-teal-600 dark:text-teal-400" />,
+  'two-pointers': (
+    <ArrowUpRight size={32} strokeWidth={2} className="text-emerald-700 dark:text-emerald-400" />
+  ),
+  'sliding-window': (
+    <Columns2 size={32} strokeWidth={2} className="text-lime-600 dark:text-lime-400" />
+  ),
   heaps: <TrendingUp size={32} strokeWidth={2} className="text-green-800 dark:text-green-400" />,
-  greedy: <TrendingUp size={32} strokeWidth={2} className="text-emerald-800 dark:text-emerald-400" />,
+  greedy: (
+    <TrendingUp size={32} strokeWidth={2} className="text-emerald-800 dark:text-emerald-400" />
+  ),
   trees: <TreeDeciduous size={32} strokeWidth={2} className="text-green-800 dark:text-green-400" />,
   bst: <TreePine size={32} strokeWidth={2} className="text-emerald-800 dark:text-emerald-400" />,
   graphs: <Share2 size={32} strokeWidth={2} className="text-blue-600 dark:text-blue-400" />,
   dp: <Repeat size={32} strokeWidth={2} className="text-green-700 dark:text-green-400" />,
   math: <Calculator size={32} strokeWidth={2} className="text-green-700 dark:text-green-400" />,
   trie: <KeyRound size={32} strokeWidth={2} className="text-teal-800 dark:text-teal-400" />,
-  dsu: <SplitSquareVertical size={32} strokeWidth={2} className="text-green-800 dark:text-green-400" />,
-  backtracking: <MapPinned size={32} strokeWidth={2} className="text-emerald-600 dark:text-emerald-400" />,
+  dsu: (
+    <SplitSquareVertical size={32} strokeWidth={2} className="text-green-800 dark:text-green-400" />
+  ),
+  backtracking: (
+    <MapPinned size={32} strokeWidth={2} className="text-emerald-600 dark:text-emerald-400" />
+  ),
 };
 
 interface Topic {
@@ -55,26 +69,32 @@ interface Topic {
 }
 
 const dsaTopics: Topic[] = [
-  { key: "basic", name: "Basic Concepts", icon: "basic", count: 10, completed: 0 },
-  { key: "arrays", name: "Arrays", icon: "arrays", count: 40, completed: 0 },
-  { key: "binary-search", name: "Binary Search", icon: "binary-search", count: 22, completed: 0 },
-  { key: "strings", name: "Strings", icon: "strings", count: 35, completed: 0 },
-  { key: "recursion", name: "Recursion", icon: "recursion", count: 18, completed: 0 },
-  { key: "linkedlist", name: "Linked List", icon: "linkedlist", count: 25, completed: 0 },
-  { key: "bit", name: "Bit Manipulation", icon: "bit", count: 12, completed: 0 },
-  { key: "stack-queue", name: "Stack & Queues", icon: "stack-queue", count: 23, completed: 0 },
-  { key: "two-pointers", name: "Two Pointers", icon: "two-pointers", count: 17, completed: 0 },
-  { key: "sliding-window", name: "Sliding Window", icon: "sliding-window", count: 19, completed: 0 },
-  { key: "heaps", name: "Heaps", icon: "heaps", count: 14, completed: 0 },
-  { key: "greedy", name: "Greedy Algorithms", icon: "greedy", count: 24, completed: 0 },
-  { key: "trees", name: "Trees", icon: "trees", count: 33, completed: 0 },
-  { key: "bst", name: "Binary Search Tree (BST)", icon: "bst", count: 14, completed: 0 },
-  { key: "graphs", name: "Graphs", icon: "graphs", count: 25, completed: 0 },
-  { key: "dp", name: "Dynamic Programming", icon: "dp", count: 40, completed: 0 },
-  { key: "math", name: "Math & Number Theory", icon: "math", count: 10, completed: 0 },
-  { key: "trie", name: "Trie", icon: "trie", count: 8, completed: 0 },
-  { key: "dsu", name: "Disjoint Set / Union Find", icon: "dsu", count: 6, completed: 0 },
-  { key: "backtracking", name: "Backtracking", icon: "backtracking", count: 10, completed: 0 },
+  { key: 'basic', name: 'Basic Concepts', icon: 'basic', count: 10, completed: 0 },
+  { key: 'arrays', name: 'Arrays', icon: 'arrays', count: 40, completed: 0 },
+  { key: 'binary-search', name: 'Binary Search', icon: 'binary-search', count: 22, completed: 0 },
+  { key: 'strings', name: 'Strings', icon: 'strings', count: 35, completed: 0 },
+  { key: 'recursion', name: 'Recursion', icon: 'recursion', count: 18, completed: 0 },
+  { key: 'linkedlist', name: 'Linked List', icon: 'linkedlist', count: 25, completed: 0 },
+  { key: 'bit', name: 'Bit Manipulation', icon: 'bit', count: 12, completed: 0 },
+  { key: 'stack-queue', name: 'Stack & Queues', icon: 'stack-queue', count: 23, completed: 0 },
+  { key: 'two-pointers', name: 'Two Pointers', icon: 'two-pointers', count: 17, completed: 0 },
+  {
+    key: 'sliding-window',
+    name: 'Sliding Window',
+    icon: 'sliding-window',
+    count: 19,
+    completed: 0,
+  },
+  { key: 'heaps', name: 'Heaps', icon: 'heaps', count: 14, completed: 0 },
+  { key: 'greedy', name: 'Greedy Algorithms', icon: 'greedy', count: 24, completed: 0 },
+  { key: 'trees', name: 'Trees', icon: 'trees', count: 33, completed: 0 },
+  { key: 'bst', name: 'Binary Search Tree (BST)', icon: 'bst', count: 14, completed: 0 },
+  { key: 'graphs', name: 'Graphs', icon: 'graphs', count: 25, completed: 0 },
+  { key: 'dp', name: 'Dynamic Programming', icon: 'dp', count: 40, completed: 0 },
+  { key: 'math', name: 'Math & Number Theory', icon: 'math', count: 10, completed: 0 },
+  { key: 'trie', name: 'Trie', icon: 'trie', count: 8, completed: 0 },
+  { key: 'dsu', name: 'Disjoint Set / Union Find', icon: 'dsu', count: 6, completed: 0 },
+  { key: 'backtracking', name: 'Backtracking', icon: 'backtracking', count: 10, completed: 0 },
 ];
 
 type DifficultyStats = {
@@ -97,7 +117,8 @@ export default function DsaUi() {
   return (
     <div className="relative bg-white dark:bg-gray-900 min-h-screen pb-12">
       {/* Total Progress Card */}
-      <div className="
+      <div
+        className="
         max-w-7xl mx-auto mb-14 px-6
         rounded-[38px] shadow-xl
         bg-gradient-to-br from-green-400 via-green-400 to-emerald-500
@@ -105,7 +126,8 @@ export default function DsaUi() {
         border border-green-300/20
         flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-8
         py-10
-      ">
+      "
+      >
         {/* Progress Main */}
         <div className="flex-1 flex flex-col items-center justify-center text-white px-2">
           <div className="text-xl font-semibold mb-2">Total Progress</div>
@@ -121,7 +143,7 @@ export default function DsaUi() {
 
         {/* Easy/Medium/Hard Columns */}
         <div className="flex-[2] grid grid-cols-1 sm:grid-cols-3 w-full items-center gap-6 px-2">
-          {["easy", "medium", "hard"].map((level) => {
+          {['easy', 'medium', 'hard'].map((level) => {
             const label = level.charAt(0).toUpperCase() + level.slice(1);
             const { completed, count } = difficulty[level as keyof DifficultyStats];
             const percent = count > 0 ? Math.round((completed / count) * 100) : 0;
@@ -134,17 +156,17 @@ export default function DsaUi() {
                 <div
                   className={`
                     w-56 h-2 rounded overflow-hidden mb-2
-                    ${level === "easy" ? "bg-emerald-200 dark:bg-emerald-800" : ""}
-                    ${level === "medium" ? "bg-green-300 dark:bg-green-900" : ""}
-                    ${level === "hard" ? "bg-emerald-400 dark:bg-emerald-900" : ""}
+                    ${level === 'easy' ? 'bg-emerald-200 dark:bg-emerald-800' : ''}
+                    ${level === 'medium' ? 'bg-green-300 dark:bg-green-900' : ''}
+                    ${level === 'hard' ? 'bg-emerald-400 dark:bg-emerald-900' : ''}
                   `}
                 >
                   <div
                     className={`
                       h-2 rounded transition-all
-                      ${level === "easy" ? "bg-emerald-400 dark:bg-emerald-400" : ""}
-                      ${level === "medium" ? "bg-green-500 dark:bg-green-500" : ""}
-                      ${level === "hard" ? "bg-emerald-600 dark:bg-emerald-700" : ""}
+                      ${level === 'easy' ? 'bg-emerald-400 dark:bg-emerald-400' : ''}
+                      ${level === 'medium' ? 'bg-green-500 dark:bg-green-500' : ''}
+                      ${level === 'hard' ? 'bg-emerald-600 dark:bg-emerald-700' : ''}
                     `}
                     style={{ width: `${percent}%` }}
                   />
@@ -171,14 +193,14 @@ export default function DsaUi() {
   cursor-pointer relative
 "
               style={{
-                minHeight: "190px",
+                minHeight: '190px',
               }}
             >
               <span
                 className="mb-4 flex items-center justify-center w-16 h-16 rounded-xl drop-shadow-lg bg-white dark:bg-gray-900"
                 aria-label={topic.name}
                 style={{
-                  boxShadow: "0 4px 20px #00c87116, 0 1.5px 7px #00c85114",
+                  boxShadow: '0 4px 20px #00c87116, 0 1.5px 7px #00c85114',
                 }}
               >
                 {topicIcons[topic.icon]}

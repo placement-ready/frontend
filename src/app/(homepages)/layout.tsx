@@ -1,16 +1,16 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export default function HomeLayout({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-	return (
-		<div className="min-h-screen bg-green-50 font-sans">
-			<Navbar />
-			<div>{children}</div>
-			<Footer />
-		</div>
-	);
+  return (
+    <div className="min-h-screen bg-green-50 font-sans">
+      <Navbar />
+      <div>{children}</div>
+      <Footer />
+    </div>
+  );
 }

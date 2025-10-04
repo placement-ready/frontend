@@ -1,8 +1,8 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { Line, Bar } from "react-chartjs-2";
-import { motion } from "framer-motion";
-import type { ChartData, ChartOptions } from "chart.js";
+'use client';
+import React, { useEffect, useState } from 'react';
+import { Line, Bar } from 'react-chartjs-2';
+import { motion } from 'framer-motion';
+import type { ChartData, ChartOptions } from 'chart.js';
 import {
   Chart as ChartJS,
   LineElement,
@@ -13,7 +13,7 @@ import {
   Tooltip,
   Legend,
   Filler,
-} from "chart.js";
+} from 'chart.js';
 
 ChartJS.register(
   LineElement,
@@ -23,60 +23,60 @@ ChartJS.register(
   CategoryScale,
   Tooltip,
   Legend,
-  Filler
+  Filler,
 );
 
 // theme colors aligned with green theme and dark mode friendly
 const themeColors = {
   primary: {
-    emerald: "#10B981",
-    emeraldLight: "#34D399",
-    emeraldDark: "#059669",
-    blue: "#3B82F6",
-    blueLight: "#60A5FA",
-    purple: "#8B5CF6",
-    purpleLight: "#A78BFA",
+    emerald: '#10B981',
+    emeraldLight: '#34D399',
+    emeraldDark: '#059669',
+    blue: '#3B82F6',
+    blueLight: '#60A5FA',
+    purple: '#8B5CF6',
+    purpleLight: '#A78BFA',
   },
   secondary: {
-    orange: "#F59E0B",
-    orangeLight: "#FBBF24",
-    gray: "#6B7280",
-    grayLight: "#9CA3AF",
-    border: "#E5E7EB",
+    orange: '#F59E0B',
+    orangeLight: '#FBBF24',
+    gray: '#6B7280',
+    grayLight: '#9CA3AF',
+    border: '#E5E7EB',
   },
 };
 
 // Line chart data with gradient fill and colors supporting dark mode via CSS variables or opacity
-const performanceLabels = ["Jan", "Feb", "Mar", "Apr", "May"];
-const performanceData: ChartData<"line"> = {
+const performanceLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];
+const performanceData: ChartData<'line'> = {
   labels: performanceLabels,
   datasets: [
     {
-      label: "Performance Score",
+      label: 'Performance Score',
       data: [15, 25, 40, 55, 80],
       borderColor: themeColors.primary.emerald,
       backgroundColor: (context) => {
         const chart = context.chart;
         const { ctx, chartArea } = chart;
         if (!chartArea) {
-          return "rgba(16, 185, 129, 0.1)";
+          return 'rgba(16, 185, 129, 0.1)';
         }
         // gradient fill with opacity for subtle effect
         const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-        gradient.addColorStop(0, "rgba(16, 185, 129, 0.8)");
-        gradient.addColorStop(0.5, "rgba(16, 185, 129, 0.4)");
-        gradient.addColorStop(1, "rgba(16, 185, 129, 0.05)");
+        gradient.addColorStop(0, 'rgba(16, 185, 129, 0.8)');
+        gradient.addColorStop(0.5, 'rgba(16, 185, 129, 0.4)');
+        gradient.addColorStop(1, 'rgba(16, 185, 129, 0.05)');
         return gradient;
       },
       borderWidth: 3,
       tension: 0.4,
       fill: true,
       pointRadius: 6,
-      pointBackgroundColor: "#fff",
+      pointBackgroundColor: '#fff',
       pointBorderColor: themeColors.primary.emerald,
       pointBorderWidth: 3,
       pointHoverRadius: 8,
-      pointHoverBackgroundColor: "#fff",
+      pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: themeColors.primary.emeraldLight,
       pointHoverBorderWidth: 4,
     },
@@ -84,26 +84,26 @@ const performanceData: ChartData<"line"> = {
 };
 
 // Line chart options including dark mode friendly tooltip and scale colors
-const performanceOptions: ChartOptions<"line"> = {
+const performanceOptions: ChartOptions<'line'> = {
   responsive: true,
   maintainAspectRatio: false,
   animation: {
     duration: 1500,
-    easing: "easeOutQuart",
+    easing: 'easeOutQuart',
     delay: (context) => context.dataIndex * 100,
   },
   plugins: {
     legend: { display: false },
     tooltip: {
-      mode: "index",
+      mode: 'index',
       intersect: false,
-      backgroundColor: "rgba(0,0,0,0.9)",
-      titleColor: "#fff",
-      bodyColor: "#fff",
+      backgroundColor: 'rgba(0,0,0,0.9)',
+      titleColor: '#fff',
+      bodyColor: '#fff',
       cornerRadius: 12,
       displayColors: false,
       padding: 12,
-      titleFont: { size: 14, weight: "bold" },
+      titleFont: { size: 14, weight: 'bold' },
       bodyFont: { size: 13 },
     },
   },
@@ -135,18 +135,18 @@ const performanceOptions: ChartOptions<"line"> = {
   elements: { point: { hoverBorderWidth: 4 } },
   onHover: (event, chartElement, chart) => {
     if (chart?.canvas) {
-      chart.canvas.style.cursor = chartElement?.length ? "pointer" : "default";
+      chart.canvas.style.cursor = chartElement?.length ? 'pointer' : 'default';
     }
   },
 };
 
 // Bar chart data with theme colors and dark mode background opacity adjustments
-const skillCategories = ["DSA", "System Design", "Communication"];
-const skillsData: ChartData<"bar"> = {
+const skillCategories = ['DSA', 'System Design', 'Communication'];
+const skillsData: ChartData<'bar'> = {
   labels: skillCategories,
   datasets: [
     {
-      label: "Strengths",
+      label: 'Strengths',
       data: [85, 72, 68],
       backgroundColor: themeColors.primary.purple,
       hoverBackgroundColor: themeColors.primary.purpleLight,
@@ -155,7 +155,7 @@ const skillsData: ChartData<"bar"> = {
       barThickness: 28,
     },
     {
-      label: "Areas to Improve",
+      label: 'Areas to Improve',
       data: [15, 28, 32],
       backgroundColor: themeColors.secondary.orange,
       hoverBackgroundColor: themeColors.secondary.orangeLight,
@@ -167,30 +167,30 @@ const skillsData: ChartData<"bar"> = {
 };
 
 // Bar chart options with dark mode friendly colors
-const skillsOptions: ChartOptions<"bar"> = {
+const skillsOptions: ChartOptions<'bar'> = {
   responsive: true,
   maintainAspectRatio: false,
   animation: {
     duration: 1200,
-    easing: "easeOutBounce",
+    easing: 'easeOutBounce',
     delay: (context) => context.dataIndex * 100,
   },
   plugins: {
     legend: {
-      position: "top",
+      position: 'top',
       labels: {
         color: themeColors.secondary.gray,
-        font: { weight: "bold", size: 12 },
+        font: { weight: 'bold', size: 12 },
         padding: 20,
         usePointStyle: true,
-        pointStyle: "circle",
+        pointStyle: 'circle',
       },
     },
     tooltip: {
       enabled: true,
-      backgroundColor: "rgba(0,0,0,0.9)",
-      titleColor: "#fff",
-      bodyColor: "#fff",
+      backgroundColor: 'rgba(0,0,0,0.9)',
+      titleColor: '#fff',
+      bodyColor: '#fff',
       cornerRadius: 12,
       padding: 12,
     },
@@ -222,7 +222,7 @@ const skillsOptions: ChartOptions<"bar"> = {
   },
   onHover: (event, chartElement, chart) => {
     if (chart?.canvas) {
-      chart.canvas.style.cursor = chartElement?.length ? "pointer" : "default";
+      chart.canvas.style.cursor = chartElement?.length ? 'pointer' : 'default';
     }
   },
 };
@@ -232,12 +232,14 @@ const StatusPill = ({ text, icon }: { text: string; icon?: React.ReactNode }) =>
   <motion.div
     initial={{ opacity: 0, scale: 0.8 }}
     animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.5, ease: "easeOut" }}
+    transition={{ duration: 0.5, ease: 'easeOut' }}
     className="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-emerald-100 via-green-100 to-emerald-100 border border-emerald-300/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
   >
     <div className="w-3 h-3 bg-emerald-500 rounded-full mr-3 animate-pulse"></div>
     {icon && <div className="mr-2 text-emerald-600">{icon}</div>}
-    <span className="text-emerald-700 font-semibold text-sm tracking-wide whitespace-nowrap">{text}</span>
+    <span className="text-emerald-700 font-semibold text-sm tracking-wide whitespace-nowrap">
+      {text}
+    </span>
   </motion.div>
 );
 
@@ -256,10 +258,10 @@ const ChartCard = ({
   <motion.div
     initial={{ opacity: 0, y: 30 }}
     animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6, delay, ease: "easeOut" }}
+    transition={{ duration: 0.6, delay, ease: 'easeOut' }}
     whileHover={{
       y: -4,
-      boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+      boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
     }}
     className="w-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 lg:p-8 transition-all duration-300 hover:border-gray-300 dark:hover:border-gray-600"
   >
@@ -325,7 +327,7 @@ const PerformanceCharts = () => {
             />
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
-            Performance{" "}
+            Performance{' '}
             <span className="relative inline-block">
               <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">
                 Dashboard
@@ -339,13 +341,18 @@ const PerformanceCharts = () => {
             </span>
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Track your progress and identify areas for improvement with detailed analytics and insights.
+            Track your progress and identify areas for improvement with detailed analytics and
+            insights.
           </p>
         </motion.div>
 
         {/* Charts Grid - Responsive Layout */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12 mb-12">
-          <ChartCard title="Performance Over Time" titleColor={themeColors.primary.emerald} delay={0.3}>
+          <ChartCard
+            title="Performance Over Time"
+            titleColor={themeColors.primary.emerald}
+            delay={0.3}
+          >
             <Line data={performanceData} options={performanceOptions} />
           </ChartCard>
 
@@ -365,12 +372,14 @@ const PerformanceCharts = () => {
             whileHover={{ scale: 1.05 }}
             className="bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300"
           >
-            <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">85%</div>
+            <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">
+              85%
+            </div>
             <div className="text-gray-600 dark:text-gray-300 font-medium">Overall Score</div>
             <div className="w-full bg-gray-200 rounded-full h-2 mt-3 dark:bg-gray-700">
               <motion.div
                 initial={{ width: 0 }}
-                animate={{ width: "85%" }}
+                animate={{ width: '85%' }}
                 transition={{ duration: 1, delay: 1 }}
                 className="bg-emerald-500 h-2 rounded-full"
               />

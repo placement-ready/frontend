@@ -1,33 +1,27 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Building2, ChevronDown } from "lucide-react";
+import React, { useState } from 'react';
+import { Building2, ChevronDown } from 'lucide-react';
 
 const companyQuestions: Record<string, string[]> = {
   Google: [
-    "Describe a time you solved a complex problem.",
-    "How do you approach learning a technology?",
-    "What is your experience with scalable systems?",
+    'Describe a time you solved a complex problem.',
+    'How do you approach learning a technology?',
+    'What is your experience with scalable systems?',
   ],
   Amazon: [
-    "Tell me about a time you disagreed with a teammate.",
-    "How do you prioritize under deadlines?",
-    "How would you improve our service?",
+    'Tell me about a time you disagreed with a teammate.',
+    'How do you prioritize under deadlines?',
+    'How would you improve our service?',
   ],
   Microsoft: [
-    "Example of working on a diverse team.",
-    "What motivates you to join Microsoft?",
-    "Describe a time you handled feedback.",
+    'Example of working on a diverse team.',
+    'What motivates you to join Microsoft?',
+    'Describe a time you handled feedback.',
   ],
 };
 
 const companies = Object.keys(companyQuestions);
-
-const companyLogos: Record<string, string> = {
-  Google: "/logos/google.png",
-  Amazon: "/logos/amazon.png",
-  Microsoft: "/logos/microsoft.png",
-};
 
 const CompanyQuestions: React.FC = () => {
   const [selectedCompany, setSelectedCompany] = useState<string>(companies[0]);
@@ -53,7 +47,10 @@ const CompanyQuestions: React.FC = () => {
         </p>
 
         {/* Dropdown label and select */}
-        <label className="block text-sm text-gray-700 dark:text-gray-300 font-medium mb-1 text-left" htmlFor="company-select">
+        <label
+          className="block text-sm text-gray-700 dark:text-gray-300 font-medium mb-1 text-left"
+          htmlFor="company-select"
+        >
           <span className="flex gap-2 items-center mb-1">
             <Building2 className="w-4 h-4 text-green-600 dark:text-green-400" />
             Change company
@@ -81,7 +78,7 @@ const CompanyQuestions: React.FC = () => {
               key={idx}
               className="group bg-green-50/20 dark:bg-green-900/20 text-green-900 dark:text-green-300 px-6 py-5 rounded-xl text-left text-[1.08rem] border border-green-200/40 dark:border-green-700/40 shadow-sm transition-all relative hover:scale-[1.03] hover:border-green-400 focus-within:ring-2 focus-within:ring-green-300"
               tabIndex={0}
-              aria-label={"Interview question"}
+              aria-label={'Interview question'}
             >
               <span className="relative">
                 <span className="absolute -left-6 top-[11px] w-2 h-2 rounded-full bg-green-400/80 dark:bg-green-600/80 group-hover:bg-green-500 transition"></span>

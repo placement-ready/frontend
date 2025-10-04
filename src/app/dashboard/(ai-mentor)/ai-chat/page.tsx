@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { useState, useRef, useEffect } from "react";
-import { FiSend, FiPlus } from "react-icons/fi";
-import { FaRobot } from "react-icons/fa";
-import { useAskMentor } from "@/lib/queries/mentor";
+import React, { useState, useRef, useEffect } from 'react';
+import { FiSend, FiPlus } from 'react-icons/fi';
+import { FaRobot } from 'react-icons/fa';
+import { useAskMentor } from '@/lib/queries/mentor';
 
-type MentorCategory = "guidance" | "feedback" | "knowledge";
+type MentorCategory = 'guidance' | 'feedback' | 'knowledge';
 
 interface Message {
   id: string;
@@ -16,28 +16,28 @@ interface Message {
 }
 
 const quickActions = [
-  { text: "Help me set career goals", category: "guidance" as const },
-  { text: "Feedback to improve skills", category: "feedback" as const },
-  { text: "Industry insights and trends", category: "knowledge" as const },
+  { text: 'Help me set career goals', category: 'guidance' as const },
+  { text: 'Feedback to improve skills', category: 'feedback' as const },
+  { text: 'Industry insights and trends', category: 'knowledge' as const },
 ];
 
 const MentorChatbot: React.FC = () => {
-	const [messages, setMessages] = useState<Message[]>([]);
-	const [inputValue, setInputValue] = useState("");
-	const [isTyping, setIsTyping] = useState(false);
-	const messageEndRef = useRef<HTMLDivElement>(null);
-	const askMentor = useAskMentor();
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const messageEndRef = useRef<HTMLDivElement>(null);
+  const askMentor = useAskMentor();
 
-	// Clear all chat messages
-	const handleClearChat = () => {
-		setMessages([]);
-	};
+  // Clear all chat messages
+  // const handleClearChat = () => {
+  // 	setMessages([]);
+  // };
 
   useEffect(() => {
-    if (messageEndRef.current) messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    if (messageEndRef.current) messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSendMessage = async (text?: string, category?: Message["category"]) => {
+  const handleSendMessage = async (text?: string, category?: Message['category']) => {
     const messageText = text || inputValue.trim();
     if (!messageText) return;
 
@@ -51,7 +51,7 @@ const MentorChatbot: React.FC = () => {
         category,
       },
     ]);
-    setInputValue("");
+    setInputValue('');
     setIsTyping(true);
 
     try {
@@ -63,7 +63,7 @@ const MentorChatbot: React.FC = () => {
           text: response as string,
           isBot: true,
           timestamp: new Date(),
-          category: category || "guidance",
+          category: category || 'guidance',
         },
       ]);
     } catch {
@@ -71,10 +71,10 @@ const MentorChatbot: React.FC = () => {
         ...prev,
         {
           id: (Date.now() + 1).toString(),
-          text: "I apologize, but I encountered an issue. Please try again later.",
+          text: 'I apologize, but I encountered an issue. Please try again later.',
           isBot: true,
           timestamp: new Date(),
-          category: category || "guidance",
+          category: category || 'guidance',
         },
       ]);
     } finally {
@@ -82,35 +82,35 @@ const MentorChatbot: React.FC = () => {
     }
   };
 
-	return (
-		<div className="min-h-screen bg-green-50 flex flex-col max-w-4xl mx-auto relative px-4 sm:px-6">
-			{/* Mentor Card */}
-			<div className="bg-white shadow rounded-xl flex items-center px-4 sm:px-6 py-4 my-4">
-  <FaRobot className="w-8 h-8 sm:w-10 sm:h-10 text-green-600 bg-green-100 rounded-full p-2 mr-3 sm:mr-4 flex-shrink-0" />
-				<div className="min-w-0 flex-1">
-					<h2 className="font-semibold text-lg sm:text-xl text-green-800 truncate">
-						HireMind AI Mentor
-					</h2>
-					<p className="text-xs sm:text-sm text-gray-600">
-						Active now – Upload files or ask anything!
-					</p>
-				</div>
-			</div>
+  return (
+    <div className="min-h-screen bg-green-50 flex flex-col max-w-4xl mx-auto relative px-4 sm:px-6">
+      {/* Mentor Card */}
+      <div className="bg-white shadow rounded-xl flex items-center px-4 sm:px-6 py-4 my-4">
+        <FaRobot className="w-8 h-8 sm:w-10 sm:h-10 text-green-600 bg-green-100 rounded-full p-2 mr-3 sm:mr-4 flex-shrink-0" />
+        <div className="min-w-0 flex-1">
+          <h2 className="font-semibold text-lg sm:text-xl text-green-800 truncate">
+            HireMind AI Mentor
+          </h2>
+          <p className="text-xs sm:text-sm text-gray-600">
+            Active now – Upload files or ask anything!
+          </p>
+        </div>
+      </div>
 
       {/* Messages Container */}
       <div className="flex-1 flex flex-col min-h-0 mb-32">
         <div className="flex-1 overflow-y-auto px-2 py-4 space-y-4 max-h-[calc(100vh-300px)]">
           {messages.map(({ id, text, isBot, timestamp, category }) => (
-            <div key={id} className={`flex ${isBot ? "justify-start" : "justify-end"}`}>
+            <div key={id} className={`flex ${isBot ? 'justify-start' : 'justify-end'}`}>
               <div
                 className={`rounded-xl shadow px-4 sm:px-5 py-3 max-w-[85%] sm:max-w-[75%] lg:max-w-[65%]
-                  ${isBot ? "bg-white dark:bg-gray-800" : "bg-green-500 text-white"}
+                  ${isBot ? 'bg-white dark:bg-gray-800' : 'bg-green-500 text-white'}
                 `}
               >
                 <p className="whitespace-pre-wrap text-sm sm:text-base">{text}</p>
                 <div className="mt-2 flex items-center text-xs justify-between gap-2">
                   <span className="opacity-50 flex-shrink-0 text-gray-600 dark:text-gray-400">
-                    {timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                    {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                   {category && (
                     <span className="bg-green-100 dark:bg-green-700 text-green-800 dark:text-green-200 px-2 py-0.5 rounded-full text-xs flex-shrink-0">
@@ -124,9 +124,7 @@ const MentorChatbot: React.FC = () => {
           {isTyping && (
             <div className="flex justify-start">
               <div className="rounded-xl shadow px-4 sm:px-5 py-3 bg-white dark:bg-gray-800 max-w-[85%] sm:max-w-[75%] lg:max-w-[65%]">
-                <span className="text-gray-400 text-sm sm:text-base">
-                  Mentor is typing...
-                </span>
+                <span className="text-gray-400 text-sm sm:text-base">Mentor is typing...</span>
               </div>
             </div>
           )}
@@ -160,7 +158,7 @@ const MentorChatbot: React.FC = () => {
           rows={1}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
+            if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();
               handleSendMessage();
             }

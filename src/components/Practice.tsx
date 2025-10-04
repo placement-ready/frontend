@@ -1,11 +1,11 @@
-"use client";
-import React, { useState, useEffect } from "react";
+'use client';
+import React, { useState, useEffect } from 'react';
 
 const questionTypes = [
   {
-    title: "Behavioral Questions",
+    title: 'Behavioral Questions',
     description:
-      "Master the STAR method with questions about your experience, leadership, and problem-solving skills.",
+      'Master the STAR method with questions about your experience, leadership, and problem-solving skills.',
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -21,22 +21,21 @@ const questionTypes = [
         />
       </svg>
     ),
-    bgGradient: "from-blue-400 to-indigo-500",
-    lightBg: "bg-blue-50",
-    darkBg: "bg-blue-800",
-    textColor: "text-blue-600",
-    borderColor: "border-blue-200",
-    tags: ["STAR Method", "Leadership", "Teamwork"],
+    bgGradient: 'from-blue-400 to-indigo-500',
+    lightBg: 'bg-blue-50',
+    darkBg: 'bg-blue-800',
+    textColor: 'text-blue-600',
+    borderColor: 'border-blue-200',
+    tags: ['STAR Method', 'Leadership', 'Teamwork'],
     tagColors: [
-      "bg-blue-100 text-blue-700 dark:bg-blue-700 dark:text-blue-200",
-      "bg-blue-100 text-blue-700 dark:bg-blue-700 dark:text-blue-200",
-      "bg-blue-100 text-blue-700 dark:bg-blue-700 dark:text-blue-200",
+      'bg-blue-100 text-blue-700 dark:bg-blue-700 dark:text-blue-200',
+      'bg-blue-100 text-blue-700 dark:bg-blue-700 dark:text-blue-200',
+      'bg-blue-100 text-blue-700 dark:bg-blue-700 dark:text-blue-200',
     ],
   },
   {
-    title: "Technical Questions",
-    description:
-      "Frontend, backend, system design, and coding challenges from top tech companies.",
+    title: 'Technical Questions',
+    description: 'Frontend, backend, system design, and coding challenges from top tech companies.',
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -52,22 +51,22 @@ const questionTypes = [
         />
       </svg>
     ),
-    bgGradient: "from-purple-400 to-pink-500",
-    lightBg: "bg-purple-50",
-    darkBg: "bg-purple-800",
-    textColor: "text-purple-600",
-    borderColor: "border-purple-200",
-    tags: ["System Design", "Algorithms", "Architecture"],
+    bgGradient: 'from-purple-400 to-pink-500',
+    lightBg: 'bg-purple-50',
+    darkBg: 'bg-purple-800',
+    textColor: 'text-purple-600',
+    borderColor: 'border-purple-200',
+    tags: ['System Design', 'Algorithms', 'Architecture'],
     tagColors: [
-      "bg-purple-100 text-purple-700 dark:bg-purple-700 dark:text-purple-200",
-      "bg-purple-100 text-purple-700 dark:bg-purple-700 dark:text-purple-200",
-      "bg-purple-100 text-purple-700 dark:bg-purple-700 dark:text-purple-200",
+      'bg-purple-100 text-purple-700 dark:bg-purple-700 dark:text-purple-200',
+      'bg-purple-100 text-purple-700 dark:bg-purple-700 dark:text-purple-200',
+      'bg-purple-100 text-purple-700 dark:bg-purple-700 dark:text-purple-200',
     ],
   },
   {
-    title: "Situational Questions",
+    title: 'Situational Questions',
     description:
-      "Handle hypothetical scenarios, crisis management, and decision-making challenges.",
+      'Handle hypothetical scenarios, crisis management, and decision-making challenges.',
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -83,20 +82,16 @@ const questionTypes = [
         />
       </svg>
     ),
-    bgGradient: "from-emerald-400 to-green-500",
-    lightBg: "bg-emerald-50",
-    darkBg: "bg-emerald-800",
-    textColor: "text-emerald-600",
-    borderColor: "border-emerald-200",
-    tags: [
-      "Crisis Management",
-      "Decision Making",
-      "Problem Solving",
-    ],
+    bgGradient: 'from-emerald-400 to-green-500',
+    lightBg: 'bg-emerald-50',
+    darkBg: 'bg-emerald-800',
+    textColor: 'text-emerald-600',
+    borderColor: 'border-emerald-200',
+    tags: ['Crisis Management', 'Decision Making', 'Problem Solving'],
     tagColors: [
-      "bg-emerald-100 text-emerald-700 dark:bg-emerald-700 dark:text-emerald-200",
-      "bg-emerald-100 text-emerald-700 dark:bg-emerald-700 dark:text-emerald-200",
-      "bg-emerald-100 text-emerald-700 dark:bg-emerald-700 dark:text-emerald-200",
+      'bg-emerald-100 text-emerald-700 dark:bg-emerald-700 dark:text-emerald-200',
+      'bg-emerald-100 text-emerald-700 dark:bg-emerald-700 dark:text-emerald-200',
+      'bg-emerald-100 text-emerald-700 dark:bg-emerald-700 dark:text-emerald-200',
     ],
   },
 ];
@@ -132,7 +127,7 @@ const Practice: React.FC = () => {
         <div className="flex flex-col items-center mb-12">
           <div
             className={`group mb-6 px-6 py-2 rounded-full bg-gradient-to-r from-emerald-50 via-green-50 to-emerald-50 border border-emerald-200/50 dark:from-emerald-900 dark:via-green-900 dark:to-emerald-900 dark:border-emerald-700 backdrop-blur-sm shadow transition-all duration-700 ${
-              isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             } hover:scale-105 hover:shadow-md`}
           >
             <div className="flex items-center">
@@ -158,17 +153,17 @@ const Practice: React.FC = () => {
 
           <h2
             className={`text-3xl sm:text-4xl font-black text-gray-900 dark:text-white text-center mb-5 leading-tight transition-all duration-700 delay-200 ${
-              isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}
           >
-            Practice All{" "}
+            Practice All{' '}
             <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 dark:from-emerald-400 dark:via-green-400 dark:to-teal-400 bg-clip-text text-transparent">
               Question Types
             </span>
           </h2>
 
           <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg text-center max-w-3xl leading-relaxed">
-            Comprehensive coverage for{" "}
+            Comprehensive coverage for{' '}
             <span className="font-semibold text-emerald-600 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors duration-300">
               every interview scenario
             </span>
@@ -183,13 +178,15 @@ const Practice: React.FC = () => {
               className={`group relative transform transition-all duration-700 delay-${
                 (idx + 1) * 200
               } ease-out ${
-                isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
+                isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
               } hover:-translate-y-3 hover:scale-105`}
               onMouseEnter={() => setHoveredCard(idx)}
               onMouseLeave={() => setHoveredCard(null)}
             >
               {/* Card */}
-              <div className={`relative rounded-2xl p-6 shadow border min-h-[300px] overflow-hidden transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-emerald-500/10 border-white/50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 bg-white/90 backdrop-blur`}>
+              <div
+                className={`relative rounded-2xl p-6 shadow border min-h-[300px] overflow-hidden transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-emerald-500/10 border-white/50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 bg-white/90 backdrop-blur`}
+              >
                 {/* Animated background gradient on hover */}
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${type.bgGradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-2xl`}
@@ -213,7 +210,9 @@ const Practice: React.FC = () => {
                 )}
 
                 {/* Icon */}
-                <div className={`relative mb-5 flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-r ${type.bgGradient} shadow-lg group-hover:rotate-6 group-hover:scale-110 group-hover:shadow-xl transition-all duration-500`}>
+                <div
+                  className={`relative mb-5 flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-r ${type.bgGradient} shadow-lg group-hover:rotate-6 group-hover:scale-110 group-hover:shadow-xl transition-all duration-500`}
+                >
                   <span className="relative z-10 text-white transform group-hover:scale-110 transition-transform duration-300">
                     {type.icon}
                   </span>
@@ -256,7 +255,7 @@ const Practice: React.FC = () => {
         {/* Bottom CTA */}
         <div
           className={`text-center mt-14 transition-all duration-700 delay-1000 transform ${
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}
         >
           <div className="inline-flex flex-col items-center max-w-2xl mx-auto">
