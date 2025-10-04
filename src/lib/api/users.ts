@@ -1,4 +1,3 @@
-// Example: Users API implementation
 import { api } from "@/lib/api/client";
 import type { User, PaginationParams, PaginatedResponse } from "@/types/api/common";
 
