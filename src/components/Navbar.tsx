@@ -4,395 +4,417 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-	DropdownRoot,
-	DropdownTrigger,
-	DropdownContent,
-	DropdownMenu,
-	DropdownItem,
+  DropdownRoot,
+  DropdownTrigger,
+  DropdownContent,
+  DropdownMenu,
+  DropdownItem,
 } from "./ui/Dropdown";
 import {
-	HomeIcon,
-	PlayCircleIcon,
-	InformationCircleIcon,
-	CurrencyDollarIcon,
-	AcademicCapIcon,
-	ArrowTrendingUpIcon,
-	BookOpenIcon,
-	SunIcon,
-	MagnifyingGlassIcon,
-	Bars3Icon,
-	XMarkIcon,
-	BeakerIcon,
-	ArrowRightIcon,
-	UserIcon,
-	ArrowRightStartOnRectangleIcon,
-} from "@heroicons/react/24/outline";
-import { MdPsychology } from "react-icons/md";
+  MdHome,
+  MdPlayCircleOutline,
+  MdInfoOutline,
+  MdAttachMoney,
+  MdSchool,
+  MdTrendingUp,
+  MdMenuBook,
+  MdWbSunny,
+  MdSearch,
+  MdMenu,
+  MdClose,
+  MdScience,
+  MdArrowForward,
+  MdPersonOutline,
+  MdLogout,
+  MdPsychology,
+} from "react-icons/md";
+import { FaRegMoon } from "react-icons/fa";
+import { useTheme } from "@/providers/ThemeContext";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 
 const Navbar = () => {
-	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-	const { user, isAuthenticated, logout } = useAuth();
-	const router = useRouter();
-	const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
+  const router = useRouter();
+  const pathname = usePathname();
 
-	const userImage = user?.avatar || "/brain.png";
+  const userImage = user?.avatar || "/brain.png";
 
-	const handleSignOut = async () => {
-		try {
-			await logout.mutate();
-		} catch (error) {
-			console.error("Error signing out:", error);
-		}
-	};
+  const handleSignOut = async () => {
+    try {
+      await logout.mutate();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
-	// Close mobile menu on route change
-	useEffect(() => {
-		setMobileMenuOpen(false);
-	}, [pathname]);
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
-	// Lock body scroll when mobile menu is open
-	useEffect(() => {
-		if (mobileMenuOpen) {
-			document.body.classList.add("overflow-hidden");
-		} else {
-			document.body.classList.remove("overflow-hidden");
-		}
-		return () => document.body.classList.remove("overflow-hidden");
-	}, [mobileMenuOpen]);
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => document.body.classList.remove("overflow-hidden");
+  }, [mobileMenuOpen]);
 
-	return (
-		<>
-			<nav className="bg-white/90 backdrop-blur-lg shadow-sm border-b border-green-100/50 fixed top-0 w-full z-50 transition-all duration-300">
-				<div className="w-full px-4 sm:px-6 lg:px-8">
-					<div className="flex items-center justify-between h-16">
-						{/* Logo + Brand */}
-						<div className="flex items-center gap-3">
-							<div className="bg-gradient-to-br from-emerald-400 via-green-400 to-green-500 rounded-xl p-2.5 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 hover:rotate-3">
-								<Image
-									src="/brain.png"
-									alt="Brain Logo"
-									width={24}
-									height={24}
-									className="object-contain cursor-pointer"
-								/>
-							</div>
-							<span className="text-2xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 bg-clip-text text-transparent hover:from-green-700 hover:via-emerald-700 hover:to-green-800 transition-all duration-300 cursor-pointer">
-								Hire<span className="text-emerald-600">Mind</span>
-							</span>
-						</div>
+  return (
+    <>
+  <nav className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg shadow-sm border-b border-green-100/50 dark:border-gray-800 fixed top-0 w-full z-50 transition-all duration-300">
+  <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo + Brand */}
+            <div className="flex items-center gap-3">
+              <div className="bg-gradient-to-br from-emerald-400 via-green-400 to-green-500 rounded-xl p-2.5 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 hover:rotate-3">
+                <Image
+                  src="/brain.png"
+                  alt="Brain Logo"
+                  width={24}
+                  height={24}
+                  className="object-contain cursor-pointer"
+                />
+              </div>
+              <span className="text-2xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 bg-clip-text text-transparent hover:from-green-700 hover:via-emerald-700 hover:to-green-800 dark:from-green-300 dark:via-emerald-300 dark:to-green-400 transition-all duration-300 cursor-pointer">
+                Hire<span className="text-emerald-600">Mind</span>
+              </span>
+            </div>
 
-						{/* Desktop Menu */}
-						<div className="hidden lg:flex items-center justify-evenly space-x-1">
-							<Link
-								href="/"
-								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-green-600 bg-green-50/80 font-medium transition-all duration-200 group"
-							>
-								<HomeIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">Home</span>
-							</Link>
+            {/* Desktop Menu */}
+            <div className="hidden lg:flex items-center justify-evenly space-x-1">
+              <Link
+                href="/"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-green-600 dark:text-green-300 bg-green-50/80 dark:bg-gray-800/80 font-medium transition-all duration-200 group"
+              >
+                <MdHome className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+                <span className="font-medium">Home</span>
+              </Link>
 
-							{/* Features Dropdown */}
-							<DropdownRoot>
-								<DropdownTrigger
-									icon={<BeakerIcon className="h-5 w-5" />}
-									label="Features"
-									className="hover:bg-green-50/80"
-								/>
-								<DropdownContent width="w-64">
-									<DropdownMenu>
-										<DropdownItem
-											icon={<AcademicCapIcon className="h-5 w-5" />}
-											label="Learning Paths"
-											description="Structured learning journeys"
-											href="/features/learning-paths"
-										/>
-										<DropdownItem
-											icon={<MdPsychology className="h-5 w-5" />}
-											label="AI Mentor"
-											description="Personalized AI guidance"
-											href="/features/ai-mentor"
-										/>
-										<DropdownItem
-											icon={<ArrowTrendingUpIcon className="h-5 w-5" />}
-											label="Progress Tracking"
-											description="Monitor your advancement"
-											href="/features/progress-tracking"
-										/>
-										<DropdownItem
-											icon={<BookOpenIcon className="h-5 w-5" />}
-											label="Resource Library"
-											description="Comprehensive study materials"
-											href="/features/resource-library"
-										/>
-									</DropdownMenu>
-								</DropdownContent>
-							</DropdownRoot>
+              {/* Features Dropdown */}
+              <DropdownRoot>
+                <DropdownTrigger
+                  icon={<MdScience className="h-5 w-5" />}
+                  label="Features"
+                  className="hover:bg-green-50/80"
+                />
+                <DropdownContent width="w-64">
+                  <DropdownMenu>
+                    <DropdownItem
+                      icon={<MdSchool className="h-5 w-5" />}
+                      label="Learning Paths"
+                      description="Structured learning journeys"
+                      href="/features/learning-paths"
+                    />
+                    <DropdownItem
+                      icon={<MdPsychology className="h-5 w-5" />}
+                      label="AI Mentor"
+                      description="Personalized AI guidance"
+                      href="/features/ai-mentor"
+                    />
+                    <DropdownItem
+                      icon={<MdTrendingUp className="h-5 w-5" />}
+                      label="Progress Tracking"
+                      description="Monitor your advancement"
+                      href="/features/progress-tracking"
+                    />
+                    <DropdownItem
+                      icon={<MdMenuBook className="h-5 w-5" />}
+                      label="Resource Library"
+                      description="Comprehensive study materials"
+                      href="/features/resource-library"
+                    />
+                  </DropdownMenu>
+                </DropdownContent>
+              </DropdownRoot>
 
-							<Link
-								href="/how-it-works"
-								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<PlayCircleIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">How It Works</span>
-							</Link>
-							<Link
-								href="/pricing"
-								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<CurrencyDollarIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">Pricing</span>
-							</Link>
-							<Link
-								href="/about"
-								className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<InformationCircleIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">About Us</span>
-							</Link>
-						</div>
+              <Link
+                href="/how-it-works"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-300 hover:bg-green-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group"
+              >
+                <MdPlayCircleOutline className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+                <span className="font-medium">How It Works</span>
+              </Link>
+              <Link
+                href="/pricing"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-300 hover:bg-green-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group"
+              >
+                <MdAttachMoney className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+                <span className="font-medium">Pricing</span>
+              </Link>
+              <Link
+                href="/about"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-300 hover:bg-green-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group"
+              >
+                <MdInfoOutline className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+                <span className="font-medium">About Us</span>
+              </Link>
+            </div>
 
-						{/* Right Side Actions */}
-						<div className="hidden md:flex items-center space-x-3">
-							{/* Action Icons */}
-							<div className="flex items-center space-x-2">
-								<button className="p-2.5 hover:bg-green-50/80 rounded-xl transition-all duration-200 group hover:shadow-md cursor-pointer">
-									<MagnifyingGlassIcon className="h-5 w-5 text-gray-500 group-hover:text-green-600 group-hover:scale-110 transition-all duration-200" />
-								</button>
-								<button className="p-2.5 hover:bg-green-50/80 rounded-xl transition-all duration-200 group hover:shadow-md cursor-pointer">
-									<SunIcon className="h-5 w-5 text-emerald-500 group-hover:text-emerald-600 group-hover:scale-110 group-hover:rotate-12 transition-all duration-200" />
-								</button>
-							</div>
+            {/* Right Side Actions */}
+            <div className="hidden md:flex items-center space-x-3">
+              {/* Action Icons */}
+              <div className="flex items-center space-x-2">
+                <button
+                  className="p-2.5 hover:bg-green-50/80 dark:hover:bg-gray-800/80 rounded-xl transition-all duration-200 group hover:shadow-md cursor-pointer"
+                  onClick={toggleTheme}
+                  aria-label="Toggle dark mode"
+                >
+                  {theme === "dark" ? (
+                    <FaRegMoon className="h-5 w-5 text-emerald-400 group-hover:text-emerald-300 group-hover:scale-110 group-hover:rotate-12 transition-all duration-200" />
+                  ) : (
+                    <MdWbSunny className="h-5 w-5 text-emerald-500 group-hover:text-emerald-400 group-hover:scale-110 group-hover:rotate-12 transition-all duration-200" />
+                  )}
+                </button>
+              </div>
 
-							{/* Get Started Button */}
-							{isAuthenticated ? (
-								<DropdownRoot>
-									<DropdownTrigger
-										icon={
-											<span className="relative flex items-center">
-												<Image
-													src={userImage}
-													alt={user?.name || "User"}
-													width={32}
-													height={32}
-													className="rounded-full object-cover shadow"
-												/>
-											</span>
-										}
-										label={user?.name || "User"}
-										className="flex items-center gap-2 px-4 py-2 hover:text-white bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105"
-									/>
-									<DropdownContent width="w-64" position="right">
-										<DropdownMenu>
-											<DropdownItem
-												icon={<UserIcon className="h-5 w-5" />}
-												label="Profile"
-												href="/dashboard/profile"
-											/>
-											<DropdownItem
-												icon={<ArrowRightStartOnRectangleIcon className="h-5 w-5" />}
-												label="Logout"
-												onClick={handleSignOut}
-											/>
-										</DropdownMenu>
-									</DropdownContent>
-								</DropdownRoot>
-							) : (
-								<button
-									onClick={() => router.push("/dashboard")}
-									className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 group ml-2 cursor-pointer"
-								>
-									<span>Get Started</span>
-									<ArrowRightIcon className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
-								</button>
-							)}
-						</div>
+              {/* Get Started Button */}
+              {isAuthenticated ? (
+                <DropdownRoot>
+                  <DropdownTrigger
+                    icon={
+                      <span className="relative flex items-center">
+                        <Image
+                          src={userImage}
+                          alt={user?.name || "User"}
+                          width={32}
+                          height={32}
+                          className="rounded-full object-cover shadow"
+                        />
+                      </span>
+                    }
+                    label={user?.name || "User"}
+                    className="flex items-center gap-2 px-4 py-2 hover:text-white bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105"
+                  />
+                  <DropdownContent width="w-64" position="right">
+                    <DropdownMenu>
+                      <DropdownItem
+                        icon={<MdPersonOutline className="h-5 w-5" />}
+                        label="Profile"
+                        href="/dashboard/profile"
+                      />
+                      <DropdownItem
+                        icon={<MdLogout className="h-5 w-5" />}
+                        label="Logout"
+                        onClick={handleSignOut}
+                      />
+                    </DropdownMenu>
+                  </DropdownContent>
+                </DropdownRoot>
+              ) : (
+                <button
+                  onClick={() => router.push("/dashboard")}
+                  className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white dark:text-gray-900 font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 group ml-2 cursor-pointer"
+                >
+                  <span>Get Started</span>
+                  <MdArrowForward className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
+                </button>
+              )}
+            </div>
 
-						{/* Mobile Hamburger Button */}
-						<div className="md:hidden flex items-center">
-							<button
-								onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-								className="p-2.5 rounded-xl hover:bg-green-50/80 transition-all duration-200"
-								aria-expanded={mobileMenuOpen}
-								aria-controls="mobile-menu"
-								aria-label="Toggle navigation menu"
-							>
-								{mobileMenuOpen ? (
-									<XMarkIcon className="h-6 w-6 text-gray-700 transform rotate-180 transition-transform duration-300" />
-								) : (
-									<Bars3Icon className="h-6 w-6 text-gray-700 hover:text-green-600 transition-colors duration-200" />
-								)}
-							</button>
-						</div>
-					</div>
-				</div>
+            {/* Mobile Hamburger Button */}
+            <div className="md:hidden flex items-center">
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2.5 rounded-xl hover:bg-green-50/80 transition-all duration-200"
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-menu"
+                aria-label="Toggle navigation menu"
+              >
+                {mobileMenuOpen ? (
+                  <MdClose className="h-6 w-6 text-gray-700 transform rotate-180 transition-transform duration-300" />
+                ) : (
+                  <MdMenu className="h-6 w-6 text-gray-700 hover:text-green-600 transition-colors duration-200" />
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
 
-				{/* Mobile Menu */}
-				<div
-					className={`md:hidden fixed inset-x-0 h-screen top-16 bottom-0 bg-white backdrop-blur-lg border-t border-green-100/50 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out ${
-						mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-					}`}
-					id="mobile-menu"
-					role="dialog"
-					aria-modal="true"
-				>
-					{/* Scrollable Content */}
-					<div className="h-full overflow-y-auto overscroll-contain">
-						<div className="px-4 py-6 space-y-2 min-h-full">
-							{/* Mobile User Image */}
-							{isAuthenticated && (
-								<div className="flex flex-col items-center mb-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-100">
-									<Image
-										src={userImage}
-										alt={user?.name || "User"}
-										width={64}
-										height={64}
-										className="rounded-full object-cover border-3 border-green-500 shadow-lg"
-									/>
-									{user?.name && (
-										<span className="mt-3 text-xl font-bold text-gray-800">{user.name}</span>
-									)}
-									{user?.email && <span className="text-sm text-gray-500 mt-1">{user.email}</span>}
-								</div>
-							)}
+        {/* Mobile Menu */}
+        <div
+          className={`md:hidden fixed inset-x-0 h-screen top-16 bottom-0 bg-white dark:bg-gray-900 backdrop-blur-lg border-t border-green-100/50 dark:border-gray-800 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out ${
+            mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+        >
+          {/* Scrollable Content */}
+          <div className="h-full overflow-y-auto overscroll-contain">
+            <div className="px-4 py-6 space-y-2 min-h-full">
+              {/* Mobile User Image */}
+              {isAuthenticated && (
+                <div className="flex flex-col items-center mb-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-6 border border-green-100 dark:border-gray-800">
+                  <Image
+                    src={userImage}
+                    alt={user?.name || "User"}
+                    width={64}
+                    height={64}
+                    className="rounded-full object-cover border-3 border-green-500 shadow-lg"
+                  />
+                  {user?.name && (
+                    <span className="mt-3 text-xl font-bold text-gray-800 dark:text-gray-100">
+                      {user.name}
+                    </span>
+                  )}
+                  {user?.email && (
+                    <span className="text-sm text-gray-400 mt-1">
+                      {user.email}
+                    </span>
+                  )}
+                </div>
+              )}
 
-							{/* Mobile Profile Menu */}
-							{isAuthenticated && (
-								<div className="py-3 border-b border-green-100/50 mb-4">
-									<div className="px-4 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">
-										Account
-									</div>
-									<div className="space-y-1">
-										<Link
-											href="/dashboard/profile"
-											className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
-											onClick={() => setMobileMenuOpen(false)}
-										>
-											<UserIcon className="h-4 w-4" />
-											<span>Profile</span>
-										</Link>
-										<button
-											onClick={() => {
-												setMobileMenuOpen(false);
-												handleSignOut();
-											}}
-											className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-red-600 hover:bg-red-50/80 transition-all duration-200"
-										>
-											<ArrowRightStartOnRectangleIcon className="h-4 w-4" />
-											<span>Logout</span>
-										</button>
-									</div>
-								</div>
-							)}
+              {/* Mobile Profile Menu */}
+              {isAuthenticated && (
+                <div className="py-3 border-b border-green-100/50 dark:border-gray-800 mb-4">
+                  <div className="px-4 py-2 text-sm font-semibold text-gray-400 uppercase tracking-wider">
+                    Account
+                  </div>
+                  <div className="space-y-1">
+                    <Link
+                      href="/dashboard/profile"
+                      className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-300 hover:bg-green-50/80 dark:hover:bg-gray-800/80 transition-all duration-200"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <MdPersonOutline className="h-4 w-4" />
+                      <span>Profile</span>
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        handleSignOut();
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50/80 dark:hover:bg-gray-800/80 transition-all duration-200"
+                    >
+                      <MdLogout className="h-4 w-4" />
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                </div>
+              )}
 
-							{/* Mobile Navigation Links */}
-							<Link
-								href="/"
-								className="flex items-center gap-3 px-4 py-3 rounded-xl text-green-600 bg-green-50/80 font-medium transition-all duration-200 group"
-							>
-								<HomeIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">Home (Active)</span>
-							</Link>
+              {/* Mobile Navigation Links */}
+              <Link
+                href="/"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-green-600 dark:text-green-300 bg-green-50/80 dark:bg-gray-800/80 font-medium transition-all duration-200 group"
+              >
+                <MdHome className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+                <span className="font-medium">Home (Active)</span>
+              </Link>
 
-							{/* Mobile Features Section */}
-							<div className="py-3">
-								<div className="px-4 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">
-									Features
-								</div>
-								<div className="space-y-1">
-									<Link
-										href="/features/learning-paths"
-										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
-									>
-										<AcademicCapIcon className="h-4 w-4" />
-										<span>Learning Paths</span>
-									</Link>
-									<Link
-										href="/features/ai-mentor"
-										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
-									>
-										<MdPsychology className="h-4 w-4" />
-										<span>AI Mentor</span>
-									</Link>
-									<Link
-										href="/features/progress-tracking"
-										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
-									>
-										<ArrowTrendingUpIcon className="h-4 w-4" />
-										<span>Progress Tracking</span>
-									</Link>
-									<Link
-										href="/features/resource-library"
-										className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
-									>
-										<BookOpenIcon className="h-4 w-4" />
-										<span>Resource Library</span>
-									</Link>
-								</div>
-							</div>
+              {/* Mobile Features Section */}
+              <div className="py-3">
+                <div className="px-4 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">
+                  Features
+                </div>
+                <div className="space-y-1">
+                  <Link
+                    href="/features/learning-paths"
+                    className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-300 hover:bg-green-50/80 dark:hover:bg-gray-800/80 transition-all duration-200"
+                  >
+                    <MdSchool className="h-4 w-4" />
+                    <span>Learning Paths</span>
+                  </Link>
+                  <Link
+                    href="/features/ai-mentor"
+                    className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-300 hover:bg-green-50/80 dark:hover:bg-gray-800/80 transition-all duration-200"
+                  >
+                    <MdPsychology className="h-4 w-4" />
+                    <span>AI Mentor</span>
+                  </Link>
+                  <Link
+                    href="/features/progress-tracking"
+                    className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-300 hover:bg-green-50/80 dark:hover:bg-gray-800/80 transition-all duration-200"
+                  >
+                    <MdTrendingUp className="h-4 w-4" />
+                    <span>Progress Tracking</span>
+                  </Link>
+                  <Link
+                    href="/features/resource-library"
+                    className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200"
+                  >
+                    <MdMenuBook className="h-4 w-4" />
+                    <span>Resource Library</span>
+                  </Link>
+                </div>
+              </div>
 
-							<Link
-								href="/how-it-works"
-								className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<PlayCircleIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">How It Works</span>
-							</Link>
-							<Link
-								href="/pricing"
-								className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<CurrencyDollarIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">Pricing</span>
-							</Link>
-							<Link
-								href="/about"
-								className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:text-green-600 hover:bg-green-50/80 transition-all duration-200 group"
-							>
-								<InformationCircleIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-								<span className="font-medium">About Us</span>
-							</Link>
+              <Link
+                href="/how-it-works"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-300 hover:bg-green-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group"
+              >
+                <MdPlayCircleOutline className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+                <span className="font-medium">How It Works</span>
+              </Link>
+              <Link
+                href="/pricing"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-300 hover:bg-green-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group"
+              >
+                <MdAttachMoney className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+                <span className="font-medium">Pricing</span>
+              </Link>
+              <Link
+                href="/about"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-300 hover:bg-green-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group"
+              >
+                <MdInfoOutline className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+                <span className="font-medium">About Us</span>
+              </Link>
 
-							{/* Mobile Action Buttons */}
-							<div className="py-3 mb-6">
-								<div className="flex items-center justify-between mb-4">
-									<span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-										Quick Actions
-									</span>
-									<div className="flex gap-2">
-										<button className="p-2.5 hover:bg-green-50/80 rounded-xl transition-all duration-200">
-											<MagnifyingGlassIcon className="h-5 w-5 text-gray-500 hover:text-green-600" />
-										</button>
-										<button className="p-2.5 hover:bg-green-50/80 rounded-xl transition-all duration-200">
-											<SunIcon className="h-5 w-5 text-emerald-500 hover:text-emerald-600" />
-										</button>
-									</div>
-								</div>
+              {/* Mobile Action Buttons */}
+              <div className="py-3 mb-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
+                      Quick Actions
+                    </span>
+                    <div className="flex gap-2">
+                      <button className="p-2.5 hover:bg-green-50/80 dark:hover:bg-gray-800/80 rounded-xl transition-all duration-200">
+                         <MdSearch className="h-5 w-5 text-gray-500 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-300" />
+                      </button>
+                      <button
+                        className="p-2.5 hover:bg-green-50/80 dark:hover:bg-gray-800/80 rounded-xl transition-all duration-200"
+                        onClick={toggleTheme}
+                        aria-label="Toggle dark mode"
+                      >
+                        {theme === "dark" ? (
+                          <FaRegMoon className="h-5 w-5 text-emerald-400 hover:text-emerald-300" />
+                        ) : (
+                          <MdWbSunny className="h-5 w-5 text-emerald-500 hover:text-emerald-400" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
 
-								{/* Mobile CTA Button - Only show for non-authenticated users */}
-								{!isAuthenticated && (
-									<button
-										onClick={() => {
-											setMobileMenuOpen(false);
-											router.push("/dashboard");
-										}}
-										className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 group"
-									>
-										<span>Get Started</span>
-										<ArrowRightIcon className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
-									</button>
-								)}
-							</div>
-						</div>
-					</div>
-				</div>
-			</nav>
+                {/* Mobile CTA Button - Only show for non-authenticated users */}
+                {!isAuthenticated && (
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      router.push("/dashboard");
+                    }}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 group"
+                  >
+                    <span>Get Started</span>
+                    <MdArrowForward className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
 
-			{/* Spacer to offset fixed navbar height */}
-			<div className="h-16" aria-hidden="true" />
-		</>
-	);
+      {/* Spacer to offset fixed navbar height */}
+      <div className="h-16" aria-hidden="true" />
+    </>
+  );
 };
 
 export default Navbar;

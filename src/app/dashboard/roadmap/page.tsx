@@ -6,6 +6,7 @@ import "reactflow/dist/style.css";
 import { Search, FileImage, FileText, Globe, Smartphone, Brain } from "lucide-react";
 import { toPng } from "html-to-image";
 import jsPDF from "jspdf";
+import { motion } from "framer-motion";
 
 // Mock roadmap data for different fields
 const roadmapData: Record<
@@ -443,142 +444,122 @@ const roadmapData: Record<
 
 const RoadmapPlatform: React.FC = () => {
 	const [searchQuery, setSearchQuery] = useState("");
-	const [selectedRoadmap, setSelectedRoadmap] =
-		useState<keyof typeof roadmapData>("web-development");
+	const [selectedRoadmap, setSelectedRoadmap] = useState<keyof typeof roadmapData>("web-development");
 	const flowRef = useRef<HTMLDivElement>(null);
 
-	// Filter roadmaps based on search
 	const filteredRoadmaps = Object.entries(roadmapData).filter(
 		([key, roadmap]) =>
 			roadmap.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			key.toLowerCase().includes(searchQuery.toLowerCase())
 	);
 
-	// Download as PNG
-	const downloadPng = useCallback(() => {
-		if (!flowRef.current) return;
-		toPng(flowRef.current, { cacheBust: true }).then((dataUrl) => {
-			const a = document.createElement("a");
-			a.setAttribute("download", `${selectedRoadmap}-roadmap.png`);
-			a.setAttribute("href", dataUrl);
-			a.click();
-		});
-	}, [selectedRoadmap]);
+	const currentRoadmap = roadmapData[selectedRoadmap];
 
-	// Download as PDF
-	const downloadPdf = useCallback(() => {
+	const downloadImage = useCallback(async (format: "png" | "pdf") => {
 		if (!flowRef.current) return;
-		toPng(flowRef.current, { cacheBust: true }).then((dataUrl) => {
-			const width = flowRef.current!.offsetWidth;
-			const height = flowRef.current!.offsetHeight;
+
+		const dataUrl = await toPng(flowRef.current, { cacheBust: true });
+		if (format === "png") {
+			const a = document.createElement("a");
+			a.href = dataUrl;
+			a.download = `${selectedRoadmap}-roadmap.png`;
+			a.click();
+		} else { // pdf
 			const pdf = new jsPDF({
 				orientation: "landscape",
 				unit: "px",
-				format: [width, height],
+				format: [flowRef.current.offsetWidth, flowRef.current.offsetHeight],
 			});
-			pdf.addImage(dataUrl, "PNG", 0, 0, width, height);
+			pdf.addImage(
+				dataUrl,
+				"PNG",
+				0,
+				0,
+				flowRef.current.offsetWidth,
+				flowRef.current.offsetHeight
+			);
 			pdf.save(`${selectedRoadmap}-roadmap.pdf`);
-		});
+		}
 	}, [selectedRoadmap]);
 
-	const currentRoadmap = roadmapData[selectedRoadmap];
+	const isVisible = true;
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-green-100">
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-				{/* Header */}
-				<div className="text-center mb-8">
-					<h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-green-800 bg-clip-text text-transparent mb-4">
-						Learning Roadmaps
+		<div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 dark:from-gray-900 dark:via-gray-800">
+			<div className="max-w-7xl mx-auto px-4 py-6">
+				<header className="mb-10 text-center">
+					<h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 leading-tight text-center">
+						<span className="relative inline-block">
+							<span className="bg-gradient-to-r from-emerald-300 via-green-300 to-teal-200 bg-clip-text text-transparent">
+								Learning Roadmaps
+							</span>
+							<motion.div
+								initial={{ scaleX: 0 }}
+								animate={{ scaleX: isVisible ? 1 : 0 }}
+								transition={{ duration: 0.8, delay: 0.8 }}
+								className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-emerald-200 to-green-200 rounded-full origin-left"
+							/>
+						</span>
 					</h1>
-					<p className="text-lg text-gray-600 max-w-2xl mx-auto">
+					<p className="mt-2 text-gray-700 dark:text-gray-300 max-w-xl mx-auto">
 						Interactive roadmaps to guide your learning journey in various tech fields
 					</p>
-				</div>
+				</header>
 
-				{/* Search and Controls */}
-				<div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 mb-8">
-					<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-						{/* Search */}
-						<div className="relative flex-1 max-w-md">
-							<Search
-								className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-								size={20}
-							/>
-							<input
-								type="text"
-								placeholder="Search roadmaps..."
-								value={searchQuery}
-								onChange={(e) => setSearchQuery(e.target.value)}
-								className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
-							/>
-						</div>
-
-						{/* Download Buttons */}
-						<div className="flex items-center gap-3">
-							<button
-								onClick={downloadPng}
-								className="flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
-							>
-								<FileImage size={16} className="mr-2" />
-								<span className="hidden sm:inline">Download </span>PNG
-							</button>
-							<button
-								onClick={downloadPdf}
-								className="flex items-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
-							>
-								<FileText size={16} className="mr-2" />
-								<span className="hidden sm:inline">Download </span>PDF
-							</button>
-						</div>
+				<div className="mb-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+					<div className="relative w-full md:w-1/3">
+						<Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+						<input
+							type="text"
+							placeholder="Search roadmaps..."
+							className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+							value={searchQuery}
+							onChange={(e) => setSearchQuery(e.target.value)}
+						/>
+					</div>
+					<div className="flex gap-3 justify-center md:justify-start">
+						<button
+							onClick={() => downloadImage("png")}
+							className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg px-4 py-2 shadow-lg hover:from-green-600 hover:to-emerald-700 transition"
+						>
+							<FileImage size={16} />
+							<span>Download PNG</span>
+						</button>
+						<button
+							onClick={() => downloadImage("pdf")}
+							className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-green-600 text-white rounded-lg px-4 py-2 shadow-lg hover:from-emerald-600 hover:to-green-700 transition"
+						>
+							<FileText size={16} />
+							<span>Download PDF</span>
+						</button>
 					</div>
 				</div>
 
-				{/* Roadmap Selection Cards */}
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
 					{filteredRoadmaps.map(([key, roadmap]) => (
 						<button
 							key={key}
 							onClick={() => setSelectedRoadmap(key as keyof typeof roadmapData)}
-							className={`p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 ${
-								selectedRoadmap === key
-									? "bg-gradient-to-br from-green-500 to-emerald-600 text-white shadow-2xl scale-105"
-									: "bg-white text-gray-700 hover:bg-gray-50 shadow-lg hover:shadow-xl border border-gray-200"
-							}`}
+							className={`p-6 rounded-lg shadow-lg transition transform ${selectedRoadmap === key
+									? "bg-gradient-to-r from-green-500 to-emerald-600 text-white scale-105 shadow-2xl"
+									: "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:scale-105 hover:bg-gray-100 dark:hover:bg-gray-700"
+								}`}
+							aria-pressed={selectedRoadmap === key}
 						>
-							<div className="flex items-center justify-center mb-4">
-								<div
-									className={`p-3 rounded-xl ${
-										selectedRoadmap === key ? "bg-white/20" : "bg-gray-100"
-									}`}
-								>
-									{roadmap.icon}
-								</div>
-							</div>
-							<h3 className="text-lg font-bold mb-2">{roadmap.title}</h3>
-							<p
-								className={`text-sm ${selectedRoadmap === key ? "text-white/80" : "text-gray-500"}`}
-							>
-								{roadmap.description}
-							</p>
+							<div className="mb-4 flex justify-center">{roadmap.icon}</div>
+							<h3 className="text-lg font-semibold">{roadmap.title}</h3>
+							<p className="mt-1 text-sm">{roadmap.description}</p>
 						</button>
 					))}
 				</div>
 
-				{/* Current Roadmap Display */}
-				<div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
-					<div className="bg-gradient-to-r from-green-500 to-emerald-600 p-6">
-						<div className="flex items-center gap-3">
-							<div className="p-2 bg-white/20 rounded-lg">{currentRoadmap.icon}</div>
-							<div>
-								<h2 className="text-2xl font-bold text-white">{currentRoadmap.title} Roadmap</h2>
-								<p className="text-white/80">{currentRoadmap.description}</p>
-							</div>
-						</div>
-					</div>
+				<section className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg overflow-hidden max-w-full mx-auto">
+					<header className="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-6 flex items-center gap-4">
+						{currentRoadmap.icon}
+						<h2 className="text-2xl font-bold">{currentRoadmap.title} Roadmap</h2>
+					</header>
 
-					{/* Flow Chart */}
-					<div className="h-[600px] lg:h-[700px]" ref={flowRef}>
+					<div ref={flowRef} className="h-[600px] md:h-[700px]">
 						<ReactFlow
 							nodes={currentRoadmap.nodes}
 							edges={currentRoadmap.edges}
@@ -587,44 +568,39 @@ const RoadmapPlatform: React.FC = () => {
 							nodesConnectable={false}
 							zoomOnScroll={true}
 							panOnDrag={true}
-							className="bg-gradient-to-br from-gray-50 to-green-50"
+							className="bg-white dark:bg-gray-900"
 						>
-							<Background gap={20} size={1} color="#e2e8f0" style={{ opacity: 0.5 }} />
-							<Controls className="bg-white border border-gray-300 rounded-lg shadow-lg" />
+							<Background color={currentRoadmap.nodes.length > 0 ? "#e2e8f0" : undefined} gap={20} />
+							<Controls className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-300 dark:border-gray-700" />
 							<MiniMap
 								nodeColor="#10b981"
 								maskColor="rgba(16, 185, 129, 0.1)"
-								className="bg-white border border-gray-300 rounded-lg shadow-lg"
+								className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-300 dark:border-gray-700"
 								style={{ width: 150, height: 100 }}
 							/>
 						</ReactFlow>
 					</div>
-				</div>
+				</section>
 
-				{/* Tips Section */}
-				<div className="mt-8 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200">
-					<h3 className="text-xl font-bold text-gray-800 mb-4">💡 Learning Tips</h3>
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-						<div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
-							<h4 className="font-semibold text-gray-800 mb-2">🎯 Follow the Path</h4>
-							<p className="text-sm text-gray-600">
-								Follow the roadmap sequentially for best results
-							</p>
-						</div>
-						<div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
-							<h4 className="font-semibold text-gray-800 mb-2">🛠️ Practice Projects</h4>
-							<p className="text-sm text-gray-600">
-								Build projects at each milestone to reinforce learning
-							</p>
-						</div>
-						<div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
-							<h4 className="font-semibold text-gray-800 mb-2">📚 Additional Resources</h4>
-							<p className="text-sm text-gray-600">
-								Use documentation, tutorials, and courses as supplements
-							</p>
-						</div>
+				<section className="mt-10 max-w-7xl mx-auto p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-900 rounded-xl border border-green-200 dark:border-green-700 text-gray-700 dark:text-gray-300">
+					<h3 className="text-xl font-semibold mb-5">💡 Learning Tips</h3>
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+						<article className="bg-white dark:bg-gray-700 rounded-xl p-6 shadow-md">
+							<h4 className="font-semibold mb-2">🎯 Follow the Path</h4>
+							<p>Follow the roadmap sequentially for best results.</p>
+						</article>
+						<article className="bg-white dark:bg-gray-700 rounded-xl p-6 shadow-md">
+							<h4 className="font-semibold mb-2">🛠️ Practice Projects</h4>
+							<p>Build projects at each milestone to reinforce learning.</p>
+						</article>
+						<article className="bg-white dark:bg-gray-700 rounded-xl p-6 shadow-md">
+							<h4 className="font-semibold mb-2">📚 Additional Resources</h4>
+							<p>Use
+
+								documentation, tutorials, and courses as supplements.</p>
+						</article>
 					</div>
-				</div>
+				</section>
 			</div>
 		</div>
 	);

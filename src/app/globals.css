@@ -53,9 +53,7 @@ button {
 
 .typewriter {
   overflow: hidden;
-  /* Hide text while typing */
   border-right: 0.15em solid #22c55e;
-  /* Green blinking cursor */
   white-space: nowrap;
   animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
 }
@@ -149,6 +147,26 @@ button {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  color: #34d399 !important; 
+}
+
+
+/* Only apply fill:none to Heroicons, not all SVGs */
+svg.heroicon, svg[data-icon][xmlns*="heroicons"] {
+  fill: none;
+  stroke: currentColor;
+}
+
+/* Allow react-icons (FontAwesome, etc.) to use their default fill */
+svg:not(.heroicon):not([xmlns*="heroicons"]) {
+  fill: currentColor;
+}
+
+.icon {
+  color: #059669; 
+}
+.dark .icon {
+  color: #34d399; 
 }
 
 @layer base {

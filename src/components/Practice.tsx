@@ -9,7 +9,7 @@ const questionTypes = [
     icon: (
       <svg
         viewBox="0 0 24 24"
-        className="w-7 h-7"
+        className="w-7 h-7 text-blue-600 dark:text-blue-300"
         fill="none"
         stroke="currentColor"
         strokeWidth={2.5}
@@ -23,14 +23,14 @@ const questionTypes = [
     ),
     bgGradient: "from-blue-400 to-indigo-500",
     lightBg: "bg-blue-50",
-    darkBg: "bg-blue-500",
+    darkBg: "bg-blue-800",
     textColor: "text-blue-600",
     borderColor: "border-blue-200",
     tags: ["STAR Method", "Leadership", "Teamwork"],
     tagColors: [
-      "bg-blue-100 text-blue-700",
-      "bg-blue-100 text-blue-700",
-      "bg-blue-100 text-blue-700",
+      "bg-blue-100 text-blue-700 dark:bg-blue-700 dark:text-blue-200",
+      "bg-blue-100 text-blue-700 dark:bg-blue-700 dark:text-blue-200",
+      "bg-blue-100 text-blue-700 dark:bg-blue-700 dark:text-blue-200",
     ],
   },
   {
@@ -40,7 +40,7 @@ const questionTypes = [
     icon: (
       <svg
         viewBox="0 0 24 24"
-        className="w-7 h-7"
+        className="w-7 h-7 text-purple-600 dark:text-purple-300"
         fill="none"
         stroke="currentColor"
         strokeWidth={2.5}
@@ -54,14 +54,14 @@ const questionTypes = [
     ),
     bgGradient: "from-purple-400 to-pink-500",
     lightBg: "bg-purple-50",
-    darkBg: "bg-purple-500",
+    darkBg: "bg-purple-800",
     textColor: "text-purple-600",
     borderColor: "border-purple-200",
     tags: ["System Design", "Algorithms", "Architecture"],
     tagColors: [
-      "bg-purple-100 text-purple-700",
-      "bg-purple-100 text-purple-700",
-      "bg-purple-100 text-purple-700",
+      "bg-purple-100 text-purple-700 dark:bg-purple-700 dark:text-purple-200",
+      "bg-purple-100 text-purple-700 dark:bg-purple-700 dark:text-purple-200",
+      "bg-purple-100 text-purple-700 dark:bg-purple-700 dark:text-purple-200",
     ],
   },
   {
@@ -71,7 +71,7 @@ const questionTypes = [
     icon: (
       <svg
         viewBox="0 0 24 24"
-        className="w-7 h-7"
+        className="w-7 h-7 text-emerald-600 dark:text-emerald-300"
         fill="none"
         stroke="currentColor"
         strokeWidth={2.5}
@@ -85,7 +85,7 @@ const questionTypes = [
     ),
     bgGradient: "from-emerald-400 to-green-500",
     lightBg: "bg-emerald-50",
-    darkBg: "bg-emerald-500",
+    darkBg: "bg-emerald-800",
     textColor: "text-emerald-600",
     borderColor: "border-emerald-200",
     tags: [
@@ -94,9 +94,9 @@ const questionTypes = [
       "Problem Solving",
     ],
     tagColors: [
-      "bg-emerald-100 text-emerald-700",
-      "bg-emerald-100 text-emerald-700",
-      "bg-emerald-100 text-emerald-700",
+      "bg-emerald-100 text-emerald-700 dark:bg-emerald-700 dark:text-emerald-200",
+      "bg-emerald-100 text-emerald-700 dark:bg-emerald-700 dark:text-emerald-200",
+      "bg-emerald-100 text-emerald-700 dark:bg-emerald-700 dark:text-emerald-200",
     ],
   },
 ];
@@ -110,13 +110,13 @@ const Practice: React.FC = () => {
   }, []);
 
   return (
-    <section className="py-20 px-4 sm:px-8 bg-gradient-to-br from-gray-50 via-white to-emerald-50/30 relative overflow-hidden">
+    <section className="py-20 px-4 sm:px-8 bg-gradient-to-br from-gray-50 via-white to-emerald-50/30 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden">
       {/* Animated background particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(6)].map((_, i) => (
           <div
             key={i}
-            className={`absolute w-2 h-2 bg-emerald-200/30 rounded-full animate-pulse`}
+            className="absolute w-2 h-2 bg-emerald-200/30 dark:bg-emerald-700 rounded-full animate-pulse"
             style={{
               left: `${20 + i * 15}%`,
               top: `${30 + (i % 2) * 40}%`,
@@ -131,14 +131,14 @@ const Practice: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col items-center mb-12">
           <div
-            className={`group mb-6 px-6 py-2 rounded-full bg-gradient-to-r from-emerald-50 via-green-50 to-emerald-50 border border-emerald-200/50 backdrop-blur-sm shadow transition-all duration-700 ${
+            className={`group mb-6 px-6 py-2 rounded-full bg-gradient-to-r from-emerald-50 via-green-50 to-emerald-50 border border-emerald-200/50 dark:from-emerald-900 dark:via-green-900 dark:to-emerald-900 dark:border-emerald-700 backdrop-blur-sm shadow transition-all duration-700 ${
               isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
             } hover:scale-105 hover:shadow-md`}
           >
             <div className="flex items-center">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></div>
+              <div className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse" />
               <svg
-                className="w-5 h-5 text-emerald-500 mr-2 group-hover:rotate-12 transition-transform duration-300"
+                className="w-5 h-5 text-emerald-500 dark:text-emerald-300 mr-2 group-hover:rotate-12 transition-transform duration-300"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -150,27 +150,26 @@ const Practice: React.FC = () => {
                   d="M9 12l2 2l4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span className="text-emerald-700 font-medium text-xs tracking-wide">
+              <span className="text-emerald-700 dark:text-emerald-400 font-medium text-xs tracking-wide">
                 Comprehensive Coverage
               </span>
             </div>
           </div>
 
           <h2
-            className={`text-3xl sm:text-4xl font-black text-gray-900 text-center mb-5 leading-tight transition-all duration-700 delay-200 ${
+            className={`text-3xl sm:text-4xl font-black text-gray-900 dark:text-white text-center mb-5 leading-tight transition-all duration-700 delay-200 ${
               isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
             }`}
           >
             Practice All{" "}
-            <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 dark:from-emerald-400 dark:via-green-400 dark:to-teal-400 bg-clip-text text-transparent">
               Question Types
             </span>
           </h2>
 
-          {/* Removed animation here */}
-          <p className="text-gray-600 text-base sm:text-lg text-center max-w-3xl leading-relaxed">
+          <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg text-center max-w-3xl leading-relaxed">
             Comprehensive coverage for{" "}
-            <span className="font-semibold text-emerald-600 hover:text-emerald-700 transition-colors duration-300">
+            <span className="font-semibold text-emerald-600 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors duration-300">
               every interview scenario
             </span>
           </p>
@@ -190,7 +189,7 @@ const Practice: React.FC = () => {
               onMouseLeave={() => setHoveredCard(null)}
             >
               {/* Card */}
-              <div className="relative bg-white/90 backdrop-blur rounded-2xl p-6 shadow border border-white/50 group-hover:shadow-2xl group-hover:shadow-emerald-500/10 transition-all duration-500 overflow-hidden min-h-[300px]">
+              <div className={`relative rounded-2xl p-6 shadow border min-h-[300px] overflow-hidden transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-emerald-500/10 border-white/50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 bg-white/90 backdrop-blur`}>
                 {/* Animated background gradient on hover */}
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${type.bgGradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-2xl`}
@@ -214,29 +213,20 @@ const Practice: React.FC = () => {
                 )}
 
                 {/* Icon */}
-                <div className="relative mb-5 flex items-center justify-center">
-                  <div
-                    className={`w-14 h-14 bg-gradient-to-r ${type.bgGradient} rounded-xl flex items-center justify-center transition-all duration-500 group-hover:rotate-6 group-hover:scale-110 shadow-lg group-hover:shadow-xl`}
-                  >
-                    <span className="relative z-10 text-white transform group-hover:scale-110 transition-transform duration-300">
-                      {type.icon}
-                    </span>
-                  </div>
-
-                  {/* Pulse ring effect */}
-                  <div
-                    className={`absolute w-14 h-14 bg-gradient-to-r ${type.bgGradient} rounded-xl opacity-0 group-hover:opacity-30 group-hover:scale-150 transition-all duration-700 ease-out`}
-                  />
+                <div className={`relative mb-5 flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-r ${type.bgGradient} shadow-lg group-hover:rotate-6 group-hover:scale-110 group-hover:shadow-xl transition-all duration-500`}>
+                  <span className="relative z-10 text-white transform group-hover:scale-110 transition-transform duration-300">
+                    {type.icon}
+                  </span>
                 </div>
 
                 {/* Content */}
                 <div className="relative z-10 text-center">
                   <h3
-                    className={`text-lg font-bold text-gray-900 mb-4 group-hover:${type.textColor} transition-all duration-300 group-hover:scale-105`}
+                    className={`text-lg font-bold mb-4 text-gray-900 dark:text-white group-hover:text-gray-900 dark:group-hover:text-emerald-400 transition-colors duration-300 group-hover:scale-105`}
                   >
                     {type.title}
                   </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed group-hover:text-gray-700 transition-colors duration-300 mb-5 group-hover:scale-105">
+                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed group-hover:text-gray-700 dark:group-hover:text-gray-400 transition-colors duration-300 mb-5 group-hover:scale-105">
                     {type.description}
                   </p>
 
@@ -245,7 +235,7 @@ const Practice: React.FC = () => {
                     {type.tags.map((tag, tagIdx) => (
                       <div
                         key={tagIdx}
-                        className={`px-3 py-1.5 rounded-full text-xs font-semibold ${type.tagColors[tagIdx]} border border-white/50 backdrop-blur-sm transition-all duration-300 hover:scale-110 transform group-hover:-translate-y-1`}
+                        className={`px-3 py-1.5 rounded-full text-xs font-semibold border border-white/50 backdrop-blur-sm transition-all duration-300 hover:scale-110 transform group-hover:-translate-y-1 ${type.tagColors[tagIdx]}`}
                         style={{ animationDelay: `${tagIdx * 0.1}s` }}
                       >
                         {tag}
@@ -270,7 +260,7 @@ const Practice: React.FC = () => {
           }`}
         >
           <div className="inline-flex flex-col items-center max-w-2xl mx-auto">
-            <button className="px-8 py-3 bg-white/90 backdrop-blur border border-emerald-200 text-emerald-700 font-semibold text-base rounded-full shadow transition-all duration-300 hover:bg-emerald-50 hover:scale-105 hover:shadow-lg hover:-translate-y-1 active:scale-95 group relative overflow-hidden">
+            <button className="px-8 py-3 bg-white/90 dark:bg-gray-800 backdrop-blur border border-emerald-200 dark:border-emerald-700 text-emerald-700 dark:text-emerald-400 font-semibold text-base rounded-full shadow transition-all duration-300 hover:bg-emerald-50 dark:hover:bg-emerald-900 hover:scale-105 hover:shadow-lg hover:-translate-y-1 active:scale-95 group relative overflow-hidden">
               <span className="relative z-10 flex items-center">
                 View All Questions
                 <svg

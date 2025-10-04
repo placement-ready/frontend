@@ -152,7 +152,7 @@ const QuickActions: React.FC = () => {
 			{/* Cards Grid */}
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
 				{features.map((feature, index) => {
-					const IconComponent = feature.icon;
+					const IconComponent = feature.icon as React.ComponentType<React.ComponentProps<'svg'>>;
 					return (
 						<motion.div
 							key={feature.title}

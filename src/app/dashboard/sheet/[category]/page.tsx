@@ -2,7 +2,7 @@
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
-const questionsData: Record<string, { 
+const questionsData: Record<string, {
   easy: { question: string; link?: string }[],
   medium: { question: string; link?: string }[],
   hard: { question: string; link?: string }[]
@@ -53,13 +53,13 @@ const questionsData: Record<string, {
   },
 };
 
-const DifficultyBadge = ({ difficulty }: { difficulty: 'easy' | 'medium' | 'hard' }) => {
+
+const DifficultyBadge = ({ difficulty }: { difficulty: "easy" | "medium" | "hard" }) => {
   const colors = {
-    easy: 'bg-green-100 text-green-800 border-green-200',
-    medium: 'bg-yellow-100 text-yellow-800 border-yellow-200', 
-    hard: 'bg-red-100 text-red-800 border-red-200'
+    easy: "bg-green-100 text-green-800 border-green-200 dark:bg-green-900 dark:text-green-300 dark:border-green-700",
+    medium: "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900 dark:text-yellow-300 dark:border-yellow-700",
+    hard: "bg-red-100 text-red-800 border-red-200 dark:bg-red-900 dark:text-red-300 dark:border-red-700",
   };
-  
   return (
     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${colors[difficulty]}`}>
       {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
@@ -67,34 +67,38 @@ const DifficultyBadge = ({ difficulty }: { difficulty: 'easy' | 'medium' | 'hard
   );
 };
 
-const QuestionCard = ({ 
-  question, 
-  index, 
-  difficulty, 
-  isCompleted, 
+const QuestionCard = ({
+  question,
+  index,
+  difficulty,
+  isCompleted,
   onToggleComplete,
-  questionId 
-}: { 
-  question: { question: string; link?: string }, 
+  questionId
+}: {
+  question: { question: string; link?: string },
   index: number,
-  difficulty: 'easy' | 'medium' | 'hard',
+  difficulty: "easy" | "medium" | "hard",
   isCompleted: boolean,
   onToggleComplete: (questionId: string) => void,
   questionId: string
 }) => (
-  <div className={`bg-white rounded-lg border p-4 hover:shadow-md transition-all duration-200 ${
-    isCompleted ? 'border-emerald-200 bg-emerald-50/30' : 'border-gray-200'
-  }`}>
+  <div className={`bg-white dark:bg-gray-800 rounded-lg border p-4 transition-all duration-200 cursor-pointer select-none ${isCompleted
+      ? "border-emerald-300 bg-emerald-50 dark:border-emerald-600 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-300"
+      : "border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-emerald-400 dark:hover:border-emerald-500"
+    }`}>
     <div className="flex items-start justify-between gap-3">
       <div className="flex items-start gap-3 flex-1">
-        {/* Checkbox */}
         <button
-          onClick={() => onToggleComplete(questionId)}
-          className={`flex-shrink-0 w-5 h-5 rounded border-2 transition-all duration-200 flex items-center justify-center mt-1 ${
-            isCompleted 
-              ? 'bg-emerald-500 border-emerald-500 text-white' 
-              : 'border-gray-300 hover:border-emerald-400'
-          }`}
+          onClick={e => {
+            e.stopPropagation();
+            onToggleComplete(questionId);
+          }}
+          className={`flex-shrink-0 w-5 h-5 rounded border-2 transition-all duration-200 flex items-center justify-center mt-1 ${isCompleted
+              ? "bg-emerald-500 border-emerald-500 text-white"
+              : "border-gray-300 hover:border-emerald-400"
+            }`}
+          aria-pressed={isCompleted}
+          aria-label={isCompleted ? "Mark as incomplete" : "Mark as complete"}
         >
           {isCompleted && (
             <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -102,37 +106,34 @@ const QuestionCard = ({
             </svg>
           )}
         </button>
-        
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
-            <span className={`inline-flex items-center justify-center w-6 h-6 text-sm font-medium rounded-full ${
-              isCompleted 
-                ? 'bg-emerald-100 text-emerald-700' 
-                : 'bg-gray-100 text-gray-600'
-            }`}>
+            <span className={`inline-flex items-center justify-center w-6 h-6 text-sm font-medium rounded-full ${isCompleted
+                ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-800 dark:text-emerald-300"
+                : "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400"
+              }`}>
               {index + 1}
             </span>
             <DifficultyBadge difficulty={difficulty} />
             {isCompleted && (
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 border border-emerald-200">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 border border-emerald-200 dark:bg-emerald-900 dark:text-emerald-400 dark:border-emerald-700">
                 ✓ Completed
               </span>
             )}
           </div>
-          <h3 className={`font-medium leading-relaxed ${
-            isCompleted ? 'text-gray-700 line-through' : 'text-gray-900'
-          }`}>
+          <h3 className={`font-medium leading-relaxed ${isCompleted ? "line-through text-gray-700 dark:text-gray-400" : "text-gray-900 dark:text-gray-300"
+            }`}>
             {question.question}
           </h3>
         </div>
       </div>
-      
       {question.link && (
         <a
           href={question.link}
-          className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-emerald-600 bg-emerald-50 border border-emerald-200 rounded-md hover:bg-emerald-100 transition-colors duration-200 flex-shrink-0"
+          className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-emerald-600 bg-emerald-50 border border-emerald-200 rounded-md hover:bg-emerald-100 transition-colors duration-200 flex-shrink-0 dark:bg-emerald-900 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-700"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={e => e.stopPropagation()}
         >
           <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -144,22 +145,22 @@ const QuestionCard = ({
   </div>
 );
 
-const DifficultySection = ({ 
-  title, 
-  questions, 
+const DifficultySection = ({
+  title,
+  questions,
   difficulty,
   completedQuestions,
   onToggleComplete,
   category
-}: { 
-  title: string, 
+}: {
+  title: string,
   questions: { question: string; link?: string }[],
-  difficulty: 'easy' | 'medium' | 'hard',
+  difficulty: "easy" | "medium" | "hard",
   completedQuestions: Set<string>,
   onToggleComplete: (questionId: string) => void,
   category: string
 }) => {
-  const completedCount = questions.filter((_, index) => 
+  const completedCount = questions.filter((_, index) =>
     completedQuestions.has(`${category}-${difficulty}-${index}`)
   ).length;
 
@@ -167,36 +168,38 @@ const DifficultySection = ({
     <div className="mb-8">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+          <h2 className="text-xl font-semibold text-gray-100">{title}</h2>
           <DifficultyBadge difficulty={difficulty} />
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-emerald-600 font-medium bg-emerald-100 px-2 py-1 rounded">
+          <span className="text-sm text-emerald-600 font-medium bg-emerald-100 px-2 py-1 rounded dark:bg-emerald-900 dark:text-emerald-400">
             {completedCount}/{questions.length} completed
           </span>
-          <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
+          <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded dark:bg-gray-700 dark:text-gray-400">
             {questions.length} questions
           </span>
         </div>
       </div>
-      
-      {/* Progress Bar */}
       <div className="mb-4">
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div 
-            className="bg-emerald-500 h-2 rounded-full transition-all duration-300"
+        <div className="w-full bg-gray-700 rounded-full h-2">
+          <div
+            className={`h-2 rounded-full transition-all duration-300 ${difficulty === "easy"
+                ? "bg-green-500 dark:bg-green-600"
+                : difficulty === "medium"
+                  ? "bg-yellow-500 dark:bg-yellow-600"
+                  : "bg-red-500 dark:bg-red-600"
+              }`}
             style={{ width: `${questions.length > 0 ? (completedCount / questions.length) * 100 : 0}%` }}
           ></div>
         </div>
       </div>
-      
       <div className="space-y-3">
         {questions.map((question, index) => {
           const questionId = `${category}-${difficulty}-${index}`;
           return (
-            <QuestionCard 
-              key={questionId} 
-              question={question} 
+            <QuestionCard
+              key={questionId}
+              question={question}
               index={index}
               difficulty={difficulty}
               isCompleted={completedQuestions.has(questionId)}
@@ -210,136 +213,121 @@ const DifficultySection = ({
   );
 };
 
+const isVisible = true;
+
 export default function QuestionsPage() {
   const { category } = useParams() as { category: string };
   const categoryData = questionsData[category];
   const [completedQuestions, setCompletedQuestions] = useState<Set<string>>(new Set());
-  
+
   const handleToggleComplete = (questionId: string) => {
     setCompletedQuestions(prev => {
       const newSet = new Set(prev);
-      if (newSet.has(questionId)) {
-        newSet.delete(questionId);
-      } else {
-        newSet.add(questionId);
-      }
+      if (newSet.has(questionId)) newSet.delete(questionId);
+      else newSet.add(questionId);
       return newSet;
     });
   };
-  
+
   if (!categoryData) {
     return (
-      <div className="max-w-4xl mx-auto p-6">
+      <div className="max-w-5xl w-full mx-auto p-6">
         <div className="text-center py-12">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Category Not Found</h1>
-          <p className="text-gray-600">No questions available for this topic yet.</p>
+          <h1 className="text-2xl font-bold text-gray-100 mb-2">Category Not Found</h1>
+          <p className="text-gray-500">No questions available for this topic yet.</p>
         </div>
       </div>
     );
   }
 
-  const totalQuestions = categoryData.easy.length + categoryData.medium.length + categoryData.hard.length;
-  const categoryTitle = category?.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
-  
-  // Calculate completion stats
-  const easyCompleted = categoryData.easy.filter((_, index) => 
+  const totalQuestions =
+    categoryData.easy.length + categoryData.medium.length + categoryData.hard.length;
+  const categoryTitle = category
+    ? category.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
+    : "";
+
+  const easyCompleted = categoryData.easy.filter((_, index) =>
     completedQuestions.has(`${category}-easy-${index}`)
   ).length;
-  const mediumCompleted = categoryData.medium.filter((_, index) => 
+  const mediumCompleted = categoryData.medium.filter((_, index) =>
     completedQuestions.has(`${category}-medium-${index}`)
   ).length;
-  const hardCompleted = categoryData.hard.filter((_, index) => 
+  const hardCompleted = categoryData.hard.filter((_, index) =>
     completedQuestions.has(`${category}-hard-${index}`)
   ).length;
   const totalCompleted = easyCompleted + mediumCompleted + hardCompleted;
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          {categoryTitle} Questions
-        </h1>
-        <div className="flex items-center gap-4 text-sm text-gray-600">
-          <span className="flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div className="max-w-5xl w-full mx-auto p-6">
+      {/* Centered, wide heading */}
+      <h1 className="text-5xl font-extrabold text-center leading-tight text-gray-900 dark:text-white mb-8">
+        <span className="relative inline-block">
+          <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">
+            {categoryTitle} Questions
+          </span>
+        </span>
+      </h1>
+      <div className="flex justify-center">
+        <div className="text-base text-gray-300 flex items-center gap-4 mb-3">
+          <span>
+            <svg className="w-5 h-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
             Total: {totalCompleted}/{totalQuestions} completed
           </span>
           <span className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            <div className="inline-block w-2 h-2 rounded-full bg-green-500"></div>
             Easy: {easyCompleted}/{categoryData.easy.length}
           </span>
           <span className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+            <div className="inline-block w-2 h-2 rounded-full bg-yellow-500"></div>
             Medium: {mediumCompleted}/{categoryData.medium.length}
           </span>
           <span className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+            <div className="inline-block w-2 h-2 rounded-full bg-red-500"></div>
             Hard: {hardCompleted}/{categoryData.hard.length}
           </span>
         </div>
-        
-        {/* Overall Progress Bar */}
-        <div className="mt-4">
-          <div className="w-full bg-gray-200 rounded-full h-3">
-            <div 
-              className="bg-gradient-to-r from-emerald-500 to-emerald-600 h-3 rounded-full transition-all duration-300"
-              style={{ width: `${totalQuestions > 0 ? (totalCompleted / totalQuestions) * 100 : 0}%` }}
-            ></div>
-          </div>
-          <p className="text-sm text-gray-600 mt-1">
-            {totalQuestions > 0 ? Math.round((totalCompleted / totalQuestions) * 100) : 0}% Complete
-          </p>
-        </div>
       </div>
 
-      {/* Progress Overview */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 mb-8 border border-blue-100">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-lg font-semibold text-gray-900">Practice Progress</h2>
-          {totalCompleted > 0 && (
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800 border border-emerald-200">
-              🎉 {totalCompleted} problems solved!
-            </span>
-          )}
+      {/* Overall Progress Bar */}
+      <div className="mt-2 mb-8">
+        <div className="w-full bg-gray-700 rounded-full h-3">
+          <div
+            className="bg-gradient-to-r from-emerald-500 to-green-400 h-3 rounded-full transition-all duration-300"
+            style={{ width: `${totalQuestions > 0 ? (totalCompleted / totalQuestions) * 100 : 0}%` }}
+          ></div>
         </div>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-green-600">
-              {easyCompleted}/{categoryData.easy.length}
+        <p className="text-sm text-gray-500 mt-1 text-center">
+          {totalQuestions > 0 ? Math.round((totalCompleted / totalQuestions) * 100) : 0}% Complete
+        </p>
+      </div>
+
+      {/* Practice Progress Card */}
+      <div className="mb-12 mx-auto w-full">
+        <div className="rounded-2xl shadow-lg bg-gradient-to-br from-indigo-900 via-gray-900 to-gray-800 p-8 w-full text-center">
+          <h2 className="text-2xl text-gray-100 font-bold mb-4">Practice Progress</h2>
+          <div className="grid grid-cols-3 gap-10 text-center">
+            <div>
+              <div className="text-3xl font-extrabold text-green-400">{easyCompleted}/{categoryData.easy.length}</div>
+              <div className="text-sm text-gray-300 mt-1">Easy Problems</div>
+              <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
+                <div className="bg-green-500 h-2 rounded-full" style={{ width: `${categoryData.easy.length > 0 ? (easyCompleted / categoryData.easy.length) * 100 : 0}%` }}></div>
+              </div>
             </div>
-            <div className="text-sm text-gray-600">Easy Problems</div>
-            <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-              <div 
-                className="bg-green-500 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${categoryData.easy.length > 0 ? (easyCompleted / categoryData.easy.length) * 100 : 0}%` }}
-              ></div>
+            <div>
+              <div className="text-3xl font-extrabold text-yellow-400">{mediumCompleted}/{categoryData.medium.length}</div>
+              <div className="text-sm text-gray-300 mt-1">Medium Problems</div>
+              <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
+                <div className="bg-yellow-500 h-2 rounded-full" style={{ width: `${categoryData.medium.length > 0 ? (mediumCompleted / categoryData.medium.length) * 100 : 0}%` }}></div>
+              </div>
             </div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-yellow-600">
-              {mediumCompleted}/{categoryData.medium.length}
-            </div>
-            <div className="text-sm text-gray-600">Medium Problems</div>
-            <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-              <div 
-                className="bg-yellow-500 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${categoryData.medium.length > 0 ? (mediumCompleted / categoryData.medium.length) * 100 : 0}%` }}
-              ></div>
-            </div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-red-600">
-              {hardCompleted}/{categoryData.hard.length}
-            </div>
-            <div className="text-sm text-gray-600">Hard Problems</div>
-            <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-              <div 
-                className="bg-red-500 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${categoryData.hard.length > 0 ? (hardCompleted / categoryData.hard.length) * 100 : 0}%` }}
-              ></div>
+            <div>
+              <div className="text-3xl font-extrabold text-red-400">{hardCompleted}/{categoryData.hard.length}</div>
+              <div className="text-sm text-gray-300 mt-1">Hard Problems</div>
+              <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
+                <div className="bg-red-500 h-2 rounded-full" style={{ width: `${categoryData.hard.length > 0 ? (hardCompleted / categoryData.hard.length) * 100 : 0}%` }}></div>
+              </div>
             </div>
           </div>
         </div>
@@ -347,7 +335,7 @@ export default function QuestionsPage() {
 
       {/* Questions by Difficulty */}
       {categoryData.easy.length > 0 && (
-        <DifficultySection 
+        <DifficultySection
           title="Easy Questions"
           questions={categoryData.easy}
           difficulty="easy"
@@ -358,7 +346,7 @@ export default function QuestionsPage() {
       )}
 
       {categoryData.medium.length > 0 && (
-        <DifficultySection 
+        <DifficultySection
           title="Medium Questions"
           questions={categoryData.medium}
           difficulty="medium"
@@ -369,7 +357,7 @@ export default function QuestionsPage() {
       )}
 
       {categoryData.hard.length > 0 && (
-        <DifficultySection 
+        <DifficultySection
           title="Hard Questions"
           questions={categoryData.hard}
           difficulty="hard"
