@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaSearch } from "react-icons/fa";
 import Image from "next/image";
-import { useGetTemplates } from "@/lib/queries/resume";
+import { useGetTemplates, useCreateResume } from "@/lib/queries/resume";
+import { ResumeData } from "@/types/api/common";
 
 export default function TemplatesPage() {
 	const [search, setSearch] = useState("");
@@ -13,10 +14,55 @@ export default function TemplatesPage() {
 	const router = useRouter();
 
 	const { data: templatesData, isLoading, error } = useGetTemplates();
+	const createResume = useCreateResume();
+
+	const resumeData: ResumeData = {
+		name: "Untitled Resume",
+		status: "draft",
+		fullName: "",
+		email: "",
+		phone: "",
+		location: "",
+		website: "",
+		summary: "",
+		experience: [
+			{
+				jobTitle: "",
+				company: "",
+				location: "",
+				startDate: "",
+				endDate: "",
+				description: "",
+			},
+		],
+		education: [
+			{
+				institution: "",
+				degree: "",
+				fieldOfStudy: "",
+				startDate: "",
+				endDate: "",
+			},
+		],
+		skills: [],
+		achievements: [],
+		template: templatesData?.data[0]?._id || "",
+	};
 
 	// temp
 	if (isLoading) return <div>Loading...</div>;
 	if (error) return <div>Error loading templates</div>;
+
+	const newResume = async (templateId: string) => {
+		resumeData.template = templateId;
+		const result = await createResume.mutateAsync(resumeData);
+		return result.data._id;
+	};
+
+	const handleUseTemplate = async (templateId: string) => {
+		const resumeId = await newResume(templateId);
+		router.push(`/dashboard/resume/create?resumeId=${resumeId}`);
+	};
 
 	// Filter & sort templates
 	const filteredTemplates = templatesData?.data
@@ -106,9 +152,7 @@ export default function TemplatesPage() {
 										<h2 className="font-bold text-lg">{template.title}</h2>
 										<p className="text-sm text-gray-600 mb-4">{template.description}</p>
 										<button
-											onClick={() =>
-												router.push(`/dashboard/resume/create?templateId=${template._id}`)
-											}
+											onClick={() => handleUseTemplate(template._id)}
 											className="w-full px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg font-semibold"
 										>
 											Use Template

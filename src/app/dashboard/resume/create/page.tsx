@@ -14,12 +14,7 @@ import {
 	ChevronLeft,
 	ChevronRight,
 } from "lucide-react";
-import {
-	useGetResumes,
-	useUpdateResume,
-	useGetTemplateById,
-	useCompileResume,
-} from "@/lib/queries";
+import { useGetResumeById, useCompileResume, useUpdateResume } from "@/lib/queries";
 import type { ResumeData } from "@/types/api/common";
 import {
 	PersonalInfoSection,
@@ -77,24 +72,19 @@ ResumeHeader.displayName = "ResumeHeader";
 const ResumeBuilder: React.FC = () => {
 	const params = useSearchParams();
 	const router = useRouter();
-	const templateId = params.get("templateId");
+	const resumeId = params.get("resumeId");
 
 	const [currentPage, setCurrentPage] = useState<PageId>("personal");
 	const [showPreview, setShowPreview] = useState(false);
 	const [htmlPreview, setHtmlPreview] = useState<string>("");
 
 	// React Query hooks
-	const { data: existingResumeData, isLoading: isLoadingResume } = useGetResumes();
-	const { data: templateData, isLoading: isLoadingTemplate } = useGetTemplateById(
-		templateId || "",
-		!!templateId
-	);
-	const updateResume = useUpdateResume();
+	const { data: resumeData, isLoading: isLoading } = useGetResumeById(resumeId || "");
 	const compileResumeMutation = useCompileResume();
+	const updateResume = useUpdateResume();
 
-	const isLoading = isLoadingResume || isLoadingTemplate;
-
-	const [resumeData, setResumeData] = useState<ResumeData>({
+	const [resumeDetails, setResumeDetails] = useState<ResumeData>({
+		_id: resumeId || "",
 		name: "Untitled Resume",
 		status: "draft",
 		fullName: "",
@@ -124,7 +114,7 @@ const ResumeBuilder: React.FC = () => {
 		],
 		skills: [],
 		achievements: [],
-		template: templateId || "",
+		template: "",
 	});
 
 	const [experienceList, setExperienceList] = useState<ResumeExperience[]>([
@@ -155,40 +145,6 @@ const ResumeBuilder: React.FC = () => {
 	const [newSkill, setNewSkill] = useState<string>("");
 	const [newAchievement, setNewAchievement] = useState<string>("");
 
-	useEffect(() => {
-		if (existingResumeData?.data && existingResumeData.data.length > 0) {
-			const apiData = existingResumeData.data[0];
-			setResumeData(apiData);
-
-			// Convert experience data for local editing
-			setExperienceList(
-				apiData.experience.map((exp: ResumeData["experience"][0], index: number) => ({
-					id: index + 1,
-					jobTitle: exp.jobTitle,
-					company: exp.company,
-					location: exp.location,
-					startDate: exp.startDate,
-					endDate: exp.endDate,
-					current: false,
-					description: exp.description,
-				}))
-			);
-
-			// Convert education data for local editing
-			setEducationList(
-				apiData.education.map((edu: ResumeData["education"][0], index: number) => ({
-					id: index + 1,
-					institution: edu.institution,
-					degree: edu.degree,
-					fieldOfStudy: edu.fieldOfStudy,
-					startDate: edu.startDate,
-					endDate: edu.endDate,
-					gpa: "",
-				}))
-			);
-		}
-	}, [existingResumeData]);
-
 	const pages = [
 		{ id: "personal", label: "Personal Info", icon: User },
 		{ id: "experience", label: "Experience", icon: Briefcase },
@@ -214,29 +170,26 @@ const ResumeBuilder: React.FC = () => {
 	};
 
 	useEffect(() => {
-		if (!templateId) {
+		if (!resumeId) {
 			router.replace("/dashboard/resume/templates");
 			return;
 		}
-	}, [templateId, router]);
+		if (resumeData?.data) {
+			setResumeDetails(resumeData.data);
+		}
+	}, [resumeId, router, resumeData]);
 
 	const compileResume = useCallback(async () => {
 		try {
-			const result = await compileResumeMutation.mutateAsync(resumeData);
-			setHtmlPreview(result.html);
+			if (!resumeId) return;
+			await updateResume.mutateAsync(resumeDetails);
+			const result = await compileResumeMutation.mutateAsync(resumeDetails);
+			setHtmlPreview(result.data);
 			setShowPreview(true);
 		} catch (error) {
 			console.error("Error compiling resume:", error);
 		}
-	}, [resumeData, compileResumeMutation]);
-
-	const saveResume = useCallback(async () => {
-		try {
-			await updateResume.mutateAsync(resumeData);
-		} catch (error) {
-			console.error("Error saving resume:", error);
-		}
-	}, [resumeData, updateResume]);
+	}, [resumeId, compileResumeMutation, resumeDetails, updateResume]);
 
 	const downloadPDF = useCallback(() => {
 		if (!showPreview || !htmlPreview) return;
@@ -249,7 +202,7 @@ const ResumeBuilder: React.FC = () => {
 			<!DOCTYPE html>
 			<html>
 				<head>
-					<title>${resumeData.fullName || resumeData.name || "Resume"}</title>
+					<title>${resumeDetails.fullName || resumeDetails.name || "Resume"}</title>
 					<style>
 						@media print {
 							body { margin: 0; }
@@ -271,25 +224,25 @@ const ResumeBuilder: React.FC = () => {
 		setTimeout(() => {
 			printWindow.print();
 		}, 250);
-	}, [showPreview, htmlPreview, resumeData]);
+	}, [showPreview, htmlPreview, resumeDetails]);
 
 	// Update functions
 	const updateField = useCallback((field: string, value: string) => {
-		setResumeData((prev) => ({
+		setResumeDetails((prev) => ({
 			...prev,
 			[field]: value,
 		}));
 	}, []);
 
 	const updateName = useCallback((name: string) => {
-		setResumeData((prev) => ({
+		setResumeDetails((prev) => ({
 			...prev,
 			name: name,
 		}));
 	}, []);
 
 	const updateStatus = useCallback((status: "draft" | "complete") => {
-		setResumeData((prev) => ({
+		setResumeDetails((prev) => ({
 			...prev,
 			status: status,
 		}));
@@ -302,7 +255,7 @@ const ResumeBuilder: React.FC = () => {
 			);
 
 			// Update the main resume data
-			setResumeData((prev) => ({
+			setResumeDetails((prev) => ({
 				...prev,
 				experience: experienceList.map((exp) =>
 					exp.id === id
@@ -341,7 +294,7 @@ const ResumeBuilder: React.FC = () => {
 		};
 		setExperienceList((prev) => [...prev, newExp]);
 
-		setResumeData((prev) => ({
+		setResumeDetails((prev) => ({
 			...prev,
 			experience: [
 				...prev.experience,
@@ -360,7 +313,7 @@ const ResumeBuilder: React.FC = () => {
 	const removeExperience = useCallback(
 		(id: number) => {
 			setExperienceList((prev) => prev.filter((e) => e.id !== id));
-			setResumeData((prev) => ({
+			setResumeDetails((prev) => ({
 				...prev,
 				experience: prev.experience.filter((_, index) => experienceList[index]?.id !== id),
 			}));
@@ -375,7 +328,7 @@ const ResumeBuilder: React.FC = () => {
 			);
 
 			// Update the main resume data
-			setResumeData((prev) => ({
+			setResumeDetails((prev) => ({
 				...prev,
 				education: educationList.map((edu) =>
 					edu.id === id
@@ -411,7 +364,7 @@ const ResumeBuilder: React.FC = () => {
 		};
 		setEducationList((prev) => [...prev, newEdu]);
 
-		setResumeData((prev) => ({
+		setResumeDetails((prev) => ({
 			...prev,
 			education: [
 				...prev.education,
@@ -429,7 +382,7 @@ const ResumeBuilder: React.FC = () => {
 	const removeEducation = useCallback(
 		(id: number) => {
 			setEducationList((prev) => prev.filter((e) => e.id !== id));
-			setResumeData((prev) => ({
+			setResumeDetails((prev) => ({
 				...prev,
 				education: prev.education.filter((_, index) => educationList[index]?.id !== id),
 			}));
@@ -439,18 +392,18 @@ const ResumeBuilder: React.FC = () => {
 
 	const addSkill = useCallback(() => {
 		if (newSkill.trim()) {
-			setResumeData((prev) => ({ ...prev, skills: [...prev.skills, newSkill.trim()] }));
+			setResumeDetails((prev) => ({ ...prev, skills: [...prev.skills, newSkill.trim()] }));
 			setNewSkill("");
 		}
 	}, [newSkill]);
 
 	const removeSkill = useCallback((index: number) => {
-		setResumeData((prev) => ({ ...prev, skills: prev.skills.filter((_, i) => i !== index) }));
+		setResumeDetails((prev) => ({ ...prev, skills: prev.skills.filter((_, i) => i !== index) }));
 	}, []);
 
 	const addAchievement = useCallback(() => {
 		if (newAchievement.trim()) {
-			setResumeData((prev) => ({
+			setResumeDetails((prev) => ({
 				...prev,
 				achievements: [...prev.achievements, newAchievement.trim()],
 			}));
@@ -459,7 +412,7 @@ const ResumeBuilder: React.FC = () => {
 	}, [newAchievement]);
 
 	const removeAchievement = useCallback((index: number) => {
-		setResumeData((prev) => ({
+		setResumeDetails((prev) => ({
 			...prev,
 			achievements: prev.achievements.filter((_, i) => i !== index),
 		}));
@@ -491,30 +444,17 @@ const ResumeBuilder: React.FC = () => {
 						<p className="mt-2 text-gray-600">
 							Create your professional resume with our intuitive builder
 						</p>
-						{templateData?.data && (
+						{/* {templateData?.data && (
 							<p className="text-sm text-green-600 font-medium">
 								Using template: {templateData.data[0]?.title || "Selected Template"}
 							</p>
-						)}
+						)} */}
 					</div>
 					<div className="flex items-center gap-3">
 						<button
-							onClick={saveResume}
-							disabled={updateResume.isPending}
-							className="flex items-center gap-2 py-2.5 px-4 text-sm font-semibold rounded-lg text-white bg-gray-600 hover:bg-gray-700 disabled:bg-gray-400 transition-colors"
-						>
-							{updateResume.isPending ? (
-								<>
-									<Loader2 size={16} className="animate-spin" /> Saving...
-								</>
-							) : (
-								"Save Resume"
-							)}
-						</button>
-						<button
 							onClick={compileResume}
 							disabled={compileResumeMutation.isPending}
-							className="flex items-center gap-2 py-2.5 px-4 text-sm font-semibold rounded-lg text-white bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 transition-colors"
+							className="flex items-center gap-2 py-2.5 px-4 text-sm font-semibold rounded-lg text-white bg-green-600 hover:bg-green-700 disabled:bg-green-400 transition-colors"
 						>
 							{compileResumeMutation.isPending ? (
 								<>
@@ -539,8 +479,8 @@ const ResumeBuilder: React.FC = () => {
 
 			{/* Resume Header */}
 			<ResumeHeader
-				name={resumeData.name}
-				status={resumeData.status}
+				name={resumeDetails.name}
+				status={resumeDetails.status}
 				updateName={updateName}
 				updateStatus={updateStatus}
 			/>
@@ -564,12 +504,12 @@ const ResumeBuilder: React.FC = () => {
 					<div className="mb-8">
 						{currentPage === "personal" && (
 							<PersonalInfoSection
-								fullName={resumeData.fullName}
-								email={resumeData.email}
-								phone={resumeData.phone}
-								location={resumeData.location}
-								website={resumeData.website}
-								summary={resumeData.summary}
+								fullName={resumeDetails.fullName}
+								email={resumeDetails.email}
+								phone={resumeDetails.phone}
+								location={resumeDetails.location}
+								website={resumeDetails.website}
+								summary={resumeDetails.summary}
 								updateField={updateField}
 								generateAISuggestion={generateAISuggestion}
 							/>
@@ -593,7 +533,7 @@ const ResumeBuilder: React.FC = () => {
 						)}
 						{currentPage === "skills" && (
 							<SkillsSection
-								skills={resumeData.skills}
+								skills={resumeDetails.skills}
 								newSkill={newSkill}
 								setNewSkill={setNewSkill}
 								addSkill={addSkill}
@@ -602,7 +542,7 @@ const ResumeBuilder: React.FC = () => {
 						)}
 						{currentPage === "achievements" && (
 							<AchievementsSection
-								achievements={resumeData.achievements}
+								achievements={resumeDetails.achievements}
 								newAchievement={newAchievement}
 								setNewAchievement={setNewAchievement}
 								addAchievement={addAchievement}
@@ -649,7 +589,7 @@ const ResumeBuilder: React.FC = () => {
 				{/* Preview */}
 				<div className="hidden lg:block">
 					<div className="lg:sticky top-24">
-						<div className="h-[calc(100vh-120px)] w-full bg-white rounded-2xl shadow-lg overflow-y-auto border border-gray-200">
+						<div className="h-[calc(100vh-120px)] w-full bg-white rounded-2xl shadow-lg overflow-y-auto border border-gray-200 p-6">
 							{showPreview ? (
 								<div dangerouslySetInnerHTML={{ __html: htmlPreview }} />
 							) : (

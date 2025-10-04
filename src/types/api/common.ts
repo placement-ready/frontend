@@ -98,7 +98,7 @@ export interface FileUploadResponse {
 
 // Resume-specific types
 export interface ResumeData {
-	id?: string;
+	_id?: string;
 	name: string;
 	status: "draft" | "complete";
 	fullName: string;

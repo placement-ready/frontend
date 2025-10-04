@@ -15,7 +15,7 @@ import {
 	FileText,
 	Loader2,
 } from "lucide-react";
-import { useGetResumes } from "@/lib/queries";
+import { useGetResumes, useDeleteResume } from "@/lib/queries";
 
 export default function ResumeDashboardPage() {
 	const [search, setSearch] = useState("");
@@ -24,6 +24,17 @@ export default function ResumeDashboardPage() {
 	const router = useRouter();
 	const { data: resumesResponse, isLoading, isError } = useGetResumes();
 	const resumes = resumesResponse?.data || [];
+	const deleteResume = useDeleteResume();
+
+	// Handlers
+	const handleDelete = async (id?: string) => {
+		if (!id) return;
+		if (confirm("Are you sure you want to delete this resume?")) {
+			await deleteResume.mutateAsync(id);
+		}
+	};
+
+	// Render loading, error states
 
 	if (isLoading) {
 		return (
@@ -204,7 +215,7 @@ export default function ResumeDashboardPage() {
 									<tbody className="divide-y divide-green-100">
 										{filteredResumes.map((resume, index) => (
 											<tr
-												key={resume.id}
+												key={resume._id}
 												className={`hover:bg-green-50/50 transition-colors duration-200 ${
 													index % 2 === 0 ? "bg-white/50" : "bg-green-50/20"
 												}`}
@@ -264,7 +275,7 @@ export default function ResumeDashboardPage() {
 													<div className="flex items-center gap-2">
 														<button
 															onClick={() =>
-																router.push(`/dashboard/resume/create?resumeId=${resume.id}`)
+																router.push(`/dashboard/resume/create?resumeId=${resume._id}`)
 															}
 															className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors duration-200"
 															title="Edit Resume"
@@ -284,6 +295,7 @@ export default function ResumeDashboardPage() {
 															<Download className="w-4 h-4" />
 														</button>
 														<button
+															onClick={() => handleDelete(resume._id)}
 															className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-200"
 															title="Delete Resume"
 														>

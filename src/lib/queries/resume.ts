@@ -18,12 +18,37 @@ export const useGetResumeById = (id: string) => {
 	});
 };
 
+export const useCreateResume = () => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: async (data: ResumeData) => resumeApi.createResume(data),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["resumes"] });
+			queryClient.invalidateQueries({ queryKey: ["resume"] });
+		},
+	});
+};
+
 export const useUpdateResume = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: async (resumeData: ResumeData) => resumeApi.updateResume(resumeData),
+		mutationFn: async (data: ResumeData) => resumeApi.updateResume(data),
 		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["resume"] });
+			queryClient.invalidateQueries({ queryKey: ["resumes"] });
+		},
+	});
+};
+
+export const useDeleteResume = () => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: async (id: string) => resumeApi.deleteResume(id),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["resumes"] });
 			queryClient.invalidateQueries({ queryKey: ["resume"] });
 		},
 	});
