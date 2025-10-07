@@ -95,3 +95,57 @@ export interface FileUploadResponse {
 	size: number;
 	mimeType: string;
 }
+
+// Resume-specific types
+export interface ResumeData {
+	_id?: string;
+	name: string;
+	status: "draft" | "complete";
+	fullName: string;
+	email: string;
+	phone: string;
+	location: string;
+	website: string;
+	summary: string;
+	experience: Array<{
+		jobTitle: string;
+		company: string;
+		location: string;
+		startDate: string;
+		endDate: string;
+		description: string;
+	}>;
+	education: Array<{
+		institution: string;
+		degree: string;
+		fieldOfStudy: string;
+		startDate: string;
+		endDate: string;
+	}>;
+	skills: Array<string>;
+	achievements: Array<string>;
+	template: string;
+	createdAt?: string;
+	updatedAt?: string;
+}
+export interface ResumeResponse {
+	message: string;
+	data: ResumeData;
+}
+
+export interface Template {
+	_id: string;
+	title: string;
+	link: string;
+	description: string;
+	templateFile: string;
+	compiledPdf: string;
+	atsFriendly: boolean;
+	atsNotes: string;
+	preferredBy: string[];
+}
+
+export interface TemplateResponse {
+	message: string;
+	data: Template[];
+}

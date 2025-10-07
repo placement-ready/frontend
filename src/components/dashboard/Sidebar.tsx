@@ -100,12 +100,11 @@ const Sidebar: React.FC<SidebarProps> = ({
   const renderMenuItem = (item: SidebarMenuItem, depth: number = 0) => {
     const isActive = item.href ? isActiveLink(item.href) : false;
     const hasChildren = item.children && item.children.length > 0;
-    const indentClass = depth > 0 ? `ml-${depth * 4}` : "";
 
     if (item.type === "heading" && hasChildren && isOpen) {
       return (
         <li key={item.id} className="w-full">
-          <div className={`mb-2 mt-4 ${indentClass}`}>
+          <div className={`mb-2 mt-4`}>
             <div className="flex items-center gap-3 px-4 py-2">
               <span className="text-lg text-green-600 dark:text-green-400 flex-shrink-0">
                 {item.icon}
@@ -127,7 +126,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     if (item.type === "heading" && !isOpen) {
       return (
         <li key={item.id} className="w-full">
-          <div className={`mb-2 mt-4 ${indentClass}`}>
+          <div className={`mb-2 mt-4`}>
             <div className="h-px bg-green-400/50 dark:bg-green-700/50 mx-1"></div>
           </div>
           <ul className="space-y-1 mb-4">
@@ -190,7 +189,6 @@ const Sidebar: React.FC<SidebarProps> = ({
                   ? "bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg transform scale-[1.02] dark:from-green-600 dark:to-green-700"
                   : "bg-white/50 backdrop-blur-sm text-green-700 hover:bg-white/80 hover:text-green-600 hover:shadow-md border border-green-200/30 dark:bg-gray-900 dark:text-green-400 dark:hover:bg-gray-800 dark:hover:text-green-300 dark:hover:shadow-lg dark:border-green-700/50"
               }
-              ${indentClass}
             `}
           >
             {content}
@@ -209,7 +207,6 @@ const Sidebar: React.FC<SidebarProps> = ({
               focus:outline-none
               bg-white/50 backdrop-blur-sm text-green-700 hover:bg-white/80 hover:text-green-600 hover:shadow-md border border-green-200/30
               dark:bg-gray-900 dark:text-green-400 dark:hover:bg-gray-800 dark:hover:text-green-300 dark:hover:shadow-lg dark:border-green-700/50
-              ${indentClass}
             `}
           >
             {content}
