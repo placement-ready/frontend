@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   MdSearch,
   MdNotifications,
@@ -12,14 +12,14 @@ import {
   MdKeyboardArrowDown,
   MdLogout,
   MdPerson,
-} from "react-icons/md";
+} from 'react-icons/md';
 import {
   TbLayoutSidebarLeftExpandFilled as SidebarOpen,
   TbLayoutSidebarLeftCollapseFilled as SidebarClose,
-} from "react-icons/tb";
-import { useAuth } from "@/hooks/useAuth";
-import Sidebar from "./Sidebar";
-import menuItems from "./MenuItems";
+} from 'react-icons/tb';
+import { useAuth } from '@/hooks/useAuth';
+import Sidebar from './Sidebar';
+import menuItems from './MenuItems';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -30,41 +30,41 @@ interface NotificationItem {
   title: string;
   message: string;
   time: string;
-  type: "info" | "success" | "warning" | "error";
+  type: 'info' | 'success' | 'warning' | 'error';
   isRead: boolean;
 }
 
 // Mock notifications data
 const getNotifications = (): NotificationItem[] => [
   {
-    id: "1",
-    title: "Interview Scheduled",
-    message: "Mock interview scheduled for tomorrow at 2 PM",
-    time: "5 min ago",
-    type: "info",
+    id: '1',
+    title: 'Interview Scheduled',
+    message: 'Mock interview scheduled for tomorrow at 2 PM',
+    time: '5 min ago',
+    type: 'info',
     isRead: false,
   },
   {
-    id: "2",
-    title: "Achievement Unlocked",
+    id: '2',
+    title: 'Achievement Unlocked',
     message: "You've solved 100 problems! 🎉",
-    time: "1 hour ago",
-    type: "success",
+    time: '1 hour ago',
+    type: 'success',
     isRead: false,
   },
   {
-    id: "3",
-    title: "New Company Added",
+    id: '3',
+    title: 'New Company Added',
     message: "Google's interview questions are now available",
-    time: "2 hours ago",
-    type: "info",
+    time: '2 hours ago',
+    type: 'info',
     isRead: true,
   },
 ];
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -76,26 +76,26 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   // Sync dark mode with localStorage "theme"
   useEffect(() => {
     const applyTheme = (theme: string | null) => {
-      if (theme === "dark") {
-        document.documentElement.classList.add("dark");
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
       } else {
-        document.documentElement.classList.remove("dark");
+        document.documentElement.classList.remove('dark');
       }
     };
 
     // Apply the theme on mount
-    const storedTheme = localStorage.getItem("theme");
+    const storedTheme = localStorage.getItem('theme');
     applyTheme(storedTheme);
 
     // Listen for theme changes (e.g., from homepage toggle)
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === "theme") {
+      if (e.key === 'theme') {
         applyTheme(e.newValue);
       }
     };
-    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener('storage', handleStorageChange);
 
-    return () => window.removeEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
   useEffect(() => {
@@ -106,19 +106,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Element;
-      if (!target.closest(".notifications-dropdown")) {
+      if (!target.closest('.notifications-dropdown')) {
         setShowNotifications(false);
       }
-      if (!target.closest(".profile-dropdown")) {
+      if (!target.closest('.profile-dropdown')) {
         setShowProfileMenu(false);
       }
-      if (!target.closest(".search-container")) {
+      if (!target.closest('.search-container')) {
         setShowSearchSuggestions(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const onSidebarToggle = () => {
@@ -128,23 +128,23 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const unreadNotifications = notifications.filter((n) => !n.isRead);
 
   const searchSuggestions = [
-    "Data Structures and Algorithms",
-    "System Design Interview",
-    "Google Interview Questions",
-    "Leetcode Problems",
-    "Mock Interview",
-    "Resume Templates",
+    'Data Structures and Algorithms',
+    'System Design Interview',
+    'Google Interview Questions',
+    'Leetcode Problems',
+    'Mock Interview',
+    'Resume Templates',
   ];
 
   const handleSearch = (query: string) => {
-    console.log("Searching for:", query);
-    // Implement search functionality as needed
+    console.log('Searching for:', query);
+    // Implement search functionality
     setShowSearchSuggestions(false);
   };
 
   const handleNotificationClick = (notificationId: string) => {
     setNotifications((prev) =>
-      prev.map((n) => (n.id === notificationId ? { ...n, isRead: true } : n))
+      prev.map((n) => (n.id === notificationId ? { ...n, isRead: true } : n)),
     );
   };
 
@@ -156,12 +156,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     try {
       await logout.mutate();
     } catch (error) {
-      console.error("Error signing out:", error);
+      console.error('Error signing out:', error);
     }
   };
 
   const getInitials = (name: string) => {
-    const names = name.split(" ");
+    const names = name.split(' ');
     if (names.length > 1) {
       return names[0].charAt(0) + names[1].charAt(0);
     }
@@ -169,9 +169,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   const getCurrentPageTitle = () => {
-    const pathSegments = pathname.split("/").filter(Boolean);
-    const currentPage = pathSegments[pathSegments.length - 1] || "dashboard";
-    return currentPage.charAt(0).toUpperCase() + currentPage.slice(1).replace("-", " ");
+    const pathSegments = pathname.split('/').filter(Boolean);
+    const currentPage = pathSegments[pathSegments.length - 1] || 'dashboard';
+    return currentPage.charAt(0).toUpperCase() + currentPage.slice(1).replace('-', ' ');
   };
 
   return (
@@ -188,7 +188,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <button
                 onClick={onSidebarToggle}
                 className="lg:hidden p-2 rounded-lg text-green-600 hover:bg-green-50 transition-colors duration-200 dark:text-green-400 dark:hover:bg-green-900"
-                aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
+                aria-label={isSidebarOpen ? 'Close sidebar' : 'Open sidebar'}
               >
                 {isSidebarOpen ? <SidebarClose size={24} /> : <SidebarOpen size={24} />}
               </button>
@@ -197,16 +197,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <button
                 onClick={onSidebarToggle}
                 className="hidden lg:flex p-2 rounded-lg text-green-600 hover:bg-green-50 transition-colors duration-200 dark:text-green-400 dark:hover:bg-green-900"
-                aria-label={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+                aria-label={isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
               >
                 {isSidebarOpen ? <SidebarClose size={32} /> : <SidebarOpen size={32} />}
               </button>
 
               {/* Current Page Title */}
               <div className="hidden sm:block">
-                <h1 className="text-lg font-semibold text-gray-800 dark:text-gray-200">{getCurrentPageTitle()}</h1>
+                <h1 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                  {getCurrentPageTitle()}
+                </h1>
                 <p className="text-xs text-gray-500 mt-0.5 dark:text-gray-400">
-                  Welcome back, {user?.name?.split(" ")[0] || "User"}!
+                  Welcome back, {user?.name?.split(' ')[0] || 'User'}!
                 </p>
               </div>
             </div>
@@ -216,7 +218,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div
                 className={`
                   relative flex items-center
-                  ${isSearchFocused ? "ring-2 ring-green-400 ring-opacity-50" : ""}
+                  ${isSearchFocused ? 'ring-2 ring-green-400 ring-opacity-50' : ''}
                   bg-gray-50 rounded-xl transition-all duration-200 dark:bg-gray-800
                 `}
               >
@@ -230,13 +232,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     setShowSearchSuggestions(true);
                   }}
                   onBlur={() => setIsSearchFocused(false)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSearch(searchQuery)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch(searchQuery)}
                   placeholder="Search problems, companies, topics..."
                   className="w-full pl-10 pr-4 py-2.5 bg-transparent border-0 outline-none text-gray-700 placeholder-gray-400 text-sm dark:text-gray-300 dark:placeholder-gray-500"
                 />
                 {searchQuery && (
                   <button
-                    onClick={() => setSearchQuery("")}
+                    onClick={() => setSearchQuery('')}
                     className="absolute right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                   >
                     <MdClose size={16} />
@@ -249,7 +251,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50 dark:bg-gray-800 dark:border-gray-700">
                   {searchSuggestions
                     .filter((suggestion) =>
-                      suggestion.toLowerCase().includes(searchQuery.toLowerCase())
+                      suggestion.toLowerCase().includes(searchQuery.toLowerCase()),
                     )
                     .slice(0, 5)
                     .map((suggestion, index) => (
@@ -261,15 +263,20 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         }}
                         className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150 dark:text-gray-300 dark:hover:bg-gray-700"
                       >
-                        <MdSearch className="inline mr-2 text-gray-400 dark:text-gray-500" size={16} />
+                        <MdSearch
+                          className="inline mr-2 text-gray-400 dark:text-gray-500"
+                          size={16}
+                        />
                         {suggestion}
                       </button>
                     ))}
                   {searchQuery &&
                     !searchSuggestions.some((s) =>
-                      s.toLowerCase().includes(searchQuery.toLowerCase())
+                      s.toLowerCase().includes(searchQuery.toLowerCase()),
                     ) && (
-                      <div className="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">No suggestions found</div>
+                      <div className="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">
+                        No suggestions found
+                      </div>
                     )}
                 </div>
               )}
@@ -287,7 +294,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <MdNotifications size={20} />
                   {unreadNotifications.length > 0 && (
                     <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                      {unreadNotifications.length > 9 ? "9+" : unreadNotifications.length}
+                      {unreadNotifications.length > 9 ? '9+' : unreadNotifications.length}
                     </span>
                   )}
                 </button>
@@ -296,7 +303,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 {showNotifications && (
                   <div className="absolute right-0 top-full mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50 dark:bg-gray-800 dark:border-gray-700">
                     <div className="flex items-center justify-between px-4 py-2 border-b border-gray-100 dark:border-gray-700">
-                      <h3 className="font-semibold text-gray-800 dark:text-gray-200">Notifications</h3>
+                      <h3 className="font-semibold text-gray-800 dark:text-gray-200">
+                        Notifications
+                      </h3>
                       {unreadNotifications.length > 0 && (
                         <button
                           onClick={markAllAsRead}
@@ -313,21 +322,27 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                             key={notification.id}
                             onClick={() => handleNotificationClick(notification.id)}
                             className={`w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors duration-150 dark:hover:bg-gray-700 ${
-                              !notification.isRead ? "bg-green-50 dark:bg-green-900/40" : ""
+                              !notification.isRead ? 'bg-green-50 dark:bg-green-900/40' : ''
                             }`}
                           >
                             <div className="flex items-start gap-3">
                               <div
                                 className={`w-2 h-2 rounded-full mt-2 ${
-                                  !notification.isRead ? "bg-green-500" : "bg-gray-300 dark:bg-gray-600"
+                                  !notification.isRead
+                                    ? 'bg-green-500'
+                                    : 'bg-gray-300 dark:bg-gray-600'
                                 }`}
                               />
                               <div className="flex-1">
                                 <h4 className="font-medium text-sm text-gray-800 dark:text-gray-200">
                                   {notification.title}
                                 </h4>
-                                <p className="text-xs text-gray-600 mt-1 dark:text-gray-400">{notification.message}</p>
-                                <p className="text-xs text-gray-400 mt-1 dark:text-gray-500">{notification.time}</p>
+                                <p className="text-xs text-gray-600 mt-1 dark:text-gray-400">
+                                  {notification.message}
+                                </p>
+                                <p className="text-xs text-gray-400 mt-1 dark:text-gray-500">
+                                  {notification.time}
+                                </p>
                               </div>
                             </div>
                           </button>
@@ -367,7 +382,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     />
                   ) : (
                     <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center">
-                      <span className="text-white font-medium text-sm">{getInitials(user?.name || "User")}</span>
+                      <span className="text-white font-medium text-sm">
+                        {getInitials(user?.name || 'User')}
+                      </span>
                     </div>
                   )}
                   <MdKeyboardArrowDown className="text-gray-400 hidden sm:block" size={16} />
@@ -377,8 +394,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 {showProfileMenu && (
                   <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50 dark:bg-gray-800 dark:border-gray-700">
                     <div className="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
-                      <p className="font-medium text-gray-800 text-sm dark:text-gray-200">{user?.name || "User"}</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email || "user@example.com"}</p>
+                      <p className="font-medium text-gray-800 text-sm dark:text-gray-200">
+                        {user?.name || 'User'}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {user?.email || 'user@example.com'}
+                      </p>
                     </div>
                     <Link
                       href="/dashboard/profile"

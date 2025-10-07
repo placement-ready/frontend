@@ -1,65 +1,66 @@
-import React from "react";
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
 
 const features = [
   {
-    title: "Company-wise Interview Questions",
-    description: "Practice with real, recent questions from top companies tailored to your dream job.",
+    title: 'Company-wise Interview Questions',
+    description:
+      'Practice with real, recent questions from top companies tailored to your dream job.',
   },
   {
-    title: "DSA Practice Sheets",
-    description: "Sharpen your algorithms and data structures with curated problem sets.",
+    title: 'DSA Practice Sheets',
+    description: 'Sharpen your algorithms and data structures with curated problem sets.',
   },
   {
-    title: "Core Subjects Preparation",
-    description: "Review core CS subjects with easy-to-navigate study materials.",
+    title: 'Core Subjects Preparation',
+    description: 'Review core CS subjects with easy-to-navigate study materials.',
   },
   {
-    title: "Video Call Mock Interviews",
-    description: "Experience real interviews via live video sessions and instant feedback.",
+    title: 'Video Call Mock Interviews',
+    description: 'Experience real interviews via live video sessions and instant feedback.',
   },
   {
-    title: "AI-Generated Questions",
+    title: 'AI-Generated Questions',
     description:
       "Unlock the 'Ask Interviewer' feature powered by advanced AI for dynamic, personalized questions.",
   },
   {
-    title: "Interview Scheduling & Automated Reminders",
+    title: 'Interview Scheduling & Automated Reminders',
     description:
-      "Schedule practice interviews and get timely reminders so you never miss a session.",
+      'Schedule practice interviews and get timely reminders so you never miss a session.',
   },
   {
-    title: "Latest Company Questions",
+    title: 'Latest Company Questions',
     description:
-      "APIs keep you updated with the last 5 years’ of company-specific interview questions.",
+      'APIs keep you updated with the last 5 years’ of company-specific interview questions.',
   },
   {
-    title: "AI-Powered Interview Bot",
+    title: 'AI-Powered Interview Bot',
     description:
-      "Practice 1:1 with an AI interviewer, complete with video recording and instant analysis.",
+      'Practice 1:1 with an AI interviewer, complete with video recording and instant analysis.',
   },
   {
-    title: "User Reviews & Experience Sharing",
+    title: 'User Reviews & Experience Sharing',
     description:
-      "Share insights, new questions, feedback, and strategies with the HireMind community.",
+      'Share insights, new questions, feedback, and strategies with the HireMind community.',
   },
   {
-    title: "Structured and Unlimited Practice",
-    description: "Option to set time or question limits, or go unlimited for final interview prep.",
+    title: 'Structured and Unlimited Practice',
+    description: 'Option to set time or question limits, or go unlimited for final interview prep.',
   },
   {
-    title: "Performance Tracking & Readiness Indicators",
+    title: 'Performance Tracking & Readiness Indicators',
     description:
-      "Get actionable feedback, readiness status, and improvement recommendations after each session.",
+      'Get actionable feedback, readiness status, and improvement recommendations after each session.',
   },
   {
-    title: "Smart Rescheduling",
+    title: 'Smart Rescheduling',
     description:
-      "Easily reschedule interviews—manually or automatically—with guidance from our AI bot.",
+      'Easily reschedule interviews—manually or automatically—with guidance from our AI bot.',
   },
 ];
 
-const creators = ["Harshil Gupta", "Shivam Kumar", "Vyakhya Namdev - Founder"];
+const creators = ['Harshil Gupta', 'Shivam Kumar', 'Vyakhya Namdev - Founder'];
 
 const About: React.FC = () => (
   <main className="min-h-screen bg-gradient-to-b from-green-50 to-white dark:from-gray-900 dark:to-gray-800 py-12 px-4">
@@ -73,13 +74,18 @@ const About: React.FC = () => (
           className="w-8 h-8 object-contain"
         />
       </div>
-      <h1 className="text-3xl md:text-5xl font-extrabold text-green-700 dark:text-green-400 mb-4">About HireMind</h1>
+      <h1 className="text-3xl md:text-5xl font-extrabold text-green-700 dark:text-green-400 mb-4">
+        About HireMind
+      </h1>
       <p className="text-gray-600 dark:text-gray-300 md:text-lg mb-8">
         HireMind is a next-generation interview prep platform—
-        <span className="text-green-600 dark:text-green-300 font-medium">smart, interactive, and adaptive</span>. We
-        combine expert company questions, AI-driven mock interviews,
+        <span className="text-green-600 dark:text-green-300 font-medium">
+          smart, interactive, and adaptive
+        </span>
+        . We combine expert company questions, AI-driven mock interviews,
         <br className="hidden md:inline" /> and community insights to help you transform from
-        nervous to natural—<span className="font-semibold dark:text-green-200">and ace your interviews.</span>
+        nervous to natural—
+        <span className="font-semibold dark:text-green-200">and ace your interviews.</span>
       </p>
     </section>
     <section className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 mt-8">
@@ -88,13 +94,17 @@ const About: React.FC = () => (
           key={feature.title}
           className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 text-left border border-green-100 dark:border-green-700 hover:shadow-md transition"
         >
-          <h3 className="text-green-700 dark:text-green-400 font-semibold text-lg mb-2">{feature.title}</h3>
+          <h3 className="text-green-700 dark:text-green-400 font-semibold text-lg mb-2">
+            {feature.title}
+          </h3>
           <p className="text-gray-600 dark:text-gray-300">{feature.description}</p>
         </div>
       ))}
     </section>
     <section className="max-w-2xl mx-auto mt-12 text-center">
-      <h2 className="text-xl font-bold text-green-700 dark:text-green-400 mb-2">Created with passion by:</h2>
+      <h2 className="text-xl font-bold text-green-700 dark:text-green-400 mb-2">
+        Created with passion by:
+      </h2>
       <ul className="flex flex-wrap justify-center gap-4 text-green-600 dark:text-green-300 text-lg font-medium">
         {creators.map((creator) => (
           <li key={creator}>{creator}</li>

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import { motion } from "framer-motion";
-import { FaCalendarAlt, FaQuestionCircle, FaBuilding, FaUsers } from "react-icons/fa";
-import "../../styles/community-animations.css";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { FaCalendarAlt, FaQuestionCircle, FaBuilding, FaUsers } from 'react-icons/fa';
+import '../../styles/community-animations.css';
 
 // Type definitions
 interface UpcomingInterview {
@@ -25,63 +25,57 @@ interface SharedQuestion {
 const upcomingInterviews: UpcomingInterview[] = [
   {
     id: 1,
-    company: "Google",
-    position: "Software Engineer",
-    dateTime: "Tomorrow, 2:00 PM",
+    company: 'Google',
+    position: 'Software Engineer',
+    dateTime: 'Tomorrow, 2:00 PM',
   },
   {
     id: 2,
-    company: "Microsoft",
-    position: "Frontend Developer",
-    dateTime: "Dec 25, 10:00 AM",
+    company: 'Microsoft',
+    position: 'Frontend Developer',
+    dateTime: 'Dec 25, 10:00 AM',
   },
   {
     id: 3,
-    company: "Amazon",
-    position: "Full Stack Developer",
-    dateTime: "Dec 28, 3:30 PM",
+    company: 'Amazon',
+    position: 'Full Stack Developer',
+    dateTime: 'Dec 28, 3:30 PM',
   },
 ];
 
 const latestSharedQuestions: SharedQuestion[] = [
   {
     id: 1,
-    user: "Alex Johnson",
-    company: "Google",
-    question: "Explain the difference between call, apply, and bind in JavaScript.",
-    dateShared: "2 hours ago",
+    user: 'Alex Johnson',
+    company: 'Google',
+    question: 'Explain the difference between call, apply, and bind in JavaScript.',
+    dateShared: '2 hours ago',
   },
   {
     id: 2,
-    user: "Sarah Chen",
-    company: "Meta",
-    question: "How would you implement a LRU cache?",
-    dateShared: "5 hours ago",
+    user: 'Sarah Chen',
+    company: 'Meta',
+    question: 'How would you implement a LRU cache?',
+    dateShared: '5 hours ago',
   },
   {
     id: 3,
-    user: "Michael Davis",
-    company: "Netflix",
-    question: "Design a system to handle millions of concurrent users.",
-    dateShared: "1 day ago",
+    user: 'Michael Davis',
+    company: 'Netflix',
+    question: 'Design a system to handle millions of concurrent users.',
+    dateShared: '1 day ago',
   },
   {
     id: 4,
-    user: "Emma Wilson",
-    company: "Spotify",
-    question: "What are the key principles of React component optimization?",
-    dateShared: "2 days ago",
+    user: 'Emma Wilson',
+    company: 'Spotify',
+    question: 'What are the key principles of React component optimization?',
+    dateShared: '2 days ago',
   },
 ];
 
 // Interview Card Component (NO hover, neutral bg, green border)
-const InterviewCard = ({
-  interview,
-  index,
-}: {
-  interview: UpcomingInterview;
-  index: number;
-}) => (
+const InterviewCard = ({ interview, index }: { interview: UpcomingInterview; index: number }) => (
   <motion.li
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -95,7 +89,7 @@ const InterviewCard = ({
     `}
   >
     <div className="absolute top-4 right-4">
-  <FaBuilding className="text-emerald-500 dark:text-emerald-400 text-lg" />
+      <FaBuilding className="text-emerald-500 dark:text-emerald-400 text-lg" />
     </div>
     <div className="relative z-10">
       <h3 className="text-xl font-bold text-emerald-800 mb-2 dark:text-emerald-300">
@@ -105,7 +99,7 @@ const InterviewCard = ({
         {interview.position}
       </p>
       <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-400">
-  <FaCalendarAlt className="text-sm" />
+        <FaCalendarAlt className="text-sm" />
         <span className="text-sm font-medium">{interview.dateTime}</span>
       </div>
     </div>
@@ -113,13 +107,7 @@ const InterviewCard = ({
 );
 
 // Question Card Component (NO hover)
-const QuestionCard = ({
-  question,
-  index,
-}: {
-  question: SharedQuestion;
-  index: number;
-}) => (
+const QuestionCard = ({ question, index }: { question: SharedQuestion; index: number }) => (
   <motion.li
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -127,7 +115,7 @@ const QuestionCard = ({
     className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm transition-all duration-300 cursor-pointer relative overflow-hidden"
   >
     <div className="absolute top-4 right-4">
-  <FaQuestionCircle className="text-blue-500 dark:text-blue-400 text-lg" />
+      <FaQuestionCircle className="text-blue-500 dark:text-blue-400 text-lg" />
     </div>
     <div className="relative z-10">
       <div className="flex items-start justify-between mb-4">
@@ -147,7 +135,7 @@ const QuestionCard = ({
         </p>
       </div>
       <div className="flex items-center space-x-2">
-  <FaUsers className="text-green-500 text-sm" />
+        <FaUsers className="text-green-500 text-sm" />
         <span className="text-green-600 font-medium dark:text-green-400">
           Shared by {question.user}
         </span>
@@ -183,13 +171,15 @@ const NotificationsCommunity: React.FC = () => {
           className="text-center mb-12"
         >
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-            Community{" "}
-            <span className="
+            Community{' '}
+            <span
+              className="
       bg-gradient-to-r from-green-400 via-green-500 to-emerald-600
       bg-clip-text text-transparent
       font-extrabold
       relative
-    ">
+    "
+            >
               Hub
               <span className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-green-400 to-green-500 rounded" />
             </span>

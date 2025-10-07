@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 /* @import "tw-animate-css"; */
 
 @custom-variant dark (&:is(.dark *));
@@ -55,7 +55,9 @@ button {
   overflow: hidden;
   border-right: 0.15em solid #22c55e;
   white-space: nowrap;
-  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+  animation:
+    typing 3.5s steps(40, end),
+    blink-caret 0.75s step-end infinite;
 }
 
 @keyframes typing {
@@ -69,7 +71,6 @@ button {
 }
 
 @keyframes blink-caret {
-
   from,
   to {
     border-color: transparent;
@@ -147,26 +148,26 @@ button {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-  color: #34d399 !important; 
+  color: #34d399 !important;
 }
 
-
 /* Only apply fill:none to Heroicons, not all SVGs */
-svg.heroicon, svg[data-icon][xmlns*="heroicons"] {
+svg.heroicon,
+svg[data-icon][xmlns*='heroicons'] {
   fill: none;
   stroke: currentColor;
 }
 
 /* Allow react-icons (FontAwesome, etc.) to use their default fill */
-svg:not(.heroicon):not([xmlns*="heroicons"]) {
+svg:not(.heroicon):not([xmlns*='heroicons']) {
   fill: currentColor;
 }
 
 .icon {
-  color: #059669; 
+  color: #059669;
 }
 .dark .icon {
-  color: #34d399; 
+  color: #34d399;
 }
 
 @layer base {
@@ -182,7 +183,6 @@ svg:not(.heroicon):not([xmlns*="heroicons"]) {
 /* Profile page animations */
 
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(0px) rotate(0deg);

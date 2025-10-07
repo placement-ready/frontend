@@ -1,18 +1,18 @@
-"use client";
-import React from "react";
+'use client';
+import React from 'react';
 
 const steps = [
   {
     number: 1,
-    title: "Choose Your Path",
+    title: 'Choose Your Path',
     description:
-      "Select from curated questions, study plans, or generate custom questions using AI.",
-    bgGradient: "from-blue-400 to-indigo-500",
-    glowColor: "shadow-blue-200",
-    accentColor: "bg-blue-500",
-    textColor: "text-blue-600",
-    lightBg: "bg-blue-50",
-    darkBg: "bg-blue-700",
+      'Select from curated questions, study plans, or generate custom questions using AI.',
+    bgGradient: 'from-blue-400 to-indigo-500',
+    glowColor: 'shadow-blue-200',
+    accentColor: 'bg-blue-500',
+    textColor: 'text-blue-600',
+    lightBg: 'bg-blue-50',
+    darkBg: 'bg-blue-700',
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -28,15 +28,15 @@ const steps = [
   },
   {
     number: 2,
-    title: "Practice with AI",
+    title: 'Practice with AI',
     description:
-      "Answer questions while Face-API.js monitors your behavior and AI evaluates your responses.",
-    bgGradient: "from-purple-400 to-pink-500",
-    glowColor: "shadow-purple-200",
-    accentColor: "bg-purple-500",
-    textColor: "text-purple-600",
-    lightBg: "bg-purple-50",
-    darkBg: "bg-purple-700",
+      'Answer questions while Face-API.js monitors your behavior and AI evaluates your responses.',
+    bgGradient: 'from-purple-400 to-pink-500',
+    glowColor: 'shadow-purple-200',
+    accentColor: 'bg-purple-500',
+    textColor: 'text-purple-600',
+    lightBg: 'bg-purple-50',
+    darkBg: 'bg-purple-700',
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -51,15 +51,15 @@ const steps = [
   },
   {
     number: 3,
-    title: "Get Detailed Feedback",
+    title: 'Get Detailed Feedback',
     description:
-      "Receive comprehensive feedback, behavioral analysis, and actionable improvement suggestions.",
-    bgGradient: "from-emerald-400 to-green-500",
-    glowColor: "shadow-emerald-200",
-    accentColor: "bg-emerald-500",
-    textColor: "text-emerald-600",
-    lightBg: "bg-emerald-50",
-    darkBg: "bg-emerald-700",
+      'Receive comprehensive feedback, behavioral analysis, and actionable improvement suggestions.',
+    bgGradient: 'from-emerald-400 to-green-500',
+    glowColor: 'shadow-emerald-200',
+    accentColor: 'bg-emerald-500',
+    textColor: 'text-emerald-600',
+    lightBg: 'bg-emerald-50',
+    darkBg: 'bg-emerald-700',
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -68,7 +68,11 @@ const steps = [
         stroke="currentColor"
         strokeWidth={2.5}
       >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2l4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M9 12l2 2l4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
       </svg>
     ),
   },
@@ -98,15 +102,21 @@ const Work: React.FC = () => {
                 stroke="currentColor"
                 strokeWidth={2}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2l4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 12l2 2l4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
-              <span className="text-emerald-700 dark:text-emerald-400 font-medium text-xs tracking-wide">Simple Process</span>
+              <span className="text-emerald-700 dark:text-emerald-400 font-medium text-xs tracking-wide">
+                Simple Process
+              </span>
             </div>
           </div>
 
           {/* Dynamic heading */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 dark:text-white text-center mb-5 leading-tight">
-            How It{" "}
+            How It{' '}
             <span className="relative">
               <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 dark:from-emerald-400 dark:via-green-400 dark:to-teal-400 bg-clip-text text-transparent">
                 Works
@@ -117,8 +127,10 @@ const Work: React.FC = () => {
 
           {/* Enhanced subheading */}
           <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg text-center max-w-2xl leading-relaxed">
-            Three simple steps to{" "}
-            <span className="font-semibold text-emerald-600 dark:text-emerald-400">interview mastery</span>
+            Three simple steps to{' '}
+            <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+              interview mastery
+            </span>
           </p>
         </div>
 
@@ -144,7 +156,9 @@ const Work: React.FC = () => {
               {/* Card */}
               <div className="relative transform group-hover:-translate-y-2 transition-all duration-500 ease-out">
                 {/* Card background */}
-                <div className={`bg-white/80 dark:bg-gray-800 backdrop-blur-xl rounded-2xl p-6 shadow-xl border border-white/50 dark:border-gray-700 group-hover:shadow-2xl transition-all duration-500`}>
+                <div
+                  className={`bg-white/80 dark:bg-gray-800 backdrop-blur-xl rounded-2xl p-6 shadow-xl border border-white/50 dark:border-gray-700 group-hover:shadow-2xl transition-all duration-500`}
+                >
                   {/* Number circle */}
                   <div className="relative mx-auto mb-6 w-16 h-16 flex items-center justify-center">
                     {/* Outer glow ring */}
@@ -226,7 +240,11 @@ const Work: React.FC = () => {
                     stroke="currentColor"
                     strokeWidth={2.5}
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
                   </svg>
                 </span>
               </button>

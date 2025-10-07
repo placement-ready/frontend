@@ -1,19 +1,19 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function middleware(req: NextRequest) {
-	// Get access token from cookies
-	const accessToken = req.cookies.get("accessToken")?.value;
+  // Get access token from cookies
+  const accessToken = req.cookies.get('accessToken')?.value;
 
-	// If no token, redirect to login
-	if (!accessToken) {
-		const loginUrl = new URL("/auth/login", req.url);
-		loginUrl.searchParams.set("callbackUrl", req.url);
-		return NextResponse.redirect(loginUrl);
-	}
+  // If no token, redirect to login
+  if (!accessToken) {
+    const loginUrl = new URL('/auth/login', req.url);
+    loginUrl.searchParams.set('callbackUrl', req.url);
+    return NextResponse.redirect(loginUrl);
+  }
 
-	return NextResponse.next();
+  return NextResponse.next();
 }
 
 export const config = {
-	matcher: ["/dashboard/d/:path*"],
+  matcher: ['/dashboard/d/:path*'],
 };

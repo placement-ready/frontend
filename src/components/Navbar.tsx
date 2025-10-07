@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import {
   DropdownRoot,
   DropdownTrigger,
   DropdownContent,
   DropdownMenu,
   DropdownItem,
-} from "./ui/Dropdown";
+} from './ui/Dropdown';
 import {
   MdHome,
   MdPlayCircleOutline,
@@ -27,11 +27,11 @@ import {
   MdPersonOutline,
   MdLogout,
   MdPsychology,
-} from "react-icons/md";
-import { FaRegMoon } from "react-icons/fa";
-import { useTheme } from "@/providers/ThemeContext";
-import { useRouter, usePathname } from "next/navigation";
-import { useAuth } from "@/hooks/useAuth";
+} from 'react-icons/md';
+import { FaRegMoon } from 'react-icons/fa';
+import { useTheme } from '@/providers/ThemeContext';
+import { useRouter, usePathname } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -40,13 +40,13 @@ const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const userImage = user?.avatar || "/brain.png";
+  const userImage = user?.avatar || '/brain.png';
 
   const handleSignOut = async () => {
     try {
       await logout.mutate();
     } catch (error) {
-      console.error("Error signing out:", error);
+      console.error('Error signing out:', error);
     }
   };
 
@@ -58,17 +58,17 @@ const Navbar = () => {
   // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
-      document.body.classList.add("overflow-hidden");
+      document.body.classList.add('overflow-hidden');
     } else {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove('overflow-hidden');
     }
-    return () => document.body.classList.remove("overflow-hidden");
+    return () => document.body.classList.remove('overflow-hidden');
   }, [mobileMenuOpen]);
 
   return (
     <>
-  <nav className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg shadow-sm border-b border-green-100/50 dark:border-gray-800 fixed top-0 w-full z-50 transition-all duration-300">
-  <div className="w-full px-4 sm:px-6 lg:px-8">
+      <nav className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg shadow-sm border-b border-green-100/50 dark:border-gray-800 fixed top-0 w-full z-50 transition-all duration-300">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo + Brand */}
             <div className="flex items-center gap-3">
@@ -165,7 +165,7 @@ const Navbar = () => {
                   onClick={toggleTheme}
                   aria-label="Toggle dark mode"
                 >
-                  {theme === "dark" ? (
+                  {theme === 'dark' ? (
                     <FaRegMoon className="h-5 w-5 text-emerald-400 group-hover:text-emerald-300 group-hover:scale-110 group-hover:rotate-12 transition-all duration-200" />
                   ) : (
                     <MdWbSunny className="h-5 w-5 text-emerald-500 group-hover:text-emerald-400 group-hover:scale-110 group-hover:rotate-12 transition-all duration-200" />
@@ -181,14 +181,14 @@ const Navbar = () => {
                       <span className="relative flex items-center">
                         <Image
                           src={userImage}
-                          alt={user?.name || "User"}
+                          alt={user?.name || 'User'}
                           width={32}
                           height={32}
                           className="rounded-full object-cover shadow"
                         />
                       </span>
                     }
-                    label={user?.name || "User"}
+                    label={user?.name || 'User'}
                     className="flex items-center gap-2 px-4 py-2 hover:text-white bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105"
                   />
                   <DropdownContent width="w-64" position="right">
@@ -208,7 +208,7 @@ const Navbar = () => {
                 </DropdownRoot>
               ) : (
                 <button
-                  onClick={() => router.push("/dashboard")}
+                  onClick={() => router.push('/dashboard')}
                   className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white dark:text-gray-900 font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 group ml-2 cursor-pointer"
                 >
                   <span>Get Started</span>
@@ -239,7 +239,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         <div
           className={`md:hidden fixed inset-x-0 h-screen top-16 bottom-0 bg-white dark:bg-gray-900 backdrop-blur-lg border-t border-green-100/50 dark:border-gray-800 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out ${
-            mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+            mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
           id="mobile-menu"
           role="dialog"
@@ -253,7 +253,7 @@ const Navbar = () => {
                 <div className="flex flex-col items-center mb-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-6 border border-green-100 dark:border-gray-800">
                   <Image
                     src={userImage}
-                    alt={user?.name || "User"}
+                    alt={user?.name || 'User'}
                     width={64}
                     height={64}
                     className="rounded-full object-cover border-3 border-green-500 shadow-lg"
@@ -263,11 +263,7 @@ const Navbar = () => {
                       {user.name}
                     </span>
                   )}
-                  {user?.email && (
-                    <span className="text-sm text-gray-400 mt-1">
-                      {user.email}
-                    </span>
-                  )}
+                  {user?.email && <span className="text-sm text-gray-400 mt-1">{user.email}</span>}
                 </div>
               )}
 
@@ -370,34 +366,34 @@ const Navbar = () => {
 
               {/* Mobile Action Buttons */}
               <div className="py-3 mb-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
-                      Quick Actions
-                    </span>
-                    <div className="flex gap-2">
-                      <button className="p-2.5 hover:bg-green-50/80 dark:hover:bg-gray-800/80 rounded-xl transition-all duration-200">
-                         <MdSearch className="h-5 w-5 text-gray-500 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-300" />
-                      </button>
-                      <button
-                        className="p-2.5 hover:bg-green-50/80 dark:hover:bg-gray-800/80 rounded-xl transition-all duration-200"
-                        onClick={toggleTheme}
-                        aria-label="Toggle dark mode"
-                      >
-                        {theme === "dark" ? (
-                          <FaRegMoon className="h-5 w-5 text-emerald-400 hover:text-emerald-300" />
-                        ) : (
-                          <MdWbSunny className="h-5 w-5 text-emerald-500 hover:text-emerald-400" />
-                        )}
-                      </button>
-                    </div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
+                    Quick Actions
+                  </span>
+                  <div className="flex gap-2">
+                    <button className="p-2.5 hover:bg-green-50/80 dark:hover:bg-gray-800/80 rounded-xl transition-all duration-200">
+                      <MdSearch className="h-5 w-5 text-gray-500 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-300" />
+                    </button>
+                    <button
+                      className="p-2.5 hover:bg-green-50/80 dark:hover:bg-gray-800/80 rounded-xl transition-all duration-200"
+                      onClick={toggleTheme}
+                      aria-label="Toggle dark mode"
+                    >
+                      {theme === 'dark' ? (
+                        <FaRegMoon className="h-5 w-5 text-emerald-400 hover:text-emerald-300" />
+                      ) : (
+                        <MdWbSunny className="h-5 w-5 text-emerald-500 hover:text-emerald-400" />
+                      )}
+                    </button>
                   </div>
+                </div>
 
                 {/* Mobile CTA Button - Only show for non-authenticated users */}
                 {!isAuthenticated && (
                   <button
                     onClick={() => {
                       setMobileMenuOpen(false);
-                      router.push("/dashboard");
+                      router.push('/dashboard');
                     }}
                     className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 group"
                   >

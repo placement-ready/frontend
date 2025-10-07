@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { useAuth } from "@/hooks";
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '@/hooks';
 import {
   MdTrendingUp,
   MdPlayArrow,
@@ -11,7 +11,7 @@ import {
   MdCheckCircle,
   MdSchool,
   MdTimeline,
-} from "react-icons/md";
+} from 'react-icons/md';
 
 // Types
 interface StatCardProps {
@@ -19,8 +19,8 @@ interface StatCardProps {
   title: string;
   value: string | number;
   subtitle?: string;
-  trend?: "up" | "down" | "neutral";
-  color?: "green" | "blue" | "purple" | "orange";
+  trend?: 'up' | 'down' | 'neutral';
+  color?: 'green' | 'blue' | 'purple' | 'orange';
 }
 
 interface QuickActionProps {
@@ -28,15 +28,15 @@ interface QuickActionProps {
   title: string;
   description: string;
   onClick: () => void;
-  variant?: "primary" | "secondary";
+  variant?: 'primary' | 'secondary';
 }
 
 // Quick Stats Data
-const getUserStats = (userId?: string) => ({
+const getUserStats = () => ({
   problemsSolved: 87,
   practiceStreak: 12,
   interviewsCompleted: 5,
-  skillLevel: "Expert",
+  skillLevel: 'Expert',
   weeklyProgress: 23,
   upcomingDeadlines: 3,
 });
@@ -45,23 +45,23 @@ const getUserStats = (userId?: string) => ({
 const getRecentAchievements = () => [
   {
     id: 1,
-    title: "Problem Solver",
-    description: "Solved 50+ coding problems",
-    icon: "🏆",
+    title: 'Problem Solver',
+    description: 'Solved 50+ coding problems',
+    icon: '🏆',
     isNew: true,
   },
   {
     id: 2,
-    title: "Consistent Learner",
-    description: "10-day practice streak",
-    icon: "🔥",
+    title: 'Consistent Learner',
+    description: '10-day practice streak',
+    icon: '🔥',
     isNew: false,
   },
   {
     id: 3,
-    title: "Mock Master",
-    description: "Completed 5 mock interviews",
-    icon: "⭐",
+    title: 'Mock Master',
+    description: 'Completed 5 mock interviews',
+    icon: '⭐',
     isNew: true,
   },
 ];
@@ -73,15 +73,17 @@ const StatCard: React.FC<StatCardProps> = ({
   value,
   subtitle,
   trend,
-  color = "green",
+  color = 'green',
 }) => {
   const colorClasses = {
-  green: "bg-green-50 text-green-700 border-green-200 shadow-md dark:bg-green-800/30 dark:text-green-200 dark:border-green-800 dark:shadow-lg",
-  blue: "bg-blue-50 text-blue-700 border-blue-200 shadow-md dark:bg-blue-800/30 dark:text-blue-200 dark:border-blue-800 dark:shadow-lg",
-  purple: "bg-purple-50 text-purple-700 border-purple-200 shadow-md dark:bg-purple-800/30 dark:text-purple-200 dark:border-purple-800 dark:shadow-lg",
-  orange: "bg-orange-50 text-orange-700 border-orange-200 shadow-md dark:bg-orange-800/30 dark:text-orange-200 dark:border-orange-800 dark:shadow-lg",
-};
-
+    green:
+      'bg-green-50 text-green-700 border-green-200 shadow-md dark:bg-green-800/30 dark:text-green-200 dark:border-green-800 dark:shadow-lg',
+    blue: 'bg-blue-50 text-blue-700 border-blue-200 shadow-md dark:bg-blue-800/30 dark:text-blue-200 dark:border-blue-800 dark:shadow-lg',
+    purple:
+      'bg-purple-50 text-purple-700 border-purple-200 shadow-md dark:bg-purple-800/30 dark:text-purple-200 dark:border-purple-800 dark:shadow-lg',
+    orange:
+      'bg-orange-50 text-orange-700 border-orange-200 shadow-md dark:bg-orange-800/30 dark:text-orange-200 dark:border-orange-800 dark:shadow-lg',
+  };
 
   return (
     <div
@@ -95,16 +97,20 @@ const StatCard: React.FC<StatCardProps> = ({
             {trend && (
               <MdTrendingUp
                 className={`text-sm ${
-                  trend === "up"
-                    ? "text-green-500 dark:text-green-400"
-                    : "text-gray-400 dark:text-gray-500"
+                  trend === 'up'
+                    ? 'text-green-500 dark:text-green-400'
+                    : 'text-gray-400 dark:text-gray-500'
                 }`}
               />
             )}
           </div>
-          <p className="text-sm font-medium opacity-80 dark:opacity-90 text-gray-800 dark:text-gray-200">{title}</p>
+          <p className="text-sm font-medium opacity-80 dark:opacity-90 text-gray-800 dark:text-gray-200">
+            {title}
+          </p>
           {subtitle && (
-            <p className="text-xs opacity-60 dark:opacity-75 text-gray-700 dark:text-gray-400">{subtitle}</p>
+            <p className="text-xs opacity-60 dark:opacity-75 text-gray-700 dark:text-gray-400">
+              {subtitle}
+            </p>
           )}
         </div>
       </div>
@@ -118,12 +124,12 @@ const QuickAction: React.FC<QuickActionProps> = ({
   title,
   description,
   onClick,
-  variant = "secondary",
+  variant = 'secondary',
 }) => {
   const variantClasses =
-    variant === "primary"
-      ? "bg-gradient-to-r from-green-600 to-green-400 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
-      : "bg-white border border-green-200 dark:bg-gray-800 dark:border-green-700 text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900 hover:border-green-300 dark:hover:border-green-500";
+    variant === 'primary'
+      ? 'bg-gradient-to-r from-green-600 to-green-400 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
+      : 'bg-white border border-green-200 dark:bg-gray-800 dark:border-green-700 text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900 hover:border-green-300 dark:hover:border-green-500';
 
   return (
     <button
@@ -144,8 +150,7 @@ const QuickAction: React.FC<QuickActionProps> = ({
 const Banner: React.FC = () => {
   const { user } = useAuth();
   const [currentTime, setCurrentTime] = useState(new Date());
-  const userStats = getUserStats(user?.id);
-  const achievements = getRecentAchievements();
+  const userStats = getUserStats();
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 60000);
@@ -154,9 +159,9 @@ const Banner: React.FC = () => {
 
   const getGreeting = () => {
     const hour = currentTime.getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 17) return "Good afternoon";
-    return "Good evening";
+    if (hour < 12) return 'Good morning';
+    if (hour < 17) return 'Good afternoon';
+    return 'Good evening';
   };
 
   const handleQuickAction = (action: string) => {
@@ -174,14 +179,16 @@ const Banner: React.FC = () => {
             <div className="flex items-center gap-4 mb-4">
               <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg">
                 <span className="text-white font-bold text-xl">
-                  {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                  {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                 </span>
               </div>
               <div>
                 <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-100">
-                  {getGreeting()}, {user?.name || "User"}! 👋
+                  {getGreeting()}, {user?.name || 'User'}! 👋
                 </h1>
-                <p className="text-green-600 dark:text-green-400 font-medium">Ready to level up your placement game?</p>
+                <p className="text-green-600 dark:text-green-400 font-medium">
+                  Ready to level up your placement game?
+                </p>
               </div>
             </div>
 
@@ -193,7 +200,9 @@ const Banner: React.FC = () => {
                   <p className="font-semibold text-gray-800 dark:text-gray-100">
                     You&apos;re on a {userStats.practiceStreak}-day streak! 🔥
                   </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Keep going to maintain your momentum</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    Keep going to maintain your momentum
+                  </p>
                 </div>
               </div>
             </div>
@@ -246,20 +255,20 @@ const Banner: React.FC = () => {
                 icon={<MdPlayArrow />}
                 title="Start Practice"
                 description="Solve coding problems"
-                onClick={() => handleQuickAction("practice")}
+                onClick={() => handleQuickAction('practice')}
                 variant="primary"
               />
               <QuickAction
                 icon={<MdAssignment />}
                 title="Mock Interview"
                 description="Practice with AI interviewer"
-                onClick={() => handleQuickAction("mock-interview")}
+                onClick={() => handleQuickAction('mock-interview')}
               />
               <QuickAction
                 icon={<MdBusiness />}
                 title="Company Prep"
                 description="Research target companies"
-                onClick={() => handleQuickAction("company-prep")}
+                onClick={() => handleQuickAction('company-prep')}
               />
             </div>
           </div>
@@ -271,25 +280,31 @@ const Banner: React.FC = () => {
               Recent Achievements
             </h2>
             <div className="space-y-3">
-              {getRecentAchievements().slice(0, 3).map((achievement) => (
-                <div
-                  key={achievement.id}
-                  className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-sm transition-shadow"
-                >
-                  <span className="text-2xl">{achievement.icon}</span>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-medium text-sm text-gray-800 dark:text-gray-200">{achievement.title}</h3>
-                      {achievement.isNew && (
-                        <span className="bg-green-100 text-green-700 dark:bg-green-700 dark:text-green-300 text-xs px-2 py-1 rounded-full font-medium">
-                          New
-                        </span>
-                      )}
+              {getRecentAchievements()
+                .slice(0, 3)
+                .map((achievement) => (
+                  <div
+                    key={achievement.id}
+                    className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-sm transition-shadow"
+                  >
+                    <span className="text-2xl">{achievement.icon}</span>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-medium text-sm text-gray-800 dark:text-gray-200">
+                          {achievement.title}
+                        </h3>
+                        {achievement.isNew && (
+                          <span className="bg-green-100 text-green-700 dark:bg-green-700 dark:text-green-300 text-xs px-2 py-1 rounded-full font-medium">
+                            New
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                        {achievement.description}
+                      </p>
                     </div>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">{achievement.description}</p>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>

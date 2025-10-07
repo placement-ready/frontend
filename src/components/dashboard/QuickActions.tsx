@@ -1,6 +1,6 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+'use client';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import {
   FaQuestionCircle,
   FaCode,
@@ -8,8 +8,8 @@ import {
   FaCalendarAlt,
   FaChartLine,
   FaShareAlt,
-} from "react-icons/fa";
-import { IconType } from "react-icons";
+} from 'react-icons/fa';
+import { IconType } from 'react-icons';
 
 interface FeatureCard {
   icon: IconType;
@@ -24,63 +24,63 @@ interface FeatureCard {
 const features: FeatureCard[] = [
   {
     icon: FaQuestionCircle,
-    iconBg: "from-emerald-50 to-green-50 dark:from-emerald-900 dark:to-green-900",
-    iconColor: "text-emerald-600 dark:text-emerald-400",
-    title: "Company-wise Questions",
+    iconBg: 'from-emerald-50 to-green-50 dark:from-emerald-900 dark:to-green-900',
+    iconColor: 'text-emerald-600 dark:text-emerald-400',
+    title: 'Company-wise Questions',
     description:
-      "Explore top company interview questions from the past 5 years, filtered by company and role for targeted prep.",
-    pillText: "Trending",
-    href: "/dashboard/questions",
+      'Explore top company interview questions from the past 5 years, filtered by company and role for targeted prep.',
+    pillText: 'Trending',
+    href: '/dashboard/questions',
   },
   {
     icon: FaCode,
-    iconBg: "from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900",
-    iconColor: "text-blue-600 dark:text-blue-400",
-    title: "Start DSA Practice",
+    iconBg: 'from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900',
+    iconColor: 'text-blue-600 dark:text-blue-400',
+    title: 'Start DSA Practice',
     description:
-      "Sharpen your Data Structures & Algorithms skills with curated practice sheets and timed challenges",
-    pillText: "Practice",
-    href: "/dashboard/dsa",
+      'Sharpen your Data Structures & Algorithms skills with curated practice sheets and timed challenges',
+    pillText: 'Practice',
+    href: '/dashboard/dsa',
   },
   {
     icon: FaMicrophone,
-    iconBg: "from-purple-50 to-violet-50 dark:from-purple-900 dark:to-violet-900",
-    iconColor: "text-purple-600 dark:text-purple-400",
-    title: "Start Mock Interview",
+    iconBg: 'from-purple-50 to-violet-50 dark:from-purple-900 dark:to-violet-900',
+    iconColor: 'text-purple-600 dark:text-purple-400',
+    title: 'Start Mock Interview',
     description:
-      "Simulate a real interview with AI-powered mock sessions. Get instant feedback on your answers and confidence.",
-    pillText: "In Progress",
-    href: "/dashboard/mock-interview",
+      'Simulate a real interview with AI-powered mock sessions. Get instant feedback on your answers and confidence.',
+    pillText: 'In Progress',
+    href: '/dashboard/mock-interview',
   },
   {
     icon: FaCalendarAlt,
-    iconBg: "from-orange-50 to-amber-50 dark:from-orange-900 dark:to-amber-900",
-    iconColor: "text-orange-600 dark:text-orange-400",
-    title: "Schedule Interview",
+    iconBg: 'from-orange-50 to-amber-50 dark:from-orange-900 dark:to-amber-900',
+    iconColor: 'text-orange-600 dark:text-orange-400',
+    title: 'Schedule Interview',
     description:
-      "Plan and book your mock interview sessions. Set reminders and sync with your calendar.",
-    pillText: "Scheduled",
-    href: "/dashboard/schedule",
+      'Plan and book your mock interview sessions. Set reminders and sync with your calendar.',
+    pillText: 'Scheduled',
+    href: '/dashboard/schedule',
   },
   {
     icon: FaChartLine,
-    iconBg: "from-teal-50 to-cyan-50 dark:from-teal-900 dark:to-cyan-900",
-    iconColor: "text-teal-600 dark:text-teal-400",
-    title: "View Performance Report",
+    iconBg: 'from-teal-50 to-cyan-50 dark:from-teal-900 dark:to-cyan-900',
+    iconColor: 'text-teal-600 dark:text-teal-400',
+    title: 'View Performance Report',
     description:
-      "Track your progress with detailed performance analytics. Identify strengths, weaknesses, and readiness level.",
-    pillText: "Updated",
-    href: "/dashboard/reports",
+      'Track your progress with detailed performance analytics. Identify strengths, weaknesses, and readiness level.',
+    pillText: 'Updated',
+    href: '/dashboard/reports',
   },
   {
     icon: FaShareAlt,
-    iconBg: "from-pink-50 to-rose-50 dark:from-pink-900 dark:to-rose-900",
-    iconColor: "text-pink-600 dark:text-pink-400",
-    title: "Share Your Experience",
+    iconBg: 'from-pink-50 to-rose-50 dark:from-pink-900 dark:to-rose-900',
+    iconColor: 'text-pink-600 dark:text-pink-400',
+    title: 'Share Your Experience',
     description:
-      "Contribute by adding your interview experiences, unique questions, and feedback to help the community.",
-    pillText: "New",
-    href: "/dashboard/share",
+      'Contribute by adding your interview experiences, unique questions, and feedback to help the community.',
+    pillText: 'New',
+    href: '/dashboard/share',
   },
 ];
 
@@ -130,7 +130,7 @@ const QuickActions: React.FC = () => {
         className="text-center mb-12"
       >
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4 leading-tight">
-          Take Quick{" "}
+          Take Quick{' '}
           <span className="relative inline-block">
             <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">
               Actions
@@ -161,7 +161,7 @@ const QuickActions: React.FC = () => {
               transition={{
                 duration: 0.5,
                 delay: index * 0.1 + 0.3,
-                ease: "easeOut",
+                ease: 'easeOut',
               }}
               whileHover={{
                 y: -8,

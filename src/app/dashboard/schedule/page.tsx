@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const ScheduleInterview: React.FC = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -30,7 +30,8 @@ const ScheduleInterview: React.FC = () => {
         </p>
         {submitted ? (
           <div className="text-green-600 dark:text-green-400 font-bold text-xl select-text">
-            🎉 Interview Scheduled!<br />
+            🎉 Interview Scheduled!
+            <br />
             Check your email for details.
           </div>
         ) : (

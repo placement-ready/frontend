@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Image from "next/image";
+import React, { useState } from 'react';
+import Image from 'next/image';
 import {
   UserIcon,
   AcademicCapIcon,
@@ -18,17 +18,9 @@ import {
   LinkIcon,
   ShareIcon,
   GlobeAltIcon,
-} from "@heroicons/react/24/outline";
-import { useGetProfile } from "@/lib/queries/users";
-import {
-  ExtendedUser,
-  PersonalInfo,
-  Education,
-  Experience,
-  Skill,
-  Project,
-  Achievement,
-} from "@/types/profile";
+} from '@heroicons/react/24/outline';
+import { useGetProfile } from '@/lib/queries/users';
+import { PersonalInfo, Education, Experience, Skill, Project, Achievement } from '@/types/profile';
 
 const ProfileSkeleton = () => (
   <div className="min-h-screen bg-gray-50 animate-pulse">
@@ -82,7 +74,9 @@ const ProfileError = ({ error }: { error: string }) => (
       <div className="bg-red-100 dark:bg-red-900 rounded-full p-4 w-16 h-16 mx-auto">
         <UserIcon className="w-8 h-8 text-red-600 dark:text-red-400" />
       </div>
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">Oops! Your Profile page not Found</h2>
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">
+        Oops! Your Profile page not Found
+      </h2>
       <p className="text-gray-600 dark:text-gray-400 mb-4 select-text">{error}</p>
       <button
         onClick={() => window.location.reload()}
@@ -216,11 +210,11 @@ const ExperienceSection = ({ data }: { data: Experience[] }) => {
               <div className="mt-2">
                 <span
                   className={`text-xs px-2 py-1 rounded-full ${
-                    item.type === "internship"
-                      ? "bg-blue-100 text-blue-800"
-                      : item.type === "job"
-                      ? "bg-green-100 text-green-800"
-                      : "bg-purple-100 text-purple-800"
+                    item.type === 'internship'
+                      ? 'bg-blue-100 text-blue-800'
+                      : item.type === 'job'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-purple-100 text-purple-800'
                   }`}
                 >
                   {item.type}
@@ -247,9 +241,9 @@ const SkillsSection = ({ data }: { data: Skill[] }) => {
   }
 
   const skillCategories = {
-    technical: data.filter((skill) => skill.category === "technical"),
-    soft: data.filter((skill) => skill.category === "soft"),
-    language: data.filter((skill) => skill.category === "language"),
+    technical: data.filter((skill) => skill.category === 'technical'),
+    soft: data.filter((skill) => skill.category === 'soft'),
+    language: data.filter((skill) => skill.category === 'language'),
   };
 
   const renderSkills = (skills: Skill[], title: string, color: string) => {
@@ -280,16 +274,18 @@ const SkillsSection = ({ data }: { data: Skill[] }) => {
 
   return (
     <div className="space-y-6">
-      {renderSkills(skillCategories.technical, "Technical Skills", "bg-emerald-500")}
-      {renderSkills(skillCategories.soft, "Soft Skills", "bg-blue-500")}
-      {renderSkills(skillCategories.language, "Languages", "bg-purple-500")}
+      {renderSkills(skillCategories.technical, 'Technical Skills', 'bg-emerald-500')}
+      {renderSkills(skillCategories.soft, 'Soft Skills', 'bg-blue-500')}
+      {renderSkills(skillCategories.language, 'Languages', 'bg-purple-500')}
     </div>
   );
 };
 
 const ProjectsSection = ({ data }: { data: Project[] }) => {
   if (!data || data.length === 0) {
-    return <EmptySection title="Projects" description="Showcase your projects" icon={BookOpenIcon} />;
+    return (
+      <EmptySection title="Projects" description="Showcase your projects" icon={BookOpenIcon} />
+    );
   }
 
   return (
@@ -325,7 +321,10 @@ const ProjectsSection = ({ data }: { data: Project[] }) => {
           {project.technologies && (
             <div className="flex flex-wrap gap-2">
               {project.technologies.map((tech: string, idx: number) => (
-                <span key={idx} className="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded-full">
+                <span
+                  key={idx}
+                  className="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded-full"
+                >
                   {tech}
                 </span>
               ))}
@@ -339,7 +338,9 @@ const ProjectsSection = ({ data }: { data: Project[] }) => {
 
 const AchievementsSection = ({ data }: { data: Achievement[] }) => {
   if (!data || data.length === 0) {
-    return <EmptySection title="Achievements" description="Add your accomplishments" icon={TrophyIcon} />;
+    return (
+      <EmptySection title="Achievements" description="Add your accomplishments" icon={TrophyIcon} />
+    );
   }
 
   return (
@@ -358,11 +359,11 @@ const AchievementsSection = ({ data }: { data: Achievement[] }) => {
               <div className="mt-2">
                 <span
                   className={`text-xs px-2 py-1 rounded-full ${
-                    achievement.type === "academic"
-                      ? "bg-blue-100 text-blue-800"
-                      : achievement.type === "technical"
-                      ? "bg-green-100 text-green-800"
-                      : "bg-purple-100 text-purple-800"
+                    achievement.type === 'academic'
+                      ? 'bg-blue-100 text-blue-800'
+                      : achievement.type === 'technical'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-purple-100 text-purple-800'
                   }`}
                 >
                   {achievement.type}
@@ -409,7 +410,7 @@ const QuickStatsCard = ({
         <span className="text-sm font-semibold text-emerald-600">85%</span>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-2">
-        <div className="bg-emerald-500 h-2 rounded-full" style={{ width: "85%" }}></div>
+        <div className="bg-emerald-500 h-2 rounded-full" style={{ width: '85%' }}></div>
       </div>
       <div className="grid grid-cols-2 gap-4 pt-4">
         <div className="text-center">
@@ -426,7 +427,7 @@ const QuickStatsCard = ({
 );
 
 const Profile: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState('overview');
   const [isEditing, setIsEditing] = useState(false);
 
   const { data: userProfile, isLoading, error } = useGetProfile();
@@ -436,39 +437,43 @@ const Profile: React.FC = () => {
   }
 
   if (error) {
-    return <ProfileError error={error.message || "Failed to load profile data"} />;
+    return <ProfileError error={error.message || 'Failed to load profile data'} />;
   }
 
-  const extendedUserProfile = userProfile as ExtendedUser;
+  if (!userProfile) {
+    return <ProfileError error="No profile data found" />;
+  }
+
+  console.log('User Profile Data:', userProfile);
 
   const profileData = {
     personalInfo: {
-      name: extendedUserProfile?.name || "User Name",
-      email: extendedUserProfile?.email || "user@example.com",
-      phone: extendedUserProfile?.phone || "+1 (555) 123-4567",
-      location: extendedUserProfile?.location || "San Francisco, CA",
-      avatar: extendedUserProfile?.avatar || "/brain.png",
-      title: extendedUserProfile?.title || "Software Developer",
+      name: userProfile?.name || 'User Name',
+      email: userProfile?.email || 'user@example.com',
+      phone: userProfile?.phone || '+1 (555) 123-4567',
+      location: userProfile?.location || 'San Francisco, CA',
+      avatar: userProfile?.avatar || '/brain.png',
+      title: userProfile?.title || 'Software Developer',
       bio:
-        extendedUserProfile?.bio ||
-        "Passionate software developer seeking new opportunities. Click edit to add your bio.",
-      graduation: extendedUserProfile?.graduation || "May 2024",
-      resumeLink: extendedUserProfile?.resumeLink || "/resume.pdf",
+        userProfile?.bio ||
+        'Passionate software developer seeking new opportunities. Click edit to add your bio.',
+      graduation: userProfile?.graduation || 'May 2024',
+      resumeLink: userProfile?.resumeLink || '/resume.pdf',
     },
-    education: extendedUserProfile?.education || [],
-    experience: extendedUserProfile?.experience || [],
-    skills: extendedUserProfile?.skills || [],
-    achievements: extendedUserProfile?.achievements || [],
-    projects: extendedUserProfile?.projects || [],
+    education: userProfile?.education || [],
+    experience: userProfile?.experience || [],
+    skills: userProfile?.skills || [],
+    achievements: userProfile?.achievements || [],
+    projects: userProfile?.projects || [],
   };
 
   const tabs = [
-    { id: "overview", label: "Overview", icon: UserIcon },
-    { id: "education", label: "Education", icon: AcademicCapIcon },
-    { id: "experience", label: "Experience", icon: BriefcaseIcon },
-    { id: "skills", label: "Skills", icon: CodeBracketIcon },
-    { id: "projects", label: "Projects", icon: BookOpenIcon },
-    { id: "achievements", label: "Achievements", icon: TrophyIcon },
+    { id: 'overview', label: 'Overview', icon: UserIcon },
+    { id: 'education', label: 'Education', icon: AcademicCapIcon },
+    { id: 'experience', label: 'Experience', icon: BriefcaseIcon },
+    { id: 'skills', label: 'Skills', icon: CodeBracketIcon },
+    { id: 'projects', label: 'Projects', icon: BookOpenIcon },
+    { id: 'achievements', label: 'Achievements', icon: TrophyIcon },
   ];
 
   return (
@@ -512,7 +517,7 @@ const Profile: React.FC = () => {
                 className="bg-white/90 hover:bg-white text-gray-700 px-3 py-2 sm:px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-2"
               >
                 <PencilIcon className="w-4 h-4" />
-                <span className="hidden sm:inline">{isEditing ? "Save" : "Edit Profile"}</span>
+                <span className="hidden sm:inline">{isEditing ? 'Save' : 'Edit Profile'}</span>
               </button>
             </div>
           </div>
@@ -572,8 +577,8 @@ const Profile: React.FC = () => {
                     onClick={() => setActiveTab(tab.id)}
                     className={`whitespace-nowrap py-3 sm:py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 transition-colors ${
                       activeTab === tab.id
-                        ? "border-emerald-500 text-emerald-600"
-                        : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                        ? 'border-emerald-500 text-emerald-600'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -587,12 +592,14 @@ const Profile: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           <div className="lg:col-span-2">
-            {activeTab === "overview" && <OverviewSection data={profileData} />}
-            {activeTab === "education" && <EducationSection data={profileData.education} />}
-            {activeTab === "experience" && <ExperienceSection data={profileData.experience} />}
-            {activeTab === "skills" && <SkillsSection data={profileData.skills} />}
-            {activeTab === "projects" && <ProjectsSection data={profileData.projects} />}
-            {activeTab === "achievements" && <AchievementsSection data={profileData.achievements} />}
+            {activeTab === 'overview' && <OverviewSection data={profileData} />}
+            {activeTab === 'education' && <EducationSection data={profileData.education} />}
+            {activeTab === 'experience' && <ExperienceSection data={profileData.experience} />}
+            {activeTab === 'skills' && <SkillsSection data={profileData.skills} />}
+            {activeTab === 'projects' && <ProjectsSection data={profileData.projects} />}
+            {activeTab === 'achievements' && (
+              <AchievementsSection data={profileData.achievements} />
+            )}
           </div>
 
           <div className="space-y-6">
