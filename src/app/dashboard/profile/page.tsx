@@ -20,15 +20,7 @@ import {
   GlobeAltIcon,
 } from '@heroicons/react/24/outline';
 import { useGetProfile } from '@/lib/queries/users';
-import {
-  ExtendedUser,
-  PersonalInfo,
-  Education,
-  Experience,
-  Skill,
-  Project,
-  Achievement,
-} from '@/types/profile';
+import { PersonalInfo, Education, Experience, Skill, Project, Achievement } from '@/types/profile';
 
 const ProfileSkeleton = () => (
   <div className="min-h-screen bg-gray-50 animate-pulse">
@@ -448,27 +440,31 @@ const Profile: React.FC = () => {
     return <ProfileError error={error.message || 'Failed to load profile data'} />;
   }
 
-  const extendedUserProfile = userProfile as ExtendedUser;
+  if (!userProfile) {
+    return <ProfileError error="No profile data found" />;
+  }
+
+  console.log('User Profile Data:', userProfile);
 
   const profileData = {
     personalInfo: {
-      name: extendedUserProfile?.name || 'User Name',
-      email: extendedUserProfile?.email || 'user@example.com',
-      phone: extendedUserProfile?.phone || '+1 (555) 123-4567',
-      location: extendedUserProfile?.location || 'San Francisco, CA',
-      avatar: extendedUserProfile?.avatar || '/brain.png',
-      title: extendedUserProfile?.title || 'Software Developer',
+      name: userProfile?.name || 'User Name',
+      email: userProfile?.email || 'user@example.com',
+      phone: userProfile?.phone || '+1 (555) 123-4567',
+      location: userProfile?.location || 'San Francisco, CA',
+      avatar: userProfile?.avatar || '/brain.png',
+      title: userProfile?.title || 'Software Developer',
       bio:
-        extendedUserProfile?.bio ||
+        userProfile?.bio ||
         'Passionate software developer seeking new opportunities. Click edit to add your bio.',
-      graduation: extendedUserProfile?.graduation || 'May 2024',
-      resumeLink: extendedUserProfile?.resumeLink || '/resume.pdf',
+      graduation: userProfile?.graduation || 'May 2024',
+      resumeLink: userProfile?.resumeLink || '/resume.pdf',
     },
-    education: extendedUserProfile?.education || [],
-    experience: extendedUserProfile?.experience || [],
-    skills: extendedUserProfile?.skills || [],
-    achievements: extendedUserProfile?.achievements || [],
-    projects: extendedUserProfile?.projects || [],
+    education: userProfile?.education || [],
+    experience: userProfile?.experience || [],
+    skills: userProfile?.skills || [],
+    achievements: userProfile?.achievements || [],
+    projects: userProfile?.projects || [],
   };
 
   const tabs = [

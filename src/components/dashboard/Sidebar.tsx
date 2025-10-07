@@ -101,12 +101,14 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
         <li key={item.id} className="w-full">
           <div className={`mb-2 mt-4`}>
             <div className="flex items-center gap-3 px-4 py-2">
-              <span className="text-lg text-green-600 flex-shrink-0">{item.icon}</span>
-              <span className="text-sm font-bold text-green-700 uppercase tracking-wide">
+              <span className="text-lg text-green-600 dark:text-green-400 flex-shrink-0">
+                {item.icon}
+              </span>
+              <span className="text-sm font-bold uppercase tracking-wide text-green-700 dark:text-green-300">
                 {item.name}
               </span>
             </div>
-            <div className="h-px bg-green-200/50 mx-4"></div>
+            <div className="h-px bg-green-200/50 dark:bg-green-700/50 mx-4"></div>
           </div>
           <ul className="space-y-1 mb-4">
             {item.children?.map((child) => renderMenuItem(child, depth + 1))}
@@ -120,7 +122,7 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
       return (
         <li key={item.id} className="w-full">
           <div className={`mb-2 mt-4`}>
-            <div className="h-px bg-green-400/50 mx-1"></div>
+            <div className="h-px bg-green-400/50 dark:bg-green-700/50 mx-1"></div>
           </div>
           <ul className="space-y-1 mb-4">
             {item.children?.map((child) => renderMenuItem(child, depth + 1))}
@@ -134,26 +136,29 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
       <>
         <span
           className={`
-						text-xl flex-shrink-0
-						${isActive ? 'drop-shadow-sm' : ''}
-						group-hover:scale-110 transition-transform duration-200
-					`}
+            text-xl flex-shrink-0 
+            ${isActive ? 'drop-shadow-sm' : ''}
+            group-hover:scale-110 transition-transform duration-200
+            text-green-700 dark:text-green-400
+            ${isActive ? 'dark:drop-shadow-md' : ''}
+          `}
         >
           {item.icon}
         </span>
         <span
           className={`
-						text-sm font-medium truncate
-						${isOpen ? 'opacity-100 max-w-xs' : 'opacity-0 max-w-0'}
-						transition-all duration-300
-						overflow-hidden
-						${!isActive && isOpen ? 'group-hover:translate-x-1' : ''}
-					`}
+            text-sm font-medium truncate
+            ${isOpen ? 'opacity-100 max-w-xs' : 'opacity-0 max-w-0'}
+            transition-all duration-300
+            overflow-hidden
+            ${!isActive && isOpen ? 'group-hover:translate-x-1' : ''}
+            text-green-700 dark:text-green-300
+          `}
         >
           {item.name}
         </span>
         {item.badge && isOpen && (
-          <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full ml-auto">
+          <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full ml-auto shadow-sm dark:bg-green-600">
             {item.badge}
           </span>
         )}
@@ -170,16 +175,16 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
               item.onClick?.();
             }}
             className={`
-							flex items-center ${isOpen ? 'gap-4 px-4' : 'gap-0 px-0'} 
-							py-3 w-full rounded-xl
-							${isOpen ? 'justify-start' : 'justify-center'}
-							group transition-all duration-200 focus:outline-none
+              flex items-center ${isOpen ? 'gap-4 px-4' : 'gap-0 px-0'} 
+              py-3 w-full rounded-xl
+              ${isOpen ? 'justify-start' : 'justify-center'}
+              group transition-all duration-200 focus:outline-none
               ${
                 isActive
-                  ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg transform scale-[1.02]'
-                  : 'bg-white/50 backdrop-blur-sm text-green-700 hover:bg-white/80 hover:text-green-600 hover:shadow-md border border-green-200/30'
+                  ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg transform scale-[1.02] dark:from-green-600 dark:to-green-700'
+                  : 'bg-white/50 backdrop-blur-sm text-green-700 hover:bg-white/80 hover:text-green-600 hover:shadow-md border border-green-200/30 dark:bg-gray-900 dark:text-green-400 dark:hover:bg-gray-800 dark:hover:text-green-300 dark:hover:shadow-lg dark:border-green-700/50'
               }
-						`}
+            `}
           >
             {content}
           </Link>
@@ -190,12 +195,14 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
               if (isMobile) setIsOpen(false);
             }}
             className={`
-							flex items-center ${isOpen ? 'gap-4 px-4' : 'gap-0 px-0'} 
-							py-3 w-full rounded-xl
-							${isOpen ? 'justify-start' : 'justify-center'}
-							group transition-all duration-200
-							focus:outline-none bg-white/50 backdrop-blur-sm text-green-700 hover:bg-white/80 hover:text-green-600 hover:shadow-md border border-green-200/30
-						`}
+              flex items-center ${isOpen ? 'gap-4 px-4' : 'gap-0 px-0'} 
+              py-3 w-full rounded-xl
+              ${isOpen ? 'justify-start' : 'justify-center'}
+              group transition-all duration-200
+              focus:outline-none
+              bg-white/50 backdrop-blur-sm text-green-700 hover:bg-white/80 hover:text-green-600 hover:shadow-md border border-green-200/30
+              dark:bg-gray-900 dark:text-green-400 dark:hover:bg-gray-800 dark:hover:text-green-300 dark:hover:shadow-lg dark:border-green-700/50
+            `}
           >
             {content}
           </button>
@@ -217,34 +224,35 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
       <aside
         id="sidebar"
         className={`
-					${isOpen ? 'w-64' : isMobile ? 'w-0' : 'w-16'}
-					${isMobile && !isOpen ? 'overflow-hidden' : ''}
-					${isMobile ? 'fixed' : 'sticky'}
-					transition-all duration-300 ease-out
-					bg-gradient-to-br from-green-50 via-green-100 to-green-200
-					backdrop-blur-sm border-r border-green-200/50
-					shadow-xl shadow-green-500/10
-					flex flex-col top-0 left-0 h-screen py-4 px-0
-					${isOpen ? 'items-start px-4' : 'items-center md:px-2'}
-					z-40
-					${className}
-				`}
+          ${isOpen ? 'w-64' : isMobile ? 'w-0' : 'w-16'}
+          ${isMobile && !isOpen ? 'overflow-hidden' : ''}
+          ${isMobile ? 'fixed' : 'sticky'}
+          transition-all duration-300 ease-out
+          bg-gradient-to-br from-green-50 via-green-100 to-green-200
+          dark:from-gray-900 dark:via-gray-800 dark:to-gray-900
+          backdrop-blur-sm border-r border-green-200/50 dark:border-gray-700/50
+          shadow-xl shadow-green-500/10 dark:shadow-black/30
+          flex flex-col top-0 left-0 h-screen py-4 px-0
+          ${isOpen ? 'items-start px-4' : 'items-center md:px-2'}
+          z-40
+          ${className}
+        `}
       >
         {/* Logo & App Name */}
         <div
           className={`
-						flex items-center gap-3 mb-8 w-full
-						${isOpen ? 'justify-start' : 'justify-center'}
-						transition-all duration-300
-					`}
+            flex items-center gap-3 mb-8 w-full
+            ${isOpen ? 'justify-start' : 'justify-center'}
+            transition-all duration-300
+          `}
         >
           <div
             className={`
-							bg-gradient-to-br from-green-500 to-green-600
-							rounded-xl ${isOpen ? 'p-3' : 'p-2'}
-							flex items-center shadow-lg
-							hover:shadow-xl transition-shadow duration-200
-						`}
+              bg-gradient-to-br from-green-500 to-green-600
+              rounded-xl ${isOpen ? 'p-3' : 'p-2'}
+              flex items-center shadow-lg
+              hover:shadow-xl transition-shadow duration-200
+            `}
           >
             <Image
               src={config.logo.src}
@@ -256,10 +264,11 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
           </div>
           <span
             className={`
-							font-extrabold text-green-700 text-xl tracking-tight
-							${isOpen ? 'inline' : 'hidden'}
-							transition-all duration-300
-						`}
+              font-extrabold text-green-700 text-xl tracking-tight
+              ${isOpen ? 'inline' : 'hidden'}
+              transition-all duration-300
+              dark:text-green-400
+            `}
           >
             {config.logo.title}
           </span>
@@ -278,12 +287,13 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
             {isOpen ? (
               <div
                 className={`
-									w-full flex items-center justify-between
-									bg-white/90 backdrop-blur-sm rounded-xl shadow-lg
-									px-4 py-4 border border-green-200/50
-									transition-all duration-200
-									hover:shadow-xl hover:bg-white
-								`}
+                  w-full flex items-center justify-between
+                  bg-white/90 backdrop-blur-sm rounded-xl shadow-lg
+                  px-4 py-4 border border-green-200/50
+                  transition-all duration-200
+                  hover:shadow-xl hover:bg-white
+                  dark:bg-gray-900/90 dark:border-gray-700/50 dark:hover:bg-gray-800 dark:hover:shadow-lg
+                `}
               >
                 {config.showProfile && (
                   <Link
@@ -309,10 +319,12 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
                       </div>
                     )}
                     <div className="flex flex-col">
-                      <span className="text-sm font-semibold text-green-700">
+                      <span className="text-sm font-semibold text-green-700 dark:text-green-400">
                         {user?.name || 'User'}
                       </span>
-                      <span className="text-xs text-green-600">{user?.role || 'Student'}</span>
+                      <span className="text-xs text-green-600 dark:text-green-300">
+                        {user?.role || 'Student'}
+                      </span>
                     </div>
                   </Link>
                 )}
@@ -320,13 +332,14 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
                   <button
                     onClick={handleSignOut}
                     className={`
-											bg-red-50 text-red-500 rounded-xl p-2.5 ${config.showProfile ? 'ml-3' : ''}
-											shadow-sm border border-red-200/50
-											flex items-center justify-center 
-											hover:bg-red-100 hover:shadow-md
-											transition-all duration-200
-											focus:outline-none focus:ring-2 focus:ring-red-400
-										`}
+                      bg-red-50 text-red-500 rounded-xl p-2.5 ${config.showProfile ? 'ml-3' : ''}
+                      shadow-sm border border-red-200/50
+                      flex items-center justify-center
+                      hover:bg-red-100 hover:shadow-md
+                      transition-all duration-200
+                      focus:outline-none focus:ring-2 focus:ring-red-400
+                      dark:bg-red-900/70 dark:text-red-400 dark:hover:bg-red-800 dark:hover:shadow-lg dark:ring-red-600
+                    `}
                     aria-label="Logout"
                     title="Logout"
                   >
@@ -355,13 +368,14 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
                   <button
                     onClick={handleSignOut}
                     className={`
-											bg-red-50 text-red-500 rounded-xl p-2.5
-											shadow-sm border border-red-200/50
-											flex items-center justify-center 
-											hover:bg-red-100 hover:shadow-md
-											transition-all duration-200
-											focus:outline-none focus:ring-2 focus:ring-red-400
-										`}
+                      bg-red-50 text-red-500 rounded-xl p-2.5
+                      shadow-sm border border-red-200/50
+                      flex items-center justify-center
+                      hover:bg-red-100 hover:shadow-md
+                      transition-all duration-200
+                      focus:outline-none focus:ring-2 focus:ring-red-400
+                      dark:bg-red-900/70 dark:text-red-400 dark:hover:bg-red-800 dark:hover:shadow-lg dark:ring-red-600
+                    `}
                     aria-label="Logout"
                     title="Logout"
                   >

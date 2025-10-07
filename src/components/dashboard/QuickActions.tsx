@@ -24,8 +24,8 @@ interface FeatureCard {
 const features: FeatureCard[] = [
   {
     icon: FaQuestionCircle,
-    iconBg: 'from-emerald-50 to-green-50',
-    iconColor: 'text-emerald-600',
+    iconBg: 'from-emerald-50 to-green-50 dark:from-emerald-900 dark:to-green-900',
+    iconColor: 'text-emerald-600 dark:text-emerald-400',
     title: 'Company-wise Questions',
     description:
       'Explore top company interview questions from the past 5 years, filtered by company and role for targeted prep.',
@@ -34,8 +34,8 @@ const features: FeatureCard[] = [
   },
   {
     icon: FaCode,
-    iconBg: 'from-blue-50 to-indigo-50',
-    iconColor: 'text-blue-600',
+    iconBg: 'from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900',
+    iconColor: 'text-blue-600 dark:text-blue-400',
     title: 'Start DSA Practice',
     description:
       'Sharpen your Data Structures & Algorithms skills with curated practice sheets and timed challenges',
@@ -44,8 +44,8 @@ const features: FeatureCard[] = [
   },
   {
     icon: FaMicrophone,
-    iconBg: 'from-purple-50 to-violet-50',
-    iconColor: 'text-purple-600',
+    iconBg: 'from-purple-50 to-violet-50 dark:from-purple-900 dark:to-violet-900',
+    iconColor: 'text-purple-600 dark:text-purple-400',
     title: 'Start Mock Interview',
     description:
       'Simulate a real interview with AI-powered mock sessions. Get instant feedback on your answers and confidence.',
@@ -54,8 +54,8 @@ const features: FeatureCard[] = [
   },
   {
     icon: FaCalendarAlt,
-    iconBg: 'from-orange-50 to-amber-50',
-    iconColor: 'text-orange-600',
+    iconBg: 'from-orange-50 to-amber-50 dark:from-orange-900 dark:to-amber-900',
+    iconColor: 'text-orange-600 dark:text-orange-400',
     title: 'Schedule Interview',
     description:
       'Plan and book your mock interview sessions. Set reminders and sync with your calendar.',
@@ -64,8 +64,8 @@ const features: FeatureCard[] = [
   },
   {
     icon: FaChartLine,
-    iconBg: 'from-teal-50 to-cyan-50',
-    iconColor: 'text-teal-600',
+    iconBg: 'from-teal-50 to-cyan-50 dark:from-teal-900 dark:to-cyan-900',
+    iconColor: 'text-teal-600 dark:text-teal-400',
     title: 'View Performance Report',
     description:
       'Track your progress with detailed performance analytics. Identify strengths, weaknesses, and readiness level.',
@@ -74,8 +74,8 @@ const features: FeatureCard[] = [
   },
   {
     icon: FaShareAlt,
-    iconBg: 'from-pink-50 to-rose-50',
-    iconColor: 'text-pink-600',
+    iconBg: 'from-pink-50 to-rose-50 dark:from-pink-900 dark:to-rose-900',
+    iconColor: 'text-pink-600 dark:text-pink-400',
     title: 'Share Your Experience',
     description:
       'Contribute by adding your interview experiences, unique questions, and feedback to help the community.',
@@ -106,19 +106,19 @@ const QuickActions: React.FC = () => {
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: isVisible ? 1 : 0, opacity: isVisible ? 1 : 0 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="absolute top-10 left-10 w-64 h-64 bg-gradient-to-br from-emerald-100 to-green-50 rounded-full mix-blend-multiply filter blur-xl opacity-70"
+          className="absolute top-10 left-10 w-64 h-64 bg-gradient-to-br from-emerald-100 to-green-50 dark:from-emerald-800 dark:to-green-900 rounded-full mix-blend-multiply filter blur-xl opacity-70"
         />
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: isVisible ? 1 : 0, opacity: isVisible ? 1 : 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="absolute bottom-10 right-10 w-80 h-80 bg-gradient-to-br from-blue-100 to-cyan-50 rounded-full mix-blend-multiply filter blur-xl opacity-60"
+          className="absolute bottom-10 right-10 w-80 h-80 bg-gradient-to-br from-blue-100 to-cyan-50 dark:from-blue-800 dark:to-cyan-900 rounded-full mix-blend-multiply filter blur-xl opacity-60"
         />
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: isVisible ? 1 : 0, opacity: isVisible ? 1 : 0 }}
           transition={{ duration: 1, delay: 0.6 }}
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-purple-100 to-pink-50 rounded-full mix-blend-multiply filter blur-xl opacity-50"
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-purple-100 to-pink-50 dark:from-purple-900 dark:to-pink-900 rounded-full mix-blend-multiply filter blur-xl opacity-50"
         />
       </div>
 
@@ -129,7 +129,7 @@ const QuickActions: React.FC = () => {
         transition={{ duration: 0.6 }}
         className="text-center mb-12"
       >
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4 leading-tight">
           Take Quick{' '}
           <span className="relative inline-block">
             <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">
@@ -143,7 +143,7 @@ const QuickActions: React.FC = () => {
             />
           </span>
         </h2>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
           Streamline your interview preparation with these powerful tools and features designed to
           boost your success rate.
         </p>
@@ -168,7 +168,7 @@ const QuickActions: React.FC = () => {
                 scale: 1.02,
                 transition: { duration: 0.2 },
               }}
-              className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 lg:p-8 border border-gray-100 hover:border-gray-200 transition-all duration-300 cursor-pointer overflow-hidden"
+              className="group relative bg-white dark:bg-gray-900 rounded-2xl shadow-lg dark:shadow-xl hover:shadow-2xl dark:hover:shadow-2xl p-6 lg:p-8 border border-gray-100 dark:border-gray-700 transition-all duration-300 cursor-pointer overflow-hidden"
               onClick={() => handleCardClick(feature.href)}
             >
               {/* Pill Badge */}
@@ -177,7 +177,7 @@ const QuickActions: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 + 0.6 }}
-                  className="absolute top-4 right-4 text-xs px-3 py-1.5 bg-gradient-to-r from-emerald-100 to-green-100 text-emerald-700 rounded-full font-semibold shadow-sm"
+                  className="absolute top-4 right-4 text-xs px-3 py-1.5 bg-gradient-to-r from-emerald-100 to-green-100 dark:from-emerald-800 dark:to-green-800 text-emerald-700 dark:text-emerald-300 rounded-full font-semibold shadow-sm"
                 >
                   {feature.pillText}
                 </motion.span>
@@ -196,10 +196,10 @@ const QuickActions: React.FC = () => {
 
               {/* Content */}
               <div className="space-y-3">
-                <h3 className="font-bold text-xl text-gray-900 group-hover:text-emerald-700 transition-colors duration-300 leading-tight">
+                <h3 className="font-bold text-xl text-gray-900 dark:text-gray-100 transition-colors duration-300 leading-tight">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 text-sm lg:text-base leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 text-sm lg:text-base leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -208,13 +208,13 @@ const QuickActions: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0, x: -10 }}
                 whileHover={{ opacity: 1, x: 0 }}
-                className="absolute bottom-6 right-6 text-emerald-500 text-xl font-bold"
+                className="absolute bottom-6 right-6 text-emerald-500 dark:text-emerald-400 text-xl font-bold"
               >
                 →
               </motion.div>
 
               {/* Hover Background Effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/0 to-green-50/0 group-hover:from-emerald-50/50 group-hover:to-green-50/30 transition-all duration-300 rounded-2xl pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/0 to-green-50/0 dark:from-emerald-900/0 dark:to-green-900/0 transition-all duration-300 rounded-2xl pointer-events-none" />
             </motion.div>
           );
         })}
@@ -227,10 +227,10 @@ const QuickActions: React.FC = () => {
         transition={{ duration: 0.6, delay: 1 }}
         className="text-center mt-12"
       >
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-600 dark:text-gray-300 mb-6">
           Ready to accelerate your interview preparation journey?
         </p>
-        <button className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-emerald-600 to-green-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:from-emerald-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105">
+        <button className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-700 dark:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
           <span>Get Started</span>
           <motion.span animate={{ x: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
             →

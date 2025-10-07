@@ -1,5 +1,6 @@
 import { api } from '@/lib/api/client';
 import type { User, PaginationParams, PaginatedResponse } from '@/types/api/common';
+import { UserProfile } from '@/types/profile';
 
 // User-specific types
 export interface UpdateUserRequest extends Record<string, string | undefined> {
@@ -24,10 +25,10 @@ export const usersApi = {
   getUser: (id: string) => api.get<User>(`/users/${id}`),
 
   // Get user profile
-  getUserProfile: (id: string) => api.get<User>(`/users/${id}/profile`),
+  getUserProfile: (id: string) => api.get<UserProfile>(`/users/${id}/profile`),
 
   // Get profile
-  getProfile: () => api.get<User>('/user/profile'),
+  getProfile: () => api.get<UserProfile>('/user/profile'),
 
   // Create new user
   createUser: (userData: CreateUserRequest) => api.post<User>('/users', userData),
