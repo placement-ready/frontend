@@ -171,6 +171,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const getCurrentPageTitle = () => {
     const pathSegments = pathname.split('/').filter(Boolean);
     const currentPage = pathSegments[pathSegments.length - 1] || 'dashboard';
+    // Only till 2 levels deep
+    if (pathSegments.length > 2) {
+      return pathSegments[pathSegments.length - 2]
+        .charAt(0)
+        .toUpperCase()
+        .concat(pathSegments[pathSegments.length - 2].slice(1).replace('-', ' '));
+    }
     return currentPage.charAt(0).toUpperCase() + currentPage.slice(1).replace('-', ' ');
   };
 

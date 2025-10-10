@@ -88,15 +88,15 @@ export default function ResumeDashboardPage() {
             <p className="text-gray-600 mt-2">Manage and organize all your professional resumes</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
-            <button
+            {/* <button
               onClick={() => router.push('/dashboard/resume/create')}
               className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl font-semibold"
             >
               <Plus size={20} />
               Create New Resume
-            </button>
+            </button> */}
             <button
-              onClick={() => router.push('/dashboard/resume/templates')}
+              onClick={() => router.push('/dashboard/templates')}
               className="px-6 py-3 border-2 border-green-200 text-green-700 rounded-xl hover:bg-green-50 hover:border-green-300 transition-all duration-300 font-semibold backdrop-blur-sm bg-white/70"
             >
               Browse Templates
@@ -274,9 +274,7 @@ export default function ResumeDashboardPage() {
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2">
                             <button
-                              onClick={() =>
-                                router.push(`/dashboard/resume/create?resumeId=${resume._id}`)
-                              }
+                              onClick={() => router.push(`/dashboard/resume/${resume._id}`)}
                               className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors duration-200"
                               title="Edit Resume"
                             >
@@ -323,7 +321,7 @@ export default function ResumeDashboardPage() {
                 : 'Start by creating your first professional resume with our easy-to-use builder.'}
             </p>
             <button
-              onClick={() => router.push('/dashboard/resume/create')}
+              onClick={() => router.push('/dashboard/templates')}
               className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl font-semibold"
             >
               <Plus size={20} />

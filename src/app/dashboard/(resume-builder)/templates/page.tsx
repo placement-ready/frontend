@@ -61,7 +61,7 @@ export default function TemplatesPage() {
 
   const handleUseTemplate = async (templateId: string) => {
     const resumeId = await newResume(templateId);
-    router.push(`/dashboard/resume/create?resumeId=${resumeId}`);
+    router.push(`/dashboard/resume/${resumeId}`);
   };
 
   // Filter & sort templates

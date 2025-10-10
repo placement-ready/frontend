@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import {
   User,
   Briefcase,
@@ -70,9 +70,8 @@ const ResumeHeader = React.memo<{
 ResumeHeader.displayName = 'ResumeHeader';
 
 const ResumeBuilder: React.FC = () => {
-  const params = useSearchParams();
-  const router = useRouter();
-  const resumeId = params.get('resumeId');
+  let { resumeId } = useParams();
+  resumeId = Array.isArray(resumeId) ? resumeId[0] : resumeId;
 
   const [currentPage, setCurrentPage] = useState<PageId>('personal');
   const [showPreview, setShowPreview] = useState(false);
@@ -170,14 +169,10 @@ const ResumeBuilder: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!resumeId) {
-      router.replace('/dashboard/resume/templates');
-      return;
-    }
     if (resumeData?.data) {
       setResumeDetails(resumeData.data);
     }
-  }, [resumeId, router, resumeData]);
+  }, [resumeData]);
 
   const compileResume = useCallback(async () => {
     try {

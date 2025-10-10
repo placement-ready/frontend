@@ -183,24 +183,17 @@ const menuItems: SidebarConfig = {
       type: 'heading',
       children: [
         {
-          id: 'create-resume',
-          name: 'Create Resume',
-          icon: <MdAdd />,
-          href: '/dashboard/resume/create',
-          type: 'link',
-        },
-        {
           id: 'my-resumes',
           name: 'My Resumes',
           icon: <MdPerson />,
-          href: '/dashboard/resume/my-resumes',
+          href: '/dashboard/resume',
           type: 'link',
         },
         {
           id: 'templates',
           name: 'Templates',
           icon: <MdBook />,
-          href: '/dashboard/resume/templates',
+          href: '/dashboard/templates',
           type: 'link',
         },
       ],
