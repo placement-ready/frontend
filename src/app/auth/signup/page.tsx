@@ -5,12 +5,12 @@ import { Form } from '@/components/auth/AuthForm';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth/context';
 
-export default function LoginForm() {
+export default function SignupForm() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { register } = useAuth();
 
   const handleSubmit = async (email: string, password: string) => {
-    await login(email, password);
+    await register(email, password, email.split('@')[0]);
     router.push('/dashboard');
   };
 
@@ -20,24 +20,21 @@ export default function LoginForm() {
 
   return (
     <Form.Root onSubmit={handleSubmit}>
-      <Form.Header title="Welcome Back" subtitle="Sign in to continue to HireMind" />
+      <Form.Header title="Create Account" subtitle="Join HireMind today" />
 
       <Form.Error />
 
       <Form.EmailField placeholder="Enter your email" />
 
-      <div className="space-y-2">
-        <Form.PasswordField placeholder="Enter your password" />
-        <Form.ForgotPassword />
-      </div>
+      <Form.PasswordField placeholder="Create a password" />
 
-      <Form.SubmitButton loadingText="Signing in...">Sign In</Form.SubmitButton>
+      <Form.SubmitButton loadingText="Creating account...">Sign Up</Form.SubmitButton>
 
-      <Form.FooterLink text="Don't have an account?" linkText="Sign up" linkHref="/auth/signup" />
+      <Form.FooterLink text="Already have an account?" linkText="Sign in" linkHref="/auth/login" />
 
       <Form.Separator />
 
-      <Form.GoogleButton onGoogleSignIn={handleGoogleSignIn} />
+      <Form.GoogleButton onGoogleSignIn={handleGoogleSignIn} text="Sign up with Google" />
 
       <Form.TermsFooter />
     </Form.Root>

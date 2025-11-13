@@ -17,7 +17,7 @@ import {
   TbLayoutSidebarLeftExpandFilled as SidebarOpen,
   TbLayoutSidebarLeftCollapseFilled as SidebarClose,
 } from 'react-icons/tb';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/lib/auth/context';
 import Sidebar from './Sidebar';
 import menuItems from './MenuItems';
 
@@ -154,7 +154,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const handleLogout = async () => {
     try {
-      await logout.mutate();
+      await logout();
     } catch (error) {
       console.error('Error signing out:', error);
     }

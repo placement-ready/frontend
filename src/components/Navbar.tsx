@@ -31,7 +31,7 @@ import {
 import { FaRegMoon } from 'react-icons/fa';
 import { useTheme } from '@/providers/ThemeContext';
 import { useRouter, usePathname } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/lib/auth/context';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -44,7 +44,7 @@ const Navbar = () => {
 
   const handleSignOut = async () => {
     try {
-      await logout.mutate();
+      await logout();
     } catch (error) {
       console.error('Error signing out:', error);
     }

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { MdLogout } from 'react-icons/md';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/lib/auth/context';
 
 interface SidebarMenuItem {
   id: string;
@@ -71,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
 
   const handleSignOut = async () => {
     try {
-      await logout.mutate();
+      await logout();
     } catch (error) {
       console.error('Error signing out:', error);
     }

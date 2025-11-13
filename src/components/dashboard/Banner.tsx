@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '@/hooks';
+import { useAuth } from '@/lib/auth/context';
 import {
   MdTrendingUp,
   MdPlayArrow,
