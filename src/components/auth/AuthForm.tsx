@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, FormEvent } from 'react';
 import Image from 'next/image';
 import { EnvelopeIcon, LockClosedIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { Spinner } from '@/components/ui/spinner';
 
 // Context for form state management
 interface FormContextType {
@@ -221,7 +222,7 @@ const FormSubmitButton = ({ children, loadingText = 'Loading...' }: FormSubmitBu
     >
       {isLoading ? (
         <div className="flex items-center justify-center gap-2">
-          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          <Spinner className="text-white" />
           {loadingText}
         </div>
       ) : (

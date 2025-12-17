@@ -13,15 +13,16 @@ class ApiClient {
   private async makeRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const url = `${this.baseURL}${endpoint}`;
     const accessToken = tokenManager.getAccessToken();
+    const isFormData = options.body instanceof FormData;
 
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-      ...(options.headers as Record<string, string>),
-    };
+    const headers = new Headers(options.headers ?? undefined);
 
-    // Add auth header if token exists
+    if (!isFormData && !headers.has('Content-Type')) {
+      headers.set('Content-Type', 'application/json');
+    }
+
     if (accessToken) {
-      headers.Authorization = `Bearer ${accessToken}`;
+      headers.set('Authorization', `Bearer ${accessToken}`);
     }
 
     const config: RequestInit = {
@@ -40,7 +41,7 @@ class ApiClient {
           // Retry the request with new token
           const newAccessToken = tokenManager.getAccessToken();
           if (newAccessToken) {
-            headers.Authorization = `Bearer ${newAccessToken}`;
+            headers.set('Authorization', `Bearer ${newAccessToken}`);
             const retryResponse = await fetch(url, { ...config, headers });
 
             if (!retryResponse.ok) {
@@ -129,16 +130,18 @@ class ApiClient {
   }
 
   async post<T>(endpoint: string, data?: unknown): Promise<T> {
+    const body = data instanceof FormData ? data : data ? JSON.stringify(data) : undefined;
     return this.makeRequest<T>(endpoint, {
       method: 'POST',
-      body: data ? JSON.stringify(data) : undefined,
+      body,
     });
   }
 
   async put<T>(endpoint: string, data?: unknown): Promise<T> {
+    const body = data instanceof FormData ? data : data ? JSON.stringify(data) : undefined;
     return this.makeRequest<T>(endpoint, {
       method: 'PUT',
-      body: data ? JSON.stringify(data) : undefined,
+      body,
     });
   }
 
@@ -147,9 +150,10 @@ class ApiClient {
   }
 
   async patch<T>(endpoint: string, data?: unknown): Promise<T> {
+    const body = data instanceof FormData ? data : data ? JSON.stringify(data) : undefined;
     return this.makeRequest<T>(endpoint, {
       method: 'PATCH',
-      body: data ? JSON.stringify(data) : undefined,
+      body,
     });
   }
 }

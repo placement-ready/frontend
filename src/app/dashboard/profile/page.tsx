@@ -444,8 +444,6 @@ const Profile: React.FC = () => {
     return <ProfileError error="No profile data found" />;
   }
 
-  console.log('User Profile Data:', userProfile);
-
   const profileData = {
     personalInfo: {
       name: userProfile?.name || 'User Name',

@@ -8,7 +8,7 @@ export const useAskMentor = () => {
   return useMutation({
     mutationFn: (message: string) => mentorApi.askQuestion(message),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.mentors() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.mentorQuestions() });
     },
   });
 };

@@ -1,53 +1,25 @@
-// Query keys for consistent key management
+import type { PaginationParams } from '@/types/api/common';
+
+// Minimal query keys scoped to the features we actually ship today
 export const queryKeys = {
   // Auth
   auth: () => ['auth'] as const,
   authUser: () => ['auth', 'user'] as const,
+  authCheckUser: (email: string) => ['auth', 'check-user', email] as const,
+  authEmailVerification: (email: string) => ['auth', 'email-verified', email] as const,
 
   // Users
   users: () => ['users'] as const,
-  user: (id: string) => ['users', id] as const,
+  usersList: (params?: PaginationParams) => ['users', 'list', params ?? {}] as const,
+  user: (id: string) => ['users', 'detail', id] as const,
   profile: () => ['users', 'profile'] as const,
-  userProfile: (id: string) => ['users', id, 'profile'] as const,
 
-  // Mentors
-  mentors: () => ['mentors'] as const,
-  mentor: (id: string) => ['mentors', id] as const,
+  // Resumes
+  resumes: () => ['resumes'] as const,
+  resume: (id: string) => ['resumes', 'detail', id] as const,
+  resumeTemplates: () => ['resumes', 'templates'] as const,
+  resumeTemplate: (id: string) => ['resumes', 'templates', id] as const,
 
-  // Companies
-  companies: () => ['companies'] as const,
-  company: (id: string) => ['companies', id] as const,
-
-  // Jobs
-  jobs: () => ['jobs'] as const,
-  job: (id: string) => ['jobs', id] as const,
-  jobsRecommended: (userId: string) => ['jobs', 'recommended', userId] as const,
-
-  // Applications
-  applications: () => ['applications'] as const,
-  application: (id: string) => ['applications', id] as const,
-  applicationsByUser: (userId: string) => ['applications', 'user', userId] as const,
-  applicationsByJob: (jobId: string) => ['applications', 'job', jobId] as const,
-
-  // Placements
-  placements: () => ['placements'] as const,
-  placement: (id: string) => ['placements', id] as const,
-
-  // Practice
-  practice: () => ['practice'] as const,
-  practiceQuestions: () => ['practice', 'questions'] as const,
-  practiceQuestion: (id: string) => ['practice', 'questions', id] as const,
-  practiceTests: () => ['practice', 'tests'] as const,
-  practiceTest: (id: string) => ['practice', 'tests', id] as const,
-
-  // Analytics
-  analytics: () => ['analytics'] as const,
-  analyticsDashboard: (userId?: string) => ['analytics', 'dashboard', userId] as const,
-
-  // Notifications
-  notifications: (userId: string) => ['notifications', userId] as const,
-  notificationsUnread: (userId: string) => ['notifications', userId, 'unread'] as const,
-
-  // Settings
-  settings: (userId: string) => ['settings', userId] as const,
+  // Mentor
+  mentorQuestions: () => ['mentor', 'questions'] as const,
 };

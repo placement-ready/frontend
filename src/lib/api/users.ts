@@ -2,6 +2,20 @@ import { api } from '@/lib/api/client';
 import type { User, PaginationParams, PaginatedResponse } from '@/types/api/common';
 import { UserProfile } from '@/types/profile';
 
+const buildQueryString = (params?: PaginationParams) => {
+  if (!params) return '';
+
+  const searchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      searchParams.append(key, String(value));
+    }
+  });
+
+  const query = searchParams.toString();
+  return query ? `?${query}` : '';
+};
+
 // User-specific types
 export interface UpdateUserRequest extends Record<string, string | undefined> {
   name?: string;
@@ -19,13 +33,11 @@ export interface CreateUserRequest extends Record<string, string> {
 // Users API endpoints
 export const usersApi = {
   // Get paginated users list
-  getUsers: (params?: PaginationParams) => api.get<PaginatedResponse<User>>(`/users/${params}`),
+  getUsers: (params?: PaginationParams) =>
+    api.get<PaginatedResponse<User>>(`/users${buildQueryString(params)}`),
 
   // Get user by ID
   getUser: (id: string) => api.get<User>(`/users/${id}`),
-
-  // Get user profile
-  getUserProfile: (id: string) => api.get<UserProfile>(`/users/${id}/profile`),
 
   // Get profile
   getProfile: () => api.get<UserProfile>('/user/profile'),

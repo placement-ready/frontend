@@ -1,8 +1,9 @@
 // Auth-related React Query hooks
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { authApi } from '@/lib/api/auth';
 import { queryKeys } from './keys';
 import { useAuth } from '@/lib/auth/context';
+import { useAppQuery } from './useAppQuery';
 import type {
   LoginRequest,
   RegisterRequest,
@@ -12,24 +13,24 @@ import type {
 } from '@/types/api/common';
 
 // Check if user exists query
-export const useCheckUserExists = (email: string, enabled = true) => {
-  return useQuery({
-    queryKey: ['auth', 'check-user', email],
+export const useCheckUserExists = (email: string, enabled = true) =>
+  useAppQuery({
+    queryKey: queryKeys.authCheckUser(email),
     queryFn: () => authApi.checkUserExists(email),
     enabled: enabled && !!email,
-    staleTime: 1000 * 60 * 2, // 2 minutes
+    staleTime: 1000 * 60 * 2,
+    errorMessage: 'Unable to verify if user exists',
   });
-};
 
 // Check if email is verified query
-export const useCheckEmailVerified = (email: string, enabled = true) => {
-  return useQuery({
-    queryKey: ['auth', 'check-email-verified', email],
+export const useCheckEmailVerified = (email: string, enabled = true) =>
+  useAppQuery({
+    queryKey: queryKeys.authEmailVerification(email),
     queryFn: () => authApi.isEmailVerified(email),
     enabled: enabled && !!email,
-    staleTime: 1000 * 60 * 2, // 2 minutes
+    staleTime: 1000 * 60 * 2,
+    errorMessage: 'Unable to check email verification',
   });
-};
 
 // Login mutation
 export const useLogin = () => {

@@ -1,46 +1,37 @@
 // Users-related React Query hooks
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { usersApi, type CreateUserRequest, type UpdateUserRequest } from '@/lib/api/users';
 import { queryKeys } from './keys';
 import type { PaginationParams } from '@/types/api/common';
+import { useAppQuery } from './useAppQuery';
 
 // Get users list query
-export const useUsers = (params?: PaginationParams) => {
-  return useQuery({
-    queryKey: [...queryKeys.users(), params],
+export const useUsers = (params?: PaginationParams) =>
+  useAppQuery({
+    queryKey: queryKeys.usersList(params),
     queryFn: () => usersApi.getUsers(params),
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
+    errorMessage: 'Unable to load users list',
   });
-};
 
 // Get single user query
-export const useUser = (id: string, enabled = true) => {
-  return useQuery({
+export const useUser = (id: string, enabled = true) =>
+  useAppQuery({
     queryKey: queryKeys.user(id),
     queryFn: () => usersApi.getUser(id),
     enabled: enabled && !!id,
     staleTime: 1000 * 60 * 5,
+    errorMessage: 'Unable to load user details',
   });
-};
-
-// Get user profile query
-export const useUserProfile = (id: string, enabled = true) => {
-  return useQuery({
-    queryKey: queryKeys.userProfile(id),
-    queryFn: () => usersApi.getUserProfile(id),
-    enabled: enabled && !!id,
-    staleTime: 1000 * 60 * 5,
-  });
-};
 
 // Get profile query
-export const useGetProfile = () => {
-  return useQuery({
+export const useGetProfile = () =>
+  useAppQuery({
     queryKey: queryKeys.profile(),
     queryFn: () => usersApi.getProfile(),
     staleTime: 1000 * 60 * 5,
+    errorMessage: 'Unable to load your profile',
   });
-};
 
 // Create user mutation
 export const useCreateUser = () => {
