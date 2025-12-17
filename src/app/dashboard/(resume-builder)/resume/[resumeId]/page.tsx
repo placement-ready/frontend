@@ -14,7 +14,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
-import { useGetResumeById, useCompileResume, useUpdateResume } from '@/lib/queries';
+import { resumeApi } from '@/features/resume/api';
 import type { ResumeData } from '@/types/api/common';
 import {
   PersonalInfoSection,
@@ -23,8 +23,8 @@ import {
   SkillsSection,
   AchievementsSection,
   PreviewPlaceholder,
-} from '@/components/resume';
-import type { ResumeExperience, ResumeEducation } from '@/components/resume/types';
+} from '@/features/resume/components';
+import type { ResumeExperience, ResumeEducation } from '@/features/resume/components/types';
 
 // Unique ID generator
 const generateUniqueId = (() => {
@@ -76,11 +76,9 @@ const ResumeBuilder: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<PageId>('personal');
   const [showPreview, setShowPreview] = useState(false);
   const [htmlPreview, setHtmlPreview] = useState<string>('');
-
-  // React Query hooks
-  const { data: resumeData, isLoading: isLoading } = useGetResumeById(resumeId || '');
-  const compileResumeMutation = useCompileResume();
-  const updateResume = useUpdateResume();
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [isCompiling, setIsCompiling] = useState(false);
 
   const [resumeDetails, setResumeDetails] = useState<ResumeData>({
     _id: resumeId || '',
@@ -169,22 +167,53 @@ const ResumeBuilder: React.FC = () => {
   };
 
   useEffect(() => {
-    if (resumeData?.data) {
-      setResumeDetails(resumeData.data);
+    if (!resumeId) {
+      setIsLoading(false);
+      setLoadError('Missing resume identifier.');
+      return;
     }
-  }, [resumeData]);
+
+    let active = true;
+
+    const fetchResume = async () => {
+      setIsLoading(true);
+      setLoadError(null);
+      try {
+        const response = await resumeApi.getResumeById(resumeId);
+        if (!active) return;
+        setResumeDetails(response.data);
+      } catch (err) {
+        if (!active) return;
+        console.error('Failed to load resume details', err);
+        setLoadError(err instanceof Error ? err.message : 'Failed to load resume');
+      } finally {
+        if (active) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchResume();
+
+    return () => {
+      active = false;
+    };
+  }, [resumeId]);
 
   const compileResume = useCallback(async () => {
+    if (!resumeId) return;
+    setIsCompiling(true);
     try {
-      if (!resumeId) return;
-      await updateResume.mutateAsync(resumeDetails);
-      const result = await compileResumeMutation.mutateAsync(resumeDetails);
+      await resumeApi.updateResume(resumeDetails);
+      const result = await resumeApi.compileResume(resumeDetails);
       setHtmlPreview(result.data);
       setShowPreview(true);
     } catch (error) {
       console.error('Error compiling resume:', error);
+    } finally {
+      setIsCompiling(false);
     }
-  }, [resumeId, compileResumeMutation, resumeDetails, updateResume]);
+  }, [resumeDetails, resumeId]);
 
   const downloadPDF = useCallback(() => {
     if (!showPreview || !htmlPreview) return;
@@ -430,6 +459,14 @@ const ResumeBuilder: React.FC = () => {
     );
   }
 
+  if (loadError) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-red-500">{loadError}</p>
+      </div>
+    );
+  }
+
   return (
     <main className="max-w-screen-2xl mx-auto">
       <div className="mb-8">
@@ -448,10 +485,10 @@ const ResumeBuilder: React.FC = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={compileResume}
-              disabled={compileResumeMutation.isPending}
+              disabled={isCompiling}
               className="flex items-center gap-2 py-2.5 px-4 text-sm font-semibold rounded-lg text-white bg-green-600 hover:bg-green-700 disabled:bg-green-400 transition-colors"
             >
-              {compileResumeMutation.isPending ? (
+              {isCompiling ? (
                 <>
                   <Loader2 size={16} className="animate-spin" /> Compiling...
                 </>
@@ -588,10 +625,7 @@ const ResumeBuilder: React.FC = () => {
               {showPreview ? (
                 <div dangerouslySetInnerHTML={{ __html: htmlPreview }} />
               ) : (
-                <PreviewPlaceholder
-                  compileResume={compileResume}
-                  isCompiling={compileResumeMutation.isPending}
-                />
+                <PreviewPlaceholder compileResume={compileResume} isCompiling={isCompiling} />
               )}
             </div>
           </div>
@@ -608,10 +642,7 @@ const ResumeBuilder: React.FC = () => {
             {showPreview ? (
               <div dangerouslySetInnerHTML={{ __html: htmlPreview }} />
             ) : (
-              <PreviewPlaceholder
-                compileResume={compileResume}
-                isCompiling={compileResumeMutation.isPending}
-              />
+              <PreviewPlaceholder compileResume={compileResume} isCompiling={isCompiling} />
             )}
           </div>
         </div>

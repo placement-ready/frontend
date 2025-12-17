@@ -1,4 +1,4 @@
-import { api } from './client';
+import { api } from '@/lib/http/client';
 import { ResumeData, ResumeResponse, TemplateResponse } from '@/types/api/common';
 
 // Resume API endpoints

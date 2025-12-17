@@ -1,4 +1,4 @@
-import { api } from '@/lib/api/client';
+import { api } from '@/lib/http/client';
 import type { User, PaginationParams, PaginatedResponse } from '@/types/api/common';
 import { UserProfile } from '@/types/profile';
 

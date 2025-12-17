@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Eye,
@@ -15,22 +15,61 @@ import {
   FileText,
   Loader2,
 } from 'lucide-react';
-import { useGetResumes, useDeleteResume } from '@/lib/queries';
+import { resumeApi } from '@/features/resume/api';
+import type { ResumeData } from '@/types/api/common';
 
 export default function ResumeDashboardPage() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<'All' | 'Draft' | 'Complete'>('All');
   const [sort, setSort] = useState<'recent' | 'az'>('recent');
+  const [resumes, setResumes] = useState<ResumeData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const router = useRouter();
-  const { data: resumesResponse, isLoading, isError } = useGetResumes();
-  const resumes = resumesResponse?.data || [];
-  const deleteResume = useDeleteResume();
+
+  useEffect(() => {
+    let active = true;
+
+    const fetchResumes = async () => {
+      setIsLoading(true);
+      try {
+        const response = await resumeApi.getResumes();
+        if (!active) return;
+        setResumes(response.data ?? []);
+        setError(null);
+      } catch (err) {
+        if (!active) return;
+        console.error('Failed to load resumes', err);
+        setError(err instanceof Error ? err.message : 'Failed to load resumes');
+      } finally {
+        if (active) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchResumes();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   // Handlers
   const handleDelete = async (id?: string) => {
     if (!id) return;
     if (confirm('Are you sure you want to delete this resume?')) {
-      await deleteResume.mutateAsync(id);
+      setDeletingId(id);
+      try {
+        await resumeApi.deleteResume(id);
+        setResumes((prev) => prev.filter((resume) => resume._id !== id));
+      } catch (err) {
+        console.error('Failed to delete resume', err);
+        setError('Failed to delete resume. Please try again.');
+      } finally {
+        setDeletingId((prev) => (prev === id ? null : prev));
+      }
     }
   };
 
@@ -45,10 +84,10 @@ export default function ResumeDashboardPage() {
     );
   }
 
-  if (isError) {
+  if (error) {
     return (
       <div className="flex items-center justify-center h-64">
-        <p className="text-red-500">Failed to load resumes. Please try again later.</p>
+        <p className="text-red-500">{error}</p>
       </div>
     );
   }
@@ -294,8 +333,9 @@ export default function ResumeDashboardPage() {
                             </button>
                             <button
                               onClick={() => handleDelete(resume._id)}
-                              className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-200"
+                              className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-200 disabled:opacity-50"
                               title="Delete Resume"
+                              disabled={deletingId === resume._id}
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>

@@ -1,5 +1,5 @@
 // Auth-related API functions
-import { api } from '@/lib/api/client';
+import { api } from '@/lib/http/client';
 import type {
   LoginRequest,
   LoginResponse,

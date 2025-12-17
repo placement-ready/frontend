@@ -1,6 +1,6 @@
 {
-  "name": "placement-hub",
-  "version": "0.1.0",
+  "name": "hiremind-frontend",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -15,6 +15,7 @@
     "@tanstack/react-query": "^5.85.3",
     "@tanstack/react-query-devtools": "^5.85.3",
     "@types/react-router-dom": "^5.3.3",
+    "better-auth": "^1.4.7",
     "chart.js": "^4.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

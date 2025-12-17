@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
   UserIcon,
@@ -19,8 +19,16 @@ import {
   ShareIcon,
   GlobeAltIcon,
 } from '@heroicons/react/24/outline';
-import { useGetProfile } from '@/lib/queries/users';
-import { PersonalInfo, Education, Experience, Skill, Project, Achievement } from '@/types/profile';
+import { usersApi } from '@/features/profile/api';
+import {
+  PersonalInfo,
+  Education,
+  Experience,
+  Skill,
+  Project,
+  Achievement,
+  UserProfile,
+} from '@/types/profile';
 
 const ProfileSkeleton = () => (
   <div className="min-h-screen bg-gray-50 animate-pulse">
@@ -429,15 +437,43 @@ const QuickStatsCard = ({
 const Profile: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [isEditing, setIsEditing] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const { data: userProfile, isLoading, error } = useGetProfile();
+  useEffect(() => {
+    let active = true;
+
+    const fetchProfile = async () => {
+      try {
+        const profile = await usersApi.getProfile();
+        if (!active) return;
+        setUserProfile(profile);
+        setError(null);
+      } catch (err) {
+        if (!active) return;
+        console.error('Failed to load profile', err);
+        setError(err instanceof Error ? err.message : 'Failed to load profile data');
+      } finally {
+        if (active) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchProfile();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   if (isLoading) {
     return <ProfileSkeleton />;
   }
 
   if (error) {
-    return <ProfileError error={error.message || 'Failed to load profile data'} />;
+    return <ProfileError error={error} />;
   }
 
   if (!userProfile) {

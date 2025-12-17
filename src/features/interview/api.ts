@@ -1,4 +1,4 @@
-import { api } from './client';
+import { api } from '@/lib/http/client';
 
 export const mentorApi = {
   // ask mentor a question

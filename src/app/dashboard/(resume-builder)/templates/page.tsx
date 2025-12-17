@@ -1,22 +1,50 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaSearch } from 'react-icons/fa';
 import Image from 'next/image';
-import { useGetTemplates, useCreateResume } from '@/lib/queries/resume';
-import { ResumeData } from '@/types/api/common';
+import { resumeApi } from '@/features/resume/api';
+import type { ResumeData, Template } from '@/types/api/common';
 
 export default function TemplatesPage() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('All');
   const [sort, setSort] = useState('az');
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
   const router = useRouter();
 
-  const { data: templatesData, isLoading, error } = useGetTemplates();
-  const createResume = useCreateResume();
+  useEffect(() => {
+    let active = true;
 
-  const resumeData: ResumeData = {
+    const loadTemplates = async () => {
+      try {
+        const response = await resumeApi.getTemplates();
+        if (!active) return;
+        setTemplates(response.data ?? []);
+        setError(null);
+      } catch (err) {
+        if (!active) return;
+        console.error('Failed to load templates', err);
+        setError(err instanceof Error ? err.message : 'Unable to load templates');
+      } finally {
+        if (active) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadTemplates();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const buildResumePayload = (templateId: string): ResumeData => ({
     name: 'Untitled Resume',
     status: 'draft',
     fullName: '',
@@ -46,26 +74,30 @@ export default function TemplatesPage() {
     ],
     skills: [],
     achievements: [],
-    template: templatesData?.data[0]?._id || '',
-  };
+    template: templateId,
+  });
 
-  // temp
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading templates</div>;
-
-  const newResume = async (templateId: string) => {
-    resumeData.template = templateId;
-    const result = await createResume.mutateAsync(resumeData);
-    return result.data._id;
-  };
+  if (error) return <div>{error}</div>;
 
   const handleUseTemplate = async (templateId: string) => {
-    const resumeId = await newResume(templateId);
-    router.push(`/dashboard/resume/${resumeId}`);
+    setIsCreating(true);
+    try {
+      const result = await resumeApi.createResume(buildResumePayload(templateId));
+      const resumeId = result.data._id;
+      if (resumeId) {
+        router.push(`/dashboard/resume/${resumeId}`);
+      }
+    } catch (err) {
+      console.error('Failed to create resume', err);
+      setError('Failed to create resume. Please try again.');
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   // Filter & sort templates
-  const filteredTemplates = templatesData?.data
+  const filteredTemplates = templates
     .filter((template) => template.title.toLowerCase().includes(search.toLowerCase()))
     .filter((template) => (filter === 'All' ? true : template.preferredBy.includes(filter)))
     .sort((a, b) => {
@@ -153,9 +185,10 @@ export default function TemplatesPage() {
                     <p className="text-sm text-gray-600 mb-4">{template.description}</p>
                     <button
                       onClick={() => handleUseTemplate(template._id)}
+                      disabled={isCreating}
                       className="w-full px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg font-semibold"
                     >
-                      Use Template
+                      {isCreating ? 'Preparing…' : 'Use Template'}
                     </button>
                   </div>
                 </div>

@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { tokenManager, type AuthUser } from '@/lib/auth/tokens';
-import { authApi } from '@/lib/api/auth';
+import { authApi } from '@/features/auth/api';
 
 interface AuthContextType {
   user: AuthUser | null;
