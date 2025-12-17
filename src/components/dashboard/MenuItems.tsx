@@ -39,8 +39,8 @@ const menuItems: SidebarConfig = {
     alt: 'HireMind Logo',
     title: 'HireMind',
   },
-  showProfile: true,
-  showLogout: true,
+  showProfile: false,
+  showLogout: false,
   menuItems: [
     {
       id: 'dashboard',

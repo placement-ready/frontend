@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { MdLogout } from 'react-icons/md';
 import { useAuth } from '@/lib/auth/context';
 
@@ -40,6 +40,7 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
   const { user, logout } = useAuth();
+  const router = useRouter();
 
   // Handle responsive behavior
   useEffect(() => {
@@ -72,6 +73,7 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
   const handleSignOut = async () => {
     try {
       await logout();
+      router.push('/');
     } catch (error) {
       console.error('Error signing out:', error);
     }

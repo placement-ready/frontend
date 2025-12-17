@@ -40,11 +40,10 @@ const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const userImage = user?.avatar || '/brain.png';
-
   const handleSignOut = async () => {
     try {
       await logout();
+      router.push('/');
     } catch (error) {
       console.error('Error signing out:', error);
     }
@@ -180,8 +179,8 @@ const Navbar = () => {
                     icon={
                       <span className="relative flex items-center">
                         <Image
-                          src={userImage}
-                          alt={user?.name || 'User'}
+                          src={user?.avatar || '/user-avatar.svg'}
+                          alt={user?.name || 'User Avatar'}
                           width={32}
                           height={32}
                           className="rounded-full object-cover shadow"
@@ -252,8 +251,8 @@ const Navbar = () => {
               {isAuthenticated && (
                 <div className="flex flex-col items-center mb-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-6 border border-green-100 dark:border-gray-800">
                   <Image
-                    src={userImage}
-                    alt={user?.name || 'User'}
+                    src={user?.avatar || '/user-avatar.svg'}
+                    alt={user?.name || 'User Avatar'}
                     width={64}
                     height={64}
                     className="rounded-full object-cover border-3 border-green-500 shadow-lg"

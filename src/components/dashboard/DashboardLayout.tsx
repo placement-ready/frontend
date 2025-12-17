@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   MdSearch,
   MdNotifications,
@@ -72,6 +72,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const { user, logout } = useAuth();
   const pathname = usePathname();
+  const router = useRouter();
 
   // Sync dark mode with localStorage "theme"
   useEffect(() => {
@@ -155,6 +156,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const handleLogout = async () => {
     try {
       await logout();
+      router.push('/');
     } catch (error) {
       console.error('Error signing out:', error);
     }
