@@ -14,7 +14,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
-import { resumeApi } from '@/features/resume/api';
+// import { resumeApi } from '@/features/resume/api';
 import type { ResumeData } from '@/types/api/common';
 import {
   PersonalInfoSection,
@@ -179,9 +179,9 @@ const ResumeBuilder: React.FC = () => {
       setIsLoading(true);
       setLoadError(null);
       try {
-        const response = await resumeApi.getResumeById(resumeId);
+        // const response = await resumeApi.getResumeById(resumeId);
         if (!active) return;
-        setResumeDetails(response.data);
+        // setResumeDetails(response.data);
       } catch (err) {
         if (!active) return;
         console.error('Failed to load resume details', err);
@@ -204,9 +204,9 @@ const ResumeBuilder: React.FC = () => {
     if (!resumeId) return;
     setIsCompiling(true);
     try {
-      await resumeApi.updateResume(resumeDetails);
-      const result = await resumeApi.compileResume(resumeDetails);
-      setHtmlPreview(result.data);
+      // await resumeApi.updateResume(resumeDetails);
+      // const result = await resumeApi.compileResume(resumeDetails);
+      // setHtmlPreview(result.data);
       setShowPreview(true);
     } catch (error) {
       console.error('Error compiling resume:', error);

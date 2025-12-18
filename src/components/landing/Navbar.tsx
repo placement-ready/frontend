@@ -22,8 +22,8 @@ import {
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { useAuth } from '@/lib/auth/context';
 import { useTheme } from '@/providers/ThemeContext';
+import { authClient } from '@/lib/auth-client';
 import {
   DropdownContent,
   DropdownItem,
@@ -68,7 +68,9 @@ const featureLinks = [
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { user, isAuthenticated, logout } = useAuth();
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+  const isAuthenticated = !!user;
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
@@ -84,7 +86,7 @@ const Navbar = () => {
 
   const handleSignOut = async () => {
     try {
-      await logout();
+      await authClient.signOut();
       router.push('/');
     } catch (error) {
       console.error('Error signing out:', error);
@@ -224,8 +226,8 @@ const Navbar = () => {
                 >
                   <span className="flex items-center gap-2">
                     <Image
-                      src={user?.avatar || '/user-avatar.svg'}
-                      alt={user?.name || 'Profile avatar'}
+                      src={user?.image || '/user-icon.svg'}
+                      alt={user?.name || 'Profile Image'}
                       width={28}
                       height={28}
                       className="rounded-full object-cover ring-2 ring-emerald-500/50"
@@ -299,8 +301,8 @@ const Navbar = () => {
             <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50/70 p-5 dark:border-emerald-500/20 dark:bg-emerald-500/10">
               <div className="flex items-center gap-3">
                 <Image
-                  src={user?.avatar || '/user-avatar.svg'}
-                  alt={user?.name || 'Profile avatar'}
+                  src={user?.image || '/user-icon.svg'}
+                  alt={user?.name || 'Profile Image'}
                   width={48}
                   height={48}
                   className="rounded-full object-cover ring-2 ring-emerald-500/50"

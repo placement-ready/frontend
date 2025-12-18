@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, ReactNode, createContext, useContext } from 'react';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon } from 'lucide-react';
 
 // Context for dropdown state
 interface DropdownContextValue {

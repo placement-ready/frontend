@@ -1,8 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { QuestionCard } from '@/components/interview/QuestionCard';
+import { AnswerInput } from '@/components/interview/AnswerInput';
 
-const practiceQuestions = [
+const PRACTICE_QUESTIONS = [
   'Tell me about yourself.',
   'Describe a challenging project and how you handled it.',
   'How do you stay updated with industry trends?',
@@ -10,95 +14,90 @@ const practiceQuestions = [
   'Why do you want to work with us?',
 ];
 
-const InterviewPractice: React.FC = () => {
+export default function InterviewPracticePage() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answered, setAnswered] = useState<string[]>([]);
-  const [userAnswer, setUserAnswer] = useState('');
+  const [answers, setAnswers] = useState<Record<number, string>>({});
+
+  const currentAnswer = answers[currentIndex] || '';
+
+  const handleAnswerChange = (value: string) => {
+    setAnswers((prev) => ({ ...prev, [currentIndex]: value }));
+  };
 
   const handleNext = () => {
-    if (userAnswer.trim()) {
-      const updated = [...answered];
-      updated[currentIndex] = userAnswer;
-      setAnswered(updated);
-      setUserAnswer('');
-      if (currentIndex < practiceQuestions.length - 1) {
-        setCurrentIndex(currentIndex + 1);
-      }
+    if (currentIndex < PRACTICE_QUESTIONS.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
     }
   };
 
-  const handlePrev = () => {
+  const handlePrevious = () => {
     if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-      setUserAnswer(answered[currentIndex - 1] || '');
+      setCurrentIndex((prev) => prev - 1);
     }
   };
 
   const handleReset = () => {
     setCurrentIndex(0);
-    setAnswered([]);
-    setUserAnswer('');
+    setAnswers({});
   };
 
+  const progress = ((currentIndex + 1) / PRACTICE_QUESTIONS.length) * 100;
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col items-center justify-center font-sans p-4">
-      <div className="bg-white dark:bg-gray-800 p-10 rounded-2xl shadow-lg max-w-3xl w-full">
-        <div className="w-14 h-14 bg-green-100/30 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
-          <span role="img" aria-label="practice" className="text-3xl">
-            🎤
-          </span>
-        </div>
-        <h2 className="text-center font-extrabold text-gray-900 dark:text-white mb-6 text-2xl tracking-tight">
-          Interview Practice
-        </h2>
-        <p className="text-center text-green-700 dark:text-green-400 font-medium mb-8">
-          Practice answering key interview questions aloud or in writing.
+    <div className="mx-auto max-w-4xl space-y-6 p-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-bold text-foreground">Interview Practice</h1>
+        <p className="text-sm text-muted-foreground">
+          Practice answering common interview questions
         </p>
-        <div
-          tabIndex={0}
-          className="bg-green-50/30 dark:bg-green-900/30 border border-green-200/40 dark:border-green-700/40 rounded-lg p-6 mb-8 text-left text-lg font-medium text-gray-900 dark:text-green-300 min-h-[72px] shadow-inner transform transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 hover:scale-[1.025]"
-          aria-label="Current interview question"
-        >
-          {practiceQuestions[currentIndex]}
+      </div>
+
+      {/* Progress */}
+      <div className="space-y-2">
+        <div className="flex justify-between text-sm text-muted-foreground">
+          <span>Progress</span>
+          <span>{Math.round(progress)}%</span>
         </div>
-        <textarea
-          className="w-full rounded-lg border border-green-300 dark:border-green-700 p-5 mb-6 resize-y focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors caret-green-600 shadow-sm"
-          placeholder="Type your answer here or practice aloud..."
-          rows={6}
-          value={userAnswer}
-          onChange={(e) => setUserAnswer(e.target.value)}
-        />
-        <div className="flex gap-6 justify-center mb-3">
-          <button
-            onClick={handlePrev}
-            disabled={currentIndex === 0}
-            className={`px-6 py-3 rounded-lg font-semibold transition transform ${
-              currentIndex === 0
-                ? 'bg-green-100 text-green-400 cursor-not-allowed'
-                : 'bg-white dark:bg-gray-700 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-800 hover:scale-105 shadow-md'
-            }`}
-          >
-            Previous
-          </button>
-          <button
-            onClick={handleNext}
-            className="px-6 py-3 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold transition shadow-md hover:scale-105"
-          >
-            {currentIndex === practiceQuestions.length - 1 ? 'Finish' : 'Next'}
-          </button>
-          <button
-            onClick={handleReset}
-            className="px-6 py-3 rounded-lg bg-white dark:bg-gray-700 text-red-600 dark:text-red-400 font-semibold transition hover:bg-red-100 dark:hover:bg-red-900 shadow-md hover:scale-105"
-          >
-            Reset
-          </button>
+        <div className="h-2 overflow-hidden rounded-full bg-muted">
+          <div
+            className="h-full bg-emerald-600 transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          />
         </div>
-        <p className="text-xs text-gray-500 dark:text-gray-400 text-center select-none">
-          Question {currentIndex + 1} of {practiceQuestions.length}
-        </p>
+      </div>
+
+      {/* Question */}
+      <QuestionCard
+        question={PRACTICE_QUESTIONS[currentIndex]}
+        questionNumber={currentIndex + 1}
+        totalQuestions={PRACTICE_QUESTIONS.length}
+      />
+
+      {/* Answer */}
+      <AnswerInput
+        value={currentAnswer}
+        onChange={handleAnswerChange}
+        placeholder="Type your answer here or practice aloud..."
+      />
+
+      {/* Navigation */}
+      <div className="flex items-center justify-between gap-3">
+        <Button onClick={handlePrevious} disabled={currentIndex === 0} variant="outline">
+          <ChevronLeft className="mr-2 h-4 w-4" />
+          Previous
+        </Button>
+
+        <Button onClick={handleReset} variant="outline">
+          <RotateCcw className="mr-2 h-4 w-4" />
+          Reset
+        </Button>
+
+        <Button onClick={handleNext} disabled={currentIndex === PRACTICE_QUESTIONS.length - 1}>
+          Next
+          <ChevronRight className="ml-2 h-4 w-4" />
+        </Button>
       </div>
     </div>
   );
-};
-
-export default InterviewPractice;
+}

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaSearch } from 'react-icons/fa';
 import Image from 'next/image';
-import { resumeApi } from '@/features/resume/api';
+// import { resumeApi } from '@/features/resume/api';
 import type { ResumeData, Template } from '@/types/api/common';
 
 export default function TemplatesPage() {
@@ -22,9 +22,9 @@ export default function TemplatesPage() {
 
     const loadTemplates = async () => {
       try {
-        const response = await resumeApi.getTemplates();
+        // const response = await resumeApi.getTemplates();
         if (!active) return;
-        setTemplates(response.data ?? []);
+        // setTemplates(response.data ?? []);
         setError(null);
       } catch (err) {
         if (!active) return;
@@ -83,8 +83,9 @@ export default function TemplatesPage() {
   const handleUseTemplate = async (templateId: string) => {
     setIsCreating(true);
     try {
-      const result = await resumeApi.createResume(buildResumePayload(templateId));
-      const resumeId = result.data._id;
+      // const result = await resumeApi.createResume(buildResumePayload(templateId));
+      const resumeId = '';
+      // const resumeId = result.data._id;
       if (resumeId) {
         router.push(`/dashboard/resume/${resumeId}`);
       }

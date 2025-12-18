@@ -4,19 +4,31 @@ import React from 'react';
 import { Form } from '@/components/auth/AuthForm';
 import { AuthLayout } from '@/components/auth/AuthLayout';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/auth/context';
+import { authClient } from '@/lib/auth-client';
 
 export default function LoginForm() {
   const router = useRouter();
-  const { login } = useAuth();
 
   const handleSubmit = async (email: string, password: string) => {
-    await login(email, password);
-    router.push('/dashboard');
+    await authClient.signIn.email(
+      { email, password, callbackURL: '/dashboard' },
+      {
+        onSuccess: () => {
+          router.push('/dashboard');
+        },
+        onError: (ctx) => {
+          console.error('Login error:', ctx.error);
+        },
+      },
+    );
   };
 
   const handleGoogleSignIn = async () => {
-    console.log('Google Sign-In clicked');
+    await authClient.signIn.social({
+      provider: 'google',
+      callbackURL: '/dashboard',
+      errorCallbackURL: '/auth/login',
+    });
   };
 
   return (

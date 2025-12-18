@@ -262,7 +262,7 @@ const QuickActionsPage: React.FC = () => {
         })}
 
         {/* Call to Action */}
-        <div className="mt-12 bg-gradient-to-r from-green-600 to-blue-600 rounded-2xl p-8 text-center text-white">
+        <div className="mt-12 bg-linear-to-r from-green-600 to-blue-600 rounded-2xl p-8 text-center text-white">
           <h2 className="text-2xl font-bold mb-4">Ready to Accelerate Your Learning?</h2>
           <p className="text-green-100 mb-6 max-w-2xl mx-auto">
             These quick actions are designed to help you make the most of your learning journey.
