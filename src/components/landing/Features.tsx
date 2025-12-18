@@ -3,10 +3,8 @@ import React from 'react';
 
 const icons = {
   evaluation: (
-    <div className="relative inline-flex items-center justify-center bg-gradient-to-br from-emerald-50 to-green-100 text-emerald-600 dark:from-emerald-900 dark:to-green-900 dark:text-emerald-400 rounded-2xl w-14 h-14 shadow-lg mb-4 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
-      {/* Glow effect */}
+    <div className="relative inline-flex items-center justify-center bg-linear-to-br from-emerald-50 to-green-100 text-emerald-600 dark:from-emerald-900 dark:to-green-900 dark:text-emerald-400 rounded-2xl w-14 h-14 shadow-lg mb-4 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
       <div className="absolute inset-0 bg-emerald-400 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-      {/* Shield with star for trusted AI Feedback */}
       <svg
         viewBox="0 0 24 24"
         className="w-7 h-7 relative z-10"
@@ -20,9 +18,8 @@ const icons = {
     </div>
   ),
   monitoring: (
-    <div className="relative inline-flex items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100 text-green-600 dark:from-green-900 dark:to-emerald-900 dark:text-green-400 rounded-2xl w-14 h-14 shadow-lg mb-4 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
+    <div className="relative inline-flex items-center justify-center bg-linear-to-br from-green-50 to-emerald-100 text-green-600 dark:from-green-900 dark:to-emerald-900 dark:text-green-400 rounded-2xl w-14 h-14 shadow-lg mb-4 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
       <div className="absolute inset-0 bg-green-400 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-      {/* Eye icon for monitoring */}
       <svg
         viewBox="0 0 24 24"
         className="w-7 h-7 relative z-10"
@@ -36,9 +33,8 @@ const icons = {
     </div>
   ),
   question: (
-    <div className="relative inline-flex items-center justify-center bg-gradient-to-br from-lime-50 to-green-100 text-lime-600 dark:from-lime-900 dark:to-green-900 dark:text-lime-400 rounded-2xl w-14 h-14 shadow-lg mb-4 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
+    <div className="relative inline-flex items-center justify-center bg-linear-to-br from-lime-50 to-green-100 text-lime-600 dark:from-lime-900 dark:to-green-900 dark:text-lime-400 rounded-2xl w-14 h-14 shadow-lg mb-4 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
       <div className="absolute inset-0 bg-lime-400 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-      {/* Chat bubble Q */}
       <svg
         viewBox="0 0 24 24"
         className="w-7 h-7 relative z-10"
@@ -54,9 +50,8 @@ const icons = {
     </div>
   ),
   study: (
-    <div className="relative inline-flex items-center justify-center bg-gradient-to-br from-teal-50 to-emerald-100 text-teal-600 dark:from-teal-900 dark:to-emerald-900 dark:text-teal-400 rounded-2xl w-14 h-14 shadow-lg mb-4 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
+    <div className="relative inline-flex items-center justify-center bg-linear-to-br from-teal-50 to-emerald-100 text-teal-600 dark:from-teal-900 dark:to-emerald-900 dark:text-teal-400 rounded-2xl w-14 h-14 shadow-lg mb-4 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
       <div className="absolute inset-0 bg-teal-400 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-      {/* Bookmark/ribbon */}
       <svg
         viewBox="0 0 24 24"
         className="w-7 h-7 relative z-10"
@@ -69,9 +64,8 @@ const icons = {
     </div>
   ),
   company: (
-    <div className="relative inline-flex items-center justify-center bg-gradient-to-br from-orange-50 to-yellow-100 text-orange-600 dark:from-orange-900 dark:to-yellow-900 dark:text-orange-400 rounded-2xl w-14 h-14 shadow-lg mb-4 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
+    <div className="relative inline-flex items-center justify-center bg-linear-to-br from-orange-50 to-yellow-100 text-orange-600 dark:from-orange-900 dark:to-yellow-900 dark:text-orange-400 rounded-2xl w-14 h-14 shadow-lg mb-4 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
       <div className="absolute inset-0 bg-orange-400 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-      {/* Briefcase icon for companies */}
       <svg
         viewBox="0 0 24 24"
         className="w-7 h-7 relative z-10"
@@ -85,9 +79,8 @@ const icons = {
     </div>
   ),
   analytics: (
-    <div className="relative inline-flex items-center justify-center bg-gradient-to-br from-cyan-50 to-blue-100 text-cyan-600 dark:from-cyan-900 dark:to-blue-900 dark:text-cyan-400 rounded-2xl w-14 h-14 shadow-lg mb-4 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
+    <div className="relative inline-flex items-center justify-center bg-linear-to-br from-cyan-50 to-blue-100 text-cyan-600 dark:from-cyan-900 dark:to-blue-900 dark:text-cyan-400 rounded-2xl w-14 h-14 shadow-lg mb-4 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
       <div className="absolute inset-0 bg-cyan-400 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-      {/* Radar icon */}
       <svg
         viewBox="0 0 24 24"
         className="w-7 h-7 relative z-10"
@@ -148,8 +141,7 @@ const features = [
 ];
 
 const Features: React.FC = () => (
-  <section className="py-20 px-4 sm:px-8 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 relative overflow-hidden">
-    {/* Background decorative elements */}
+  <section className="py-20 px-4 sm:px-8 bg-linear-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 relative overflow-hidden">
     <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-100 dark:bg-emerald-900 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
     <div className="absolute top-40 right-10 w-72 h-72 bg-green-100 dark:bg-green-900 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse delay-1000"></div>
     <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-lime-100 dark:bg-lime-900 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse delay-2000"></div>
@@ -157,7 +149,7 @@ const Features: React.FC = () => (
     <div className="max-w-7xl mx-auto relative z-10">
       <div className="flex flex-col items-center mb-16">
         {/* Badge */}
-        <div className="mb-6 px-6 py-2 rounded-full bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900 dark:to-green-900 border border-emerald-200 dark:border-emerald-700 text-emerald-700 dark:text-emerald-400 text-sm font-semibold tracking-wide shadow-sm hover:shadow-md transition-shadow duration-300">
+        <div className="mb-6 px-6 py-2 rounded-full bg-linear-to-r from-emerald-50 to-green-50 dark:from-emerald-900 dark:to-green-900 border border-emerald-200 dark:border-emerald-700 text-emerald-700 dark:text-emerald-400 text-sm font-semibold tracking-wide shadow-sm hover:shadow-md transition-shadow duration-300">
           <div className="flex items-center">
             <svg
               className="w-4 h-4 text-emerald-500 dark:text-emerald-300 mr-2"
@@ -175,7 +167,7 @@ const Features: React.FC = () => (
         {/* Main heading */}
         <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-gray-900 dark:text-white text-center mb-6 leading-tight">
           Tools That Make Every{' '}
-          <span className="bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400 bg-clip-text text-transparent">
             Practice Session
           </span>{' '}
           Count
@@ -199,11 +191,11 @@ const Features: React.FC = () => (
             key={idx}
             className="group bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 flex flex-col items-start
                             hover:shadow-2xl hover:border-emerald-200 dark:hover:border-emerald-600 hover:-translate-y-2 transition-all duration-500 ease-out
-                            min-h-[280px] relative overflow-hidden"
+                            min-h-70 relative overflow-hidden"
             style={{ animationDelay: `${idx * 100}ms` }}
           >
-            {/* Background gradient on hover */}
-            <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 via-transparent to-green-50/30 dark:from-emerald-900/50 dark:to-green-900/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            {/* Background linear on hover */}
+            <div className="absolute inset-0 bg-linear-to-br from-emerald-50/50 via-transparent to-green-50/30 dark:from-emerald-900/50 dark:to-green-900/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
             {/* Highlight badge */}
             <div className="absolute top-6 right-6 px-3 py-1 bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-400 text-xs font-semibold rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
@@ -235,7 +227,7 @@ const Features: React.FC = () => (
 
       {/* Bottom CTA */}
       <div className="text-center mt-16">
-        <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-700 dark:to-green-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
+        <div className="inline-flex items-center px-6 py-3 bg-linear-to-r from-emerald-600 to-green-600 dark:from-emerald-700 dark:to-green-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
           <span>Explore All Features</span>
           <svg
             className="ml-2 w-4 h-4"

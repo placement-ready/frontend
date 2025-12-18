@@ -205,7 +205,7 @@ const DropdownItem: React.FC<DropdownItemProps> = ({
         children
       ) : (
         <>
-          {icon && <span className="flex-shrink-0">{icon}</span>}
+          {icon && <span className="shrink-0">{icon}</span>}
           <div className="flex-1">
             {label && <div className="font-medium">{label}</div>}
             {description && (

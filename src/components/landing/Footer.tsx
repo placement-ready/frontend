@@ -1,9 +1,10 @@
 'use client';
 import React from 'react';
+import Image from 'next/image';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
+    <footer className="bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
       {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-5">
         <div
@@ -16,7 +17,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Green accent line */}
-      <div className="h-1 bg-gradient-to-r from-emerald-400 via-green-500 to-emerald-600"></div>
+      <div className="h-1 bg-linear-to-r from-emerald-400 via-green-500 to-emerald-600"></div>
 
       {/* Main Footer */}
       <div className="relative px-4 sm:px-6 py-12">
@@ -25,34 +26,27 @@ const Footer: React.FC = () => {
             {/* Company Info */}
             <div className="lg:col-span-1 space-y-6">
               <div className="flex items-center mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-green-500 rounded-xl flex items-center justify-center mr-3 shadow-lg">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9.663 17h4.673M12 3v1m6.364-.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                    />
-                  </svg>
+                <div className="w-10 h-10 flex items-center justify-center mr-2 shadow-lg">
+                  <Image
+                    src="/logo.png"
+                    alt="HireMind"
+                    width={32}
+                    height={32}
+                    className="object-contain"
+                  />
                 </div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent">
+                <span className="text-2xl font-bold bg-linear-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent">
                   HireMind
                 </span>
               </div>
               <p className="text-gray-300 text-sm leading-relaxed">
-                Transform your interview skills from nervous to natural with AI-powered feedback and
-                personalized practice plans.
+                Practice interviews with fast feedback and resume-ready outcomes.
               </p>
               <div className="flex space-x-3">
                 {/* Social icons with enhanced styling */}
                 <a
                   href="#"
-                  className="group w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 transition-all duration-300 hover:scale-110 hover:shadow-lg"
+                  className="group w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-linear-to-r hover:from-emerald-500 hover:to-green-500 transition-all duration-300 hover:scale-110 hover:shadow-lg"
                 >
                   <svg
                     className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors"
@@ -64,7 +58,7 @@ const Footer: React.FC = () => {
                 </a>
                 <a
                   href="#"
-                  className="group w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 transition-all duration-300 hover:scale-110 hover:shadow-lg"
+                  className="group w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-linear-to-r hover:from-emerald-500 hover:to-green-500 transition-all duration-300 hover:scale-110 hover:shadow-lg"
                 >
                   <svg
                     className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors"
@@ -76,7 +70,7 @@ const Footer: React.FC = () => {
                 </a>
                 <a
                   href="#"
-                  className="group w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 transition-all duration-300 hover:scale-110 hover:shadow-lg"
+                  className="group w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-linear-to-r hover:from-emerald-500 hover:to-green-500 transition-all duration-300 hover:scale-110 hover:shadow-lg"
                 >
                   <svg
                     className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors"
@@ -96,54 +90,54 @@ const Footer: React.FC = () => {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Features
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Practice Questions
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     AI Feedback
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Study Plans
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Interview Prep
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Mock Interviews
                   </a>
                 </li>
@@ -157,54 +151,54 @@ const Footer: React.FC = () => {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     About Us
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Careers
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Blog
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Press
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Partners
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Contact
                   </a>
                 </li>
@@ -218,54 +212,54 @@ const Footer: React.FC = () => {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Help Center
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Documentation
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     API Reference
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Community
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Privacy Policy
                   </a>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm flex items-center group"
+                    className="text-gray-300 transition-colors duration-200 text-sm flex items-center hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                   >
-                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 group-hover:w-2 transition-all duration-200"></span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2"></span>
                     Terms of Service
                   </a>
                 </li>
@@ -274,7 +268,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Newsletter Section */}
-          <div className="mt-12 p-8 bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-2xl border border-gray-700/50 backdrop-blur-sm">
+          <div className="mt-12 p-8 bg-linear-to-r from-gray-800/50 to-gray-700/50 rounded-2xl border border-gray-700/50 backdrop-blur-sm">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div className="flex-1">
                 <h4 className="text-xl font-bold text-emerald-400 mb-2 flex items-center">
@@ -305,7 +299,7 @@ const Footer: React.FC = () => {
                     className="w-full px-4 py-3 bg-gray-800/80 border border-gray-600 rounded-xl text-sm text-white placeholder-gray-400 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200"
                   />
                 </div>
-                <button className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-sm text-white font-semibold rounded-xl hover:from-emerald-600 hover:to-green-600 transition-all duration-200 hover:scale-105 hover:shadow-lg whitespace-nowrap">
+                <button className="px-6 py-3 bg-linear-to-r from-emerald-500 to-green-500 text-sm text-white font-semibold rounded-xl hover:from-emerald-600 hover:to-green-600 transition-all duration-200 hover:scale-105 hover:shadow-lg whitespace-nowrap">
                   Subscribe
                 </button>
               </div>
@@ -338,13 +332,13 @@ const Footer: React.FC = () => {
                 </span>
                 <a
                   href="#"
-                  className="text-gray-400 hover:text-emerald-400 text-sm transition-colors duration-200"
+                  className="text-gray-400 text-sm transition-colors duration-200 hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                 >
                   Status
                 </a>
                 <a
                   href="#"
-                  className="text-gray-400 hover:text-emerald-400 text-sm transition-colors duration-200"
+                  className="text-gray-400 text-sm transition-colors duration-200 hover:text-emerald-300 hover:underline decoration-emerald-300/60"
                 >
                   Security
                 </a>

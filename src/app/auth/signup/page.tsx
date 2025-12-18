@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Form } from '@/components/auth/AuthForm';
+import { AuthLayout } from '@/components/auth/AuthLayout';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth/context';
 
@@ -19,24 +20,33 @@ export default function SignupForm() {
   };
 
   return (
-    <Form.Root onSubmit={handleSubmit}>
-      <Form.Header title="Create Account" subtitle="Join HireMind today" />
+    <AuthLayout
+      title="Create your account"
+      subtitle="Join HireMind and start preparing with confidence"
+      footer={
+        <>
+          <Form.FooterLink
+            text="Already have an account?"
+            linkText="Sign in"
+            linkHref="/auth/login"
+          />
+          <Form.TermsFooter />
+        </>
+      }
+    >
+      <Form.Root onSubmit={handleSubmit} className="space-y-6">
+        <Form.Error />
 
-      <Form.Error />
+        <Form.EmailField placeholder="Enter your email" />
 
-      <Form.EmailField placeholder="Enter your email" />
+        <Form.PasswordField placeholder="Create a password" />
 
-      <Form.PasswordField placeholder="Create a password" />
+        <Form.SubmitButton loadingText="Creating account...">Sign Up</Form.SubmitButton>
 
-      <Form.SubmitButton loadingText="Creating account...">Sign Up</Form.SubmitButton>
+        <Form.Separator />
 
-      <Form.FooterLink text="Already have an account?" linkText="Sign in" linkHref="/auth/login" />
-
-      <Form.Separator />
-
-      <Form.GoogleButton onGoogleSignIn={handleGoogleSignIn} text="Sign up with Google" />
-
-      <Form.TermsFooter />
-    </Form.Root>
+        <Form.GoogleButton onGoogleSignIn={handleGoogleSignIn} text="Sign up with Google" />
+      </Form.Root>
+    </AuthLayout>
   );
 }

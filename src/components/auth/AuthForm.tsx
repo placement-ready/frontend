@@ -2,8 +2,12 @@
 
 import React, { createContext, useContext, useState, FormEvent } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { motion, EasingDefinition } from 'framer-motion';
 import { EnvelopeIcon, LockClosedIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+
 import { Spinner } from '@/components/ui/spinner';
+import { cn } from '@/lib/utils';
 
 // Context for form state management
 interface FormContextType {
@@ -71,15 +75,9 @@ const FormRoot = ({ children, onSubmit, className = '' }: FormRootProps) => {
         setShowPassword,
       }}
     >
-      <div
-        className={`min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f0fdf4] via-[#ecfdf5] to-[#d1fae5] p-4 ${className}`}
-      >
-        <div className="max-w-md w-full bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-green-100 p-6 sm:p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {children}
-          </form>
-        </div>
-      </div>
+      <form onSubmit={handleSubmit} className={cn('space-y-5', className)}>
+        {children}
+      </form>
     </FormContext.Provider>
   );
 };
@@ -93,12 +91,12 @@ interface FormHeaderProps {
 
 const FormHeader = ({ title, subtitle, icon = '/brain.png' }: FormHeaderProps) => {
   return (
-    <div className="text-center mb-8">
-      <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4 transform hover:scale-105 transition-transform duration-200">
-        <Image src={icon} alt="Icon" width={40} height={40} className="object-contain" />
+    <div className="text-center">
+      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-300">
+        <Image src={icon} alt="Icon" width={28} height={28} className="object-contain" />
       </div>
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">{title}</h1>
-      <p className="text-gray-600 text-sm sm:text-base">{subtitle}</p>
+      <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{title}</h1>
+      <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">{subtitle}</p>
     </div>
   );
 };
@@ -110,8 +108,11 @@ const FormError = () => {
   if (!error) return null;
 
   return (
-    <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-      <p className="text-sm text-red-600">{error}</p>
+    <div
+      className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200"
+      role="alert"
+    >
+      {error}
     </div>
   );
 };
@@ -124,7 +125,10 @@ interface FormLabelProps {
 
 const FormLabel = ({ htmlFor, children }: FormLabelProps) => {
   return (
-    <label htmlFor={htmlFor} className="block text-sm font-medium text-gray-700 mb-2">
+    <label
+      htmlFor={htmlFor}
+      className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200"
+    >
       {children}
     </label>
   );
@@ -154,9 +158,9 @@ const FormEmailField = ({
           placeholder={placeholder}
           required={required}
           disabled={isLoading}
-          className="w-full pl-10 pr-4 py-3 sm:py-4 border-2 text-black border-gray-200 rounded-xl focus:border-green-400 focus:ring-0 focus:outline-none bg-gray-50 hover:bg-white hover:border-green-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+          className="w-full rounded-xl border border-gray-200 bg-white px-10 py-3 text-sm text-gray-900 shadow-sm transition focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200 disabled:cursor-not-allowed disabled:opacity-60 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-emerald-400 dark:focus:ring-emerald-400/20"
         />
-        <EnvelopeIcon className="w-5 h-5 text-gray-600 absolute left-3 top-1/2 transform -translate-y-1/2" />
+        <EnvelopeIcon className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-gray-400" />
       </div>
     </div>
   );
@@ -188,14 +192,14 @@ const FormPasswordField = ({
           placeholder={placeholder}
           required={required}
           disabled={isLoading}
-          className="w-full pl-10 pr-12 py-3 sm:py-4 border-2 text-black border-gray-200 rounded-xl focus:border-green-400 focus:ring-0 focus:outline-none bg-gray-50 hover:bg-white hover:border-green-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+          className="w-full rounded-xl border border-gray-200 bg-white px-10 py-3 text-sm text-gray-900 shadow-sm transition focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200 disabled:cursor-not-allowed disabled:opacity-60 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-emerald-400 dark:focus:ring-emerald-400/20"
         />
-        <LockClosedIcon className="w-5 h-5 text-gray-600 absolute left-3 top-1/2 transform -translate-y-1/2" />
+        <LockClosedIcon className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-gray-400" />
         {showToggle && (
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800 transition-colors duration-200"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 transition-colors duration-200 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
           >
             {showPassword ? <EyeSlashIcon className="w-5 h-5" /> : <EyeIcon className="w-5 h-5" />}
           </button>
@@ -211,24 +215,35 @@ interface FormSubmitButtonProps {
   loadingText?: string;
 }
 
+const submitButtonVariants = {
+  idle: { scale: 1 },
+  loading: {
+    scale: [1, 0.98, 1],
+    transition: { duration: 1.1, repeat: Infinity, ease: 'easeInOut' as EasingDefinition },
+  },
+};
+
 const FormSubmitButton = ({ children, loadingText = 'Loading...' }: FormSubmitButtonProps) => {
   const { isLoading, email, password } = useFormContext();
 
   return (
-    <button
+    <motion.button
       type="submit"
+      variants={submitButtonVariants}
+      animate={isLoading ? 'loading' : 'idle'}
       disabled={isLoading || !email || !password}
-      className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 sm:py-4 px-6 rounded-xl transform hover:scale-[1.02] hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm sm:text-base cursor-pointer"
+      className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-emerald-500 hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-emerald-600/60 disabled:text-white/80 dark:bg-emerald-500 dark:hover:bg-emerald-400"
+      aria-busy={isLoading}
     >
       {isLoading ? (
-        <div className="flex items-center justify-center gap-2">
-          <Spinner className="text-white" />
-          {loadingText}
-        </div>
+        <>
+          <Spinner className="h-4 w-4 text-white" />
+          <span>{loadingText}</span>
+        </>
       ) : (
         children
       )}
-    </button>
+    </motion.button>
   );
 };
 
@@ -241,10 +256,10 @@ const FormSeparator = ({ text = 'or' }: FormSeparatorProps) => {
   return (
     <div className="relative">
       <div className="absolute inset-0 flex items-center">
-        <div className="w-full border-t border-gray-200"></div>
+        <div className="w-full border-t border-gray-200 dark:border-gray-800" />
       </div>
-      <div className="relative flex justify-center text-sm">
-        <span className="px-4 bg-white text-gray-500">{text}</span>
+      <div className="relative flex justify-center text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+        <span className="bg-white px-3 text-[0.7rem] font-medium dark:bg-gray-900">{text}</span>
       </div>
     </div>
   );
@@ -274,11 +289,13 @@ const FormGoogleButton = ({
   };
 
   return (
-    <button
+    <motion.button
       type="button"
       onClick={handleClick}
       disabled={processing}
-      className="w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-200 rounded-xl p-3 sm:p-4 font-medium text-gray-700 hover:border-green-300 hover:bg-green-50 hover:shadow-md transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer"
+      className="flex w-full items-center justify-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-sm transition hover:border-emerald-400 hover:bg-emerald-50 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-emerald-400 disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-400 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:hover:border-emerald-400 dark:hover:bg-gray-800"
+      whileTap={{ scale: processing ? 1 : 0.98 }}
+      aria-busy={processing}
     >
       <svg
         width="20"
@@ -304,8 +321,15 @@ const FormGoogleButton = ({
           fill="#EA4335"
         />
       </svg>
-      {processing ? 'Signing in...' : text}
-    </button>
+      {processing ? (
+        <span className="flex items-center gap-2">
+          <Spinner className="h-4 w-4 text-gray-500 dark:text-gray-300" />
+          Signing in...
+        </span>
+      ) : (
+        text
+      )}
+    </motion.button>
   );
 };
 
@@ -318,35 +342,37 @@ interface FormFooterLinkProps {
 
 const FormFooterLink = ({ text, linkText, linkHref }: FormFooterLinkProps) => {
   return (
-    <div className="text-center">
-      <p className="text-sm text-gray-500">
-        {text}{' '}
-        <a
-          href={linkHref}
-          className="text-green-600 hover:text-green-700 font-medium transition-colors duration-200"
-        >
-          {linkText}
-        </a>
-      </p>
-    </div>
+    <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+      {text}{' '}
+      <Link
+        href={linkHref}
+        className="font-medium text-emerald-600 transition-colors duration-200 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300"
+      >
+        {linkText}
+      </Link>
+    </p>
   );
 };
 
 // Terms Footer Component
 const FormTermsFooter = () => {
   return (
-    <div className="text-center">
-      <p className="text-xs sm:text-sm text-gray-500">
-        By continuing, you agree to our{' '}
-        <a href="#" className="text-green-600 hover:text-green-700 font-medium">
-          Terms of Service
-        </a>{' '}
-        and{' '}
-        <a href="#" className="text-green-600 hover:text-green-700 font-medium">
-          Privacy Policy
-        </a>
-      </p>
-    </div>
+    <p className="text-center text-xs text-gray-500 dark:text-gray-500">
+      By continuing, you agree to our{' '}
+      <a
+        href="#"
+        className="font-medium text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300"
+      >
+        Terms of Service
+      </a>{' '}
+      and{' '}
+      <a
+        href="#"
+        className="font-medium text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300"
+      >
+        Privacy Policy
+      </a>
+    </p>
   );
 };
 
@@ -354,12 +380,12 @@ const FormTermsFooter = () => {
 const FormForgotPassword = () => {
   return (
     <div className="text-right">
-      <a
+      <Link
         href="#"
-        className="text-sm text-green-600 hover:text-green-700 font-medium transition-colors duration-200"
+        className="text-sm font-medium text-emerald-600 transition-colors duration-200 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300"
       >
         Forgot password?
-      </a>
+      </Link>
     </div>
   );
 };

@@ -1,449 +1,252 @@
-'use client';
-import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import {
+  BrainCircuit,
+  CalendarClock,
+  Compass,
+  Flashlight,
+  Goal,
+  GraduationCap,
+  Handshake,
+  Rocket,
+} from 'lucide-react';
 
-// ===== SVG icons (existing + new) =====
-const ExploreIcon = () => (
-  <svg width="38" height="38" viewBox="0 0 24 24" fill="none" className="icon">
-    <rect x="6" y="13" width="12" height="3" rx="1" fill="#3b82f6" />
-    <rect x="4" y="7" width="16" height="6" rx="2.5" fill="#2563eb" />
-    <rect x="10" y="16" width="4" height="2" rx="0.7" fill="#7dd3fc" />
-  </svg>
-);
-const AIIcon = () => (
-  <svg width="38" height="38" viewBox="0 0 24 24" fill="none" className="icon">
-    <ellipse cx="12" cy="12" rx="9" ry="8" fill="#10b981" />
-    <rect x="8" y="8" width="8" height="4" rx="2" fill="#a7f3d0" />
-    <circle cx="10" cy="10" r="1.3" fill="#fff" />
-    <circle cx="14" cy="10" r="1.3" fill="#fff" />
-    <rect x="10.5" y="14" width="3" height="1.2" rx="0.5" fill="#fff" />
-  </svg>
-);
-const LiveIcon = () => (
-  <svg width="38" height="38" viewBox="0 0 24 24" fill="none" className="icon">
-    <rect x="7" y="9" width="10" height="7" rx="3.5" fill="#14b8a6" />
-    <rect x="15" y="12.5" width="2.2" height="2.2" rx="0.6" fill="#34d399" />
-    <rect x="8.8" y="12.3" width="6.4" height="1.8" rx="0.7" fill="#a7f3d0" />
-  </svg>
-);
-const AnalyzeIcon = () => (
-  <svg width="38" height="38" viewBox="0 0 24 24" fill="none" className="icon">
-    <rect x="7" y="16" width="3" height="4" rx="1" fill="#8b5cf6" />
-    <rect x="12" y="11" width="3" height="9" rx="1" fill="#22d3ee" />
-    <rect x="17" y="14" width="3" height="6" rx="1" fill="#34d399" />
-    <rect x="7" y="12" width="13" height="1.2" rx="0.5" fill="#a5b4fc" />
-  </svg>
-);
-// const NetworkIcon = () => (
-//   <svg width="38" height="38" viewBox="0 0 24 24" fill="none" className="icon">
-//     <circle cx="6" cy="12" r="3" fill="#f59e0b" />
-//     <circle cx="18" cy="12" r="3" fill="#fbbf24" />
-//     <circle cx="12" cy="6" r="3" fill="#fde68a" />
-//     <path d="M6 12 L12 6 L18 12 L12 18 Z" fill="none" stroke="#fcd34d" strokeWidth="1.5" />
-//   </svg>
-// );
-
-// ===== Steps =====
 const steps = [
   {
-    title: 'Explore & Prepare',
-    icon: <ExploreIcon />,
-    main: 'Access company question banks, DSA sheets, and quick time-based drills.',
-    items: [
-      'Latest company-wise questions',
-      'Core subject prep',
-      'Quick drills (time/question limit)',
-    ],
+    title: 'Create your adaptive profile',
+    description:
+      'Tell us about your experience, target roles, and companies so HireMind can calibrate skills and expectations instantly.',
+    icon: Compass,
+    badge: 'Step 01',
   },
   {
-    title: 'AI Practice',
-    icon: <AIIcon />,
-    main: 'Instant AI-generated questions, mock video interviews, unlimited follow-ups.',
-    items: [
-      'Ask Interviewer for new questions',
-      'AI-powered video mock sessions',
-      'Unlimited practice rounds',
-    ],
+    title: 'Run your diagnostics',
+    description:
+      'Complete a guided baseline interview and skill assessment powered by AI interviewers to surface strengths and gaps.',
+    icon: BrainCircuit,
+    badge: 'Step 02',
   },
   {
-    title: 'Live Experience',
-    icon: <LiveIcon />,
-    main: 'Mentor-led video interviews, weekly contests, robust scheduling & reminders.',
-    items: [
-      'Live video mocks guided by mentors',
-      'GD contests & rounds',
-      'Automated reminders, easy rescheduling',
-    ],
+    title: 'Follow the learning path',
+    description:
+      'Receive a curated weekly schedule with lessons, drills, and mentor prompts that adapt as you progress.',
+    icon: GraduationCap,
+    badge: 'Step 03',
   },
   {
-    title: 'Analyze & Improve',
-    icon: <AnalyzeIcon />,
-    main: 'Session analysis, readiness badges, personalized improvement paths.',
-    items: [
-      'Performance & session summary',
-      'Readiness badge achievement',
-      'Direct links to improvement modules',
-    ],
+    title: 'Show up prepared and confident',
+    description:
+      'Simulate the real interview setting, collect actionable feedback, and refine every answer before it matters.',
+    icon: Rocket,
+    badge: 'Step 04',
   },
 ];
 
-// ===== Benefits =====
-const benefits = [
+const pillars = [
   {
-    headline: 'Fresh Questions, Real Insights',
-    content:
-      'Monthly-updated questions from top companies guaranteed to be relevant for interviews.',
+    title: 'Personalized to your goal role',
+    description:
+      'Every learning path maps directly to the competencies hiring managers expect for your target companies, from entry-level to leadership.',
+    icon: Goal,
   },
   {
-    headline: 'Smart, Adaptive Prep',
-    content: 'Practice sets, quizzes, and feedback that adapt to your strengths and weaknesses.',
+    title: 'Live mentor collaboration',
+    description:
+      'Book 1:1 mentor sessions, get annotated scorecards, and rehearse high-stakes interviews with industry experts.',
+    icon: Handshake,
   },
   {
-    headline: 'Expert Mentorship',
-    content: 'Schedule video mock interviews and GD contests, get actionable mentor feedback.',
-  },
-  {
-    headline: 'Personalized Analytics',
-    content:
-      'Track your performance, earn badges, and unlock improvement paths with AI-powered analytics.',
-  },
-  {
-    headline: 'Integrated Scheduler',
-    content: 'One-click booking for mocks and contests, with automated reminders and rescheduling.',
-  },
-  {
-    headline: 'Company-Wise Archives',
-    content:
-      'Browse interview questions from hundreds of companies, categorized by role & difficulty.',
-  },
-  {
-    headline: 'Gamified Learning',
-    content:
-      'Earn badges and climb leaderboards to keep your motivation high throughout preparation.',
-  },
-  {
-    headline: 'Cross-Platform Access',
-    content: 'Practice seamlessly on web or mobile—your progress syncs across all devices.',
+    title: 'Always-on accountability',
+    description:
+      'Smart nudges, milestone tracking, and weekly recaps keep you aligned with your prep plan even on busy weeks.',
+    icon: CalendarClock,
   },
 ];
 
-// ===== Stats =====
-const stats = [
-  { stat: '5,000+', label: 'Mocks Completed' },
-  { stat: '100+', label: 'Companies Covered' },
-  { stat: '4.8/5', label: 'Avg. User Rating' },
-  { stat: '24x7', label: 'Prep Access' },
-  { stat: '20k+', label: 'Active Users' },
-  { stat: '1,200+', label: 'Mentor Hours Delivered' },
-];
-
-// ===== Testimonials (What Our Users Say) =====
-const testimonials = [
+const resources = [
   {
-    name: 'Anita R.',
-    role: 'Software Engineer',
-    quote:
-      'HireMind transformed my interview prep. The AI mocks feel almost like real interviews, and the mentor feedback is invaluable.',
+    title: 'Real interview question bank',
+    description:
+      'Practice with prompts surfaced from recent interview loops across top tech companies.',
+    icon: Flashlight,
   },
   {
-    name: 'Jay K.',
-    role: 'Data Analyst',
-    quote:
-      'The blend of online practice and live sessions helped me gain confidence and land my dream job.',
+    title: 'Structured feedback engine',
+    description:
+      'Capture every improvement opportunity with detailed rubrics and actionable revisions.',
+    icon: BrainCircuit,
   },
   {
-    name: 'Meera S.',
-    role: 'Product Manager',
-    quote:
-      "The readiness badges and analytics kept me motivated. It's like having a personal coach 24/7.",
+    title: 'Offer accelerator playbook',
+    description:
+      'Navigate negotiations and closing conversations confidently with scripts and mentor coaching.',
+    icon: Handshake,
   },
 ];
 
-// ===== Dark mode detection hook =====
-const useDarkMode = (): boolean => {
-  const [isDark, setIsDark] = useState(
-    typeof window !== 'undefined' ? document.documentElement.classList.contains('dark') : false,
-  );
-  useEffect(() => {
-    const check = () => setIsDark(document.documentElement.classList.contains('dark'));
-    check();
-    const obs = new MutationObserver(check);
-    obs.observe(document.documentElement, { attributes: true });
-    return () => obs.disconnect();
-  }, []);
-  return isDark;
-};
-
-// ===== Main Component =====
-const HowItWorksPage: React.FC = () => {
-  const isDark = useDarkMode();
-  const [selected, setSelected] = useState<number>(1);
-
-  // const getCardStyle = (idx: number) => {
-  //   const highlight = selected === idx;
-  //   return {
-  //     borderWidth: 2,
-  //     borderRadius: '24px',
-  //     borderColor: highlight ? '#22d3ee' : '#34d399',
-  //     background: highlight
-  //       ? 'radial-gradient(circle at 60% 80%, #22d3ee55 20%, #10b9811c 80%, transparent), #17233e'
-  //       : isDark
-  //         ? '#17233e'
-  //         : '#fff',
-  //     boxShadow: highlight ? '0 0 36px 8px #22d3ee30' : '0 6px 32px #1a3c2922',
-  //     cursor: 'pointer',
-  //   };
-  // };
-
-  // const Arrow = () => (
-  //   <svg
-  //     width={18}
-  //     height={18}
-  //     viewBox="0 0 24 24"
-  //     fill="none"
-  //     stroke="#22d3ee"
-  //     strokeWidth="2"
-  //     strokeLinecap="round"
-  //   >
-  //     <path d="M6 12h12" />
-  //     <path d="M12 7l6 5-6 5" fill="none" />
-  //   </svg>
-  // );
-
+export default function HowItWorksPage() {
   return (
-    <div
-      className="min-h-screen w-full font-sans transition-colors duration-300"
-      style={{
-        background: isDark
-          ? 'linear-gradient(180deg,#182235 8%,#101828 97%)'
-          : 'linear-gradient(180deg,#f1fcfa 0%,#e6fdf4 99%)',
-        color: isDark ? '#e3faf1' : '#174233',
-      }}
-    >
-      {/* Hero */}
-      <section className="max-w-3xl mx-auto text-center pt-20 pb-10">
-        <h1
-          className="font-extrabold text-3xl md:text-5xl mb-5 tracking-tight"
-          style={{ color: isDark ? '#5fffb0' : '#168844' }}
-        >
-          Practice every part of your interview journey—on one smart platform.
-        </h1>
-        <p
-          className="text-lg md:text-2xl font-medium mb-8"
-          style={{ color: isDark ? '#a7e6c6' : '#327f50' }}
-        >
-          AI tools + real interview formats + live mentor sessions help you get fully ready.
-        </p>
-        <a
-          href="/signup"
-          className="inline-block px-7 py-3 rounded-xl bg-gradient-to-r from-green-400 to-teal-400 text-white font-bold text-lg shadow-lg transition hover:scale-105"
-        >
-          Start Practicing Free
-        </a>
-      </section>
+    <div className="min-h-screen bg-linear-to-br from-white via-emerald-50/40 to-white dark:from-gray-950 dark:via-emerald-950/30 dark:to-gray-950">
+      <section className="mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300">
+            <Flashlight className="h-4 w-4" />
+            Inside the HireMind experience
+          </span>
+          <h1 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl dark:text-gray-50">
+            A guided journey from first assessment to offer letter
+          </h1>
+          <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
+            We combine AI precision with human mentorship so you know exactly what to practice, when
+            to practice, and how to improve.
+          </p>
+        </div>
 
-      {/* Steps */}
-      <section className="max-w-7xl mx-auto px-4 pt-10 pb-14">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {steps.map((step, idx) => {
-            const highlight = idx === selected;
+        <div className="mt-20 grid gap-8 lg:grid-cols-2">
+          {steps.map((step) => {
+            const Icon = step.icon;
             return (
-              <button
+              <div
                 key={step.title}
-                type="button"
-                aria-label={step.title}
-                onClick={() => setSelected(idx)}
-                className={`
-          flex flex-col items-center p-6 rounded-3xl shadow transition duration-300 overflow-hidden border
-          ${
-            highlight
-              ? 'border-emerald-500 bg-white ring-4 ring-emerald-200/60 ring-offset-2 text-green-700'
-              : 'border-green-400 bg-white'
-          }
-          dark:${
-            highlight
-              ? 'bg-[#193d35] border-emerald-400 ring-2 ring-emerald-400/30 text-emerald-200'
-              : 'bg-[#17233e] border-green-700'
-          }
-          text-left min-h-[420px] h-full hover:scale-[1.03] hover:shadow-xl
-        `}
-                style={{
-                  boxShadow: highlight
-                    ? '0 4px 28px 0 rgba(16,185,129,0.12)'
-                    : '0 2px 20px 0 rgba(44,178,125,0.07)',
-                }}
+                className="relative flex h-full flex-col gap-6 rounded-3xl border border-emerald-200/70 bg-white/80 p-8 shadow-xl shadow-emerald-500/10 backdrop-blur transition hover:-translate-y-1 hover:shadow-2xl dark:border-emerald-500/20 dark:bg-gray-900/70"
               >
-                <div className="mb-4">{step.icon}</div>
-                <h3
-                  className={`text-xl font-bold mb-2 ${highlight ? 'text-emerald-700 dark:text-emerald-200' : 'text-green-700 dark:text-green-400'}`}
-                >
-                  {step.title}
-                </h3>
-                <div
-                  className={`mb-4 text-base font-medium flex items-center justify-center text-center
-          ${highlight ? 'text-gray-800 dark:text-emerald-100' : 'text-gray-800 dark:text-gray-300'}`}
-                  style={{ minHeight: 60 }}
-                >
-                  {step.main}
+                <span className="inline-flex w-max items-center gap-2 rounded-full border border-emerald-200 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300">
+                  {step.badge}
+                </span>
+                <div className="flex items-center gap-4">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-300">
+                    <Icon className="h-6 w-6" />
+                  </span>
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                    {step.title}
+                  </h2>
                 </div>
-                <ul
-                  className={`space-y-2 w-full ${highlight ? 'text-gray-700 dark:text-emerald-100' : 'text-gray-600 dark:text-gray-400'} text-base`}
-                >
-                  {step.items.map((pt) => (
-                    <li key={pt} className="flex gap-2 items-center ml-2">
-                      <span className={`text-emerald-500`}>➤</span>
-                      <span>{pt}</span>
-                    </li>
-                  ))}
-                </ul>
-              </button>
+                <p className="text-sm leading-6 text-gray-600 dark:text-gray-400">
+                  {step.description}
+                </p>
+              </div>
             );
           })}
         </div>
-      </section>
 
-      {/* Benefits */}
-      <section className="max-w-7xl mx-auto px-4 pb-10 mt-2">
-        <h2
-          className="text-xl md:text-5xl font-bold text-center mb-7 mt-10"
-          style={{ color: isDark ? '#5fffb0' : '#168844' }}
-        >
-          Why Choose HireMind?
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {benefits.map((b) => (
-            <div
-              key={b.headline}
-              className={`rounded-xl shadow-md border-2 p-8 flex flex-col items-start
-                ${isDark ? 'bg-[#162236] border-teal-800 text-green-100' : 'bg-white border-green-100 text-green-900'}
-              `}
-            >
-              <div className="font-bold text-green-400 text-lg mb-2">{b.headline}</div>
-              <div className="text-base text-green-200">{b.content}</div>
+        <div className="mt-24 grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+          <div className="space-y-6">
+            <h2 className="text-3xl font-semibold text-gray-900 dark:text-gray-50">
+              What makes HireMind different
+            </h2>
+            <p className="text-base text-gray-600 dark:text-gray-400">
+              Every workflow is rooted in real hiring rubrics. We align your preparation with the
+              exact expectations of interviewers so you can convert conversations into offers.
+            </p>
+            <div className="space-y-4">
+              {pillars.map((pillar) => {
+                const Icon = pillar.icon;
+                return (
+                  <div
+                    key={pillar.title}
+                    className="flex gap-4 rounded-2xl border border-emerald-200/60 bg-white/70 p-5 shadow-md shadow-emerald-500/5 dark:border-emerald-500/20 dark:bg-gray-900/70"
+                  >
+                    <span className="mt-1 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-300">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
+                        {pillar.title}
+                      </h3>
+                      <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                        {pillar.description}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Testimonials (What Our Users Say) */}
-      <section className="max-w-6xl mx-auto px-4 pb-16">
-        <h2
-          className="text-2xl font-bold text-center mb-8"
-          style={{ color: isDark ? '#5fffb0' : '#168844' }}
-        >
-          What Our Users Say
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map(({ name, role, quote }) => (
-            <div
-              key={name}
-              className={`border-2 rounded-xl p-6 shadow-md flex flex-col items-start 
-                ${isDark ? 'bg-[#162236] border-teal-800 text-green-100' : 'bg-white border-green-100 text-green-900'}
-              `}
-            >
-              <svg
-                width="30"
-                height="30"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke={isDark ? '#5fffb0' : '#22d3ee'}
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="mb-3"
-              >
-                <path d="M5 13h4v-2H5v2z" />
-                <path d="M15 13h4v-2h-4v2z" />
-                <circle cx="7" cy="15" r="2" />
-                <circle cx="17" cy="15" r="2" />
-              </svg>
-              <p className="mb-4 text-lg font-semibold italic">&quot;{quote}&quot;</p>
-              <div className="font-bold">{name}</div>
-              <div className="text-green-400">{role}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="max-w-4xl mx-auto px-2 pb-10 mt-4">
-        <div className="flex flex-row flex-wrap items-center justify-center gap-8">
-          {stats.map((s) => (
-            <div
-              key={s.label}
-              className={`flex flex-col items-center px-6 py-4 rounded-2xl shadow border
-                ${isDark ? 'bg-[#141f32] border-green-700 text-green-100' : 'bg-white border-green-100 text-green-900'}`}
-            >
-              <span className="font-extrabold text-2xl text-green-400 mb-1">{s.stat}</span>
-              <span className="text-base">{s.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Community & Resources */}
-      <section className="max-w-6xl mx-auto px-4 pb-16">
-        <div className="text-center mb-6">
-          <h3 className="text-2xl font-bold text-green-400">Community & Resources</h3>
-          <p className="text-green-200 mt-2">
-            Join a vibrant network of learners and mentors. Access blogs, success stories, upcoming
-            webinars and recorded sessions.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-[#162236] p-6 rounded-xl text-green-100 shadow-md">
-            <h4 className="font-semibold mb-2 text-green-400">Blogs & Guides</h4>
-            <p>Step-by-step interview preparation articles and strategy write-ups.</p>
           </div>
-          <div className="bg-[#162236] p-6 rounded-xl text-green-100 shadow-md">
-            <h4 className="font-semibold mb-2 text-green-400">Success Stories</h4>
-            <p>Read how fellow candidates cracked FAANG and top product companies.</p>
-          </div>
-          <div className="bg-[#162236] p-6 rounded-xl text-green-100 shadow-md">
-            <h4 className="font-semibold mb-2 text-green-400">Upcoming Events</h4>
-            <p>Weekly webinars, peer discussions, and live Q&A with experts.</p>
+          <div className="relative overflow-hidden rounded-3xl border border-emerald-200/70 bg-linear-to-br from-emerald-500/20 via-emerald-500/5 to-transparent p-10 shadow-2xl shadow-emerald-500/20 dark:border-emerald-500/20 dark:from-emerald-500/20 dark:via-emerald-500/10">
+            <div className="space-y-6 text-gray-900 dark:text-emerald-100">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-emerald-700 shadow dark:bg-gray-950">
+                <Rocket className="h-4 w-4" />
+                Launch checklist
+              </div>
+              <p className="text-lg font-semibold">Your prep plan in the first 30 days</p>
+              <ul className="space-y-4 text-sm">
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500" />
+                  Submit your background for instant calibration and get a personalized dashboard.
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500" />
+                  Complete targeted drills each week with AI interviewers tuned to your role.
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500" />
+                  Reserve mentor sessions before high-stakes rounds and refine your story.
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500" />
+                  Track confidence metrics and celebrate milestones as you unlock new streaks.
+                </li>
+              </ul>
+            </div>
+            <div
+              className="absolute -bottom-10 -right-12 h-40 w-40 rounded-full bg-emerald-400/30 blur-3xl"
+              aria-hidden
+            />
           </div>
         </div>
-      </section>
 
-      {/* Demo Video */}
-      <section className="max-w-4xl mx-auto mb-16 px-4">
-        <div className="rounded-2xl shadow-xl border-4 border-green-400 bg-[#17233e] flex flex-col items-center py-8 px-6">
-          <h3 className="text-2xl font-bold mb-2 text-green-400">See the Platform in Action</h3>
-          <p className="mb-4 text-green-200 text-lg text-center">
-            Watch a quick demo walkthrough showing every step—company questions, practice,
-            mentoring, and analytics.
-          </p>
-          <video
-            src="/demo.mp4"
-            poster="/demo-poster.png"
-            controls
-            className="w-full rounded-xl max-w-2xl border-2 border-green-300"
-          />
+        <div className="mt-24 rounded-3xl border border-emerald-200/70 bg-white/80 p-10 shadow-2xl shadow-emerald-500/10 backdrop-blur dark:border-emerald-500/20 dark:bg-gray-900/80">
+          <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-xl space-y-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">
+                <BrainCircuit className="h-4 w-4" />
+                Resources included
+              </div>
+              <h2 className="text-3xl font-semibold text-gray-900 dark:text-gray-50">
+                Everything you need to keep momentum
+              </h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Your dashboard evolves with every session, surfacing the resources, reminders, and
+                accountability prompts that matter most right now.
+              </p>
+            </div>
+            <div className="grid w-full max-w-2xl gap-4 sm:grid-cols-2">
+              {resources.map((resource) => {
+                const Icon = resource.icon;
+                return (
+                  <div
+                    key={resource.title}
+                    className="rounded-2xl border border-emerald-200/60 bg-white/70 p-6 shadow-md shadow-emerald-500/5 dark:border-emerald-500/20 dark:bg-gray-900/70"
+                  >
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-300">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <h3 className="mt-5 text-base font-semibold text-gray-900 dark:text-gray-100">
+                      {resource.title}
+                    </h3>
+                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                      {resource.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="mt-10 flex flex-col gap-4 text-center sm:flex-row sm:justify-center">
+            <Link
+              href="/auth/signup"
+              className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400"
+            >
+              Start prepping today
+            </Link>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center justify-center rounded-full border border-emerald-200 px-6 py-3 text-sm font-semibold text-emerald-700 transition hover:border-emerald-400 hover:text-emerald-800 dark:border-emerald-500/30 dark:text-emerald-300 dark:hover:border-emerald-400"
+            >
+              View pricing plans
+            </Link>
+          </div>
         </div>
       </section>
-
-      {/* Call to Action */}
-      <section className="py-10 text-center">
-        <a
-          href="/signup"
-          className="inline-block px-9 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-teal-400 text-white font-bold text-xl shadow-lg transition hover:scale-105"
-        >
-          Start Practicing Free
-        </a>
-        <div className="mt-3 text-green-400 font-semibold">Book your first mock interview now!</div>
-      </section>
-
-      {/* Mobile CTA */}
-      <div className="fixed left-0 bottom-0 w-full md:hidden z-40">
-        <a
-          href="/signup"
-          className="block w-full text-center py-4 font-bold text-lg bg-green-600 text-white shadow-xl"
-        >
-          Start Practicing Free
-        </a>
-      </div>
     </div>
   );
-};
-
-export default HowItWorksPage;
+}
