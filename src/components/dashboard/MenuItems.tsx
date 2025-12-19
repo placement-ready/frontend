@@ -10,7 +10,6 @@ import {
   // MdExplore,
   // MdAdd,
   // MdCheckCircle,
-  MdBook,
   // MdLibraryBooks,
   // MdBookmark,
   // MdHighlight,
@@ -35,7 +34,7 @@ import { SidebarConfig } from './Sidebar';
 
 const menuItems: SidebarConfig = {
   logo: {
-    src: '/brain.png',
+    src: '/logo.png',
     alt: 'HireMind Logo',
     title: 'HireMind',
   },
@@ -216,17 +215,10 @@ const menuItems: SidebarConfig = {
       type: 'heading',
       children: [
         {
-          id: 'my-resumes',
-          name: 'My Resumes',
+          id: 'builder',
+          name: 'Open Builder',
           icon: <MdPerson />,
-          href: '/dashboard/resume',
-          type: 'link',
-        },
-        {
-          id: 'templates',
-          name: 'Templates',
-          icon: <MdBook />,
-          href: '/dashboard/templates',
+          href: '/resume',
           type: 'link',
         },
       ],

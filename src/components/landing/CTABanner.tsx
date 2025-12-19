@@ -8,7 +8,7 @@ import { buttonHover, fadeUp, fadeUpStagger } from './motion';
 import { SectionShell } from './section-shell';
 import { Button } from '@/components/ui/button';
 
-const MotionButton = motion(Button);
+const MotionButton = motion.create(Button);
 
 const CtaBanner = () => {
   const router = useRouter();

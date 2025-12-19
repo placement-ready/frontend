@@ -49,7 +49,7 @@ const quickActions: QuickAction[] = [
     title: 'Build Resume',
     description: 'Create a professional resume with our AI-powered builder',
     icon: <MdDescription className="w-6 h-6" />,
-    href: '/dashboard/resume',
+    href: '/resume',
     category: 'career',
     color: 'bg-green-50 text-green-600 border-green-200 hover:bg-green-100',
   },

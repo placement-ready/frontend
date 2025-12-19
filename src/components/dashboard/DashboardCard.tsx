@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { cardHover, cardVariants, defaultTransition } from './motion';
 
-const MotionCard = motion(Card);
+const MotionCard = motion.create(Card);
 
 interface DashboardCardProps extends Omit<React.ComponentProps<typeof MotionCard>, 'children'> {
   children: React.ReactNode;
@@ -17,7 +17,7 @@ interface DashboardCardProps extends Omit<React.ComponentProps<typeof MotionCard
 }
 
 const baseCardClasses =
-  'border border-border/70 bg-background/80 backdrop-blur-sm shadow-sm transition-all duration-200 hover:shadow-md';
+  'border border-slate-200/80 bg-white shadow-sm transition-all duration-200 hover:shadow-md dark:border-slate-800 dark:bg-slate-900/80';
 
 export function DashboardCard({
   heading,

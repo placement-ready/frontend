@@ -10,7 +10,7 @@ export async function middleware(req: NextRequest) {
 
     const session = await res.json();
 
-    if (session?.user) {
+    if (!session?.user) {
       const loginUrl = new URL('/auth/login', req.url);
       const callbackUrl = req.nextUrl.pathname + req.nextUrl.search;
       loginUrl.searchParams.set('callbackUrl', callbackUrl);

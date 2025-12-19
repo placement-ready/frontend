@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Bell, Settings, LogOut, User, Menu, X, ChevronDown } from 'lucide-react';
+import { Bell, Settings, LogOut, User, Menu, X, ChevronDown, Moon, SunMedium } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
 import Sidebar from './Sidebar';
 import menuItems from './MenuItems';
+import { useTheme } from '@/providers/ThemeContext';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -20,6 +21,7 @@ export default function Layout({ children }: LayoutProps) {
   const user = session?.user;
   const pathname = usePathname();
   const router = useRouter();
+  const { theme, toggleTheme } = useTheme();
 
   // Sync dark mode with localStorage
   useEffect(() => {
@@ -93,6 +95,18 @@ export default function Layout({ children }: LayoutProps) {
 
             {/* Right: Profile */}
             <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="rounded-full border border-slate-200 p-2.5 text-slate-500 transition-colors hover:border-slate-400 hover:text-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:border-slate-600"
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? (
+                  <Moon className="h-5 w-5" />
+                ) : (
+                  <SunMedium className="h-5 w-5" />
+                )}
+              </button>
               <Link
                 href="/dashboard/notifications"
                 className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
@@ -160,7 +174,9 @@ export default function Layout({ children }: LayoutProps) {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 bg-muted/30 dark:bg-background">{children}</main>
+        <main className="flex-1 bg-slate-50/80 px-2 py-6 dark:bg-slate-950/40 lg:px-4">
+          {children}
+        </main>
       </div>
     </>
   );

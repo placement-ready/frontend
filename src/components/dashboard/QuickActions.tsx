@@ -29,8 +29,8 @@ const actionItems: ActionItem[] = [
   },
   {
     title: 'Build Resume',
-    description: 'Update your resume with guided prompts and export-ready templates.',
-    href: '/dashboard/resume-builder',
+    description: 'Update your resume with guided prompts and an instant preview.',
+    href: '/resume',
     icon: FileText,
   },
 ];

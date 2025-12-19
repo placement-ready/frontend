@@ -12,7 +12,7 @@ const stats = [
   { label: 'Average practice minutes', value: '18' },
 ];
 
-const MotionButton = motion(Button);
+const MotionButton = motion.create(Button);
 
 const Hero = () => {
   const router = useRouter();

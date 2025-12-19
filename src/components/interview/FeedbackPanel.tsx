@@ -12,54 +12,80 @@ interface FeedbackPanelProps {
   className?: string;
 }
 
+const sectionConfig = {
+  strengths: {
+    title: 'What worked',
+    icon: CheckCircle2,
+    border: 'border-emerald-200 dark:border-emerald-900/50',
+    background: 'bg-emerald-50/70 dark:bg-emerald-950/40',
+    text: 'text-emerald-900 dark:text-emerald-200',
+  },
+  improvements: {
+    title: 'Tighten up',
+    icon: AlertCircle,
+    border: 'border-amber-200 dark:border-amber-900/50',
+    background: 'bg-amber-50/70 dark:bg-amber-950/40',
+    text: 'text-amber-900 dark:text-amber-200',
+  },
+  tips: {
+    title: 'Next attempt',
+    icon: Lightbulb,
+    border: 'border-sky-200 dark:border-sky-900/50',
+    background: 'bg-sky-50/70 dark:bg-sky-950/40',
+    text: 'text-sky-900 dark:text-sky-200',
+  },
+} as const;
+
 export function FeedbackPanel({ feedback, className }: FeedbackPanelProps) {
-  if (!feedback) return null;
+  if (!feedback) {
+    return (
+      <div
+        className={cn(
+          'flex h-full flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300/70 bg-white/30 p-6 text-center text-sm text-muted-foreground dark:border-slate-700 dark:bg-slate-900/30',
+          className,
+        )}
+      >
+        <p>Answer the current question and request feedback to see real-time insights.</p>
+      </div>
+    );
+  }
 
   return (
-    <div className={cn('space-y-4', className)}>
-      <h3 className="text-base font-semibold text-foreground">Feedback</h3>
-
-      {feedback.strengths && feedback.strengths.length > 0 && (
-        <div className="space-y-2 rounded-lg border border-emerald-200 bg-emerald-50/50 p-4 dark:border-emerald-900/50 dark:bg-emerald-900/10">
-          <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
-            <CheckCircle2 className="h-4 w-4" />
-            <span className="text-sm font-medium">Strengths</span>
-          </div>
-          <ul className="space-y-1 text-sm text-emerald-900 dark:text-emerald-300">
-            {feedback.strengths.map((strength, idx) => (
-              <li key={idx}>• {strength}</li>
-            ))}
-          </ul>
-        </div>
+    <div
+      className={cn(
+        'space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-950/60',
+        className,
       )}
+    >
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-300">
+          Live feedback
+        </p>
+        <h3 className="text-base font-semibold text-foreground">Refine your response</h3>
+      </div>
 
-      {feedback.improvements && feedback.improvements.length > 0 && (
-        <div className="space-y-2 rounded-lg border border-amber-200 bg-amber-50/50 p-4 dark:border-amber-900/50 dark:bg-amber-900/10">
-          <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400">
-            <AlertCircle className="h-4 w-4" />
-            <span className="text-sm font-medium">Areas for Improvement</span>
+      {(['strengths', 'improvements', 'tips'] as const).map((key) => {
+        const items = feedback[key];
+        if (!items || items.length === 0) return null;
+        const cfg = sectionConfig[key];
+        const Icon = cfg.icon;
+        return (
+          <div
+            key={key}
+            className={cn('space-y-2 rounded-xl border p-4', cfg.border, cfg.background, cfg.text)}
+          >
+            <div className="flex items-center gap-2 text-sm font-semibold">
+              <Icon className="h-4 w-4" />
+              {cfg.title}
+            </div>
+            <ul className="space-y-1 text-sm">
+              {items.map((item, idx) => (
+                <li key={`${key}-${idx}`}>• {item}</li>
+              ))}
+            </ul>
           </div>
-          <ul className="space-y-1 text-sm text-amber-900 dark:text-amber-300">
-            {feedback.improvements.map((improvement, idx) => (
-              <li key={idx}>• {improvement}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {feedback.tips && feedback.tips.length > 0 && (
-        <div className="space-y-2 rounded-lg border border-blue-200 bg-blue-50/50 p-4 dark:border-blue-900/50 dark:bg-blue-900/10">
-          <div className="flex items-center gap-2 text-blue-700 dark:text-blue-400">
-            <Lightbulb className="h-4 w-4" />
-            <span className="text-sm font-medium">Tips</span>
-          </div>
-          <ul className="space-y-1 text-sm text-blue-900 dark:text-blue-300">
-            {feedback.tips.map((tip, idx) => (
-              <li key={idx}>• {tip}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+        );
+      })}
     </div>
   );
 }
