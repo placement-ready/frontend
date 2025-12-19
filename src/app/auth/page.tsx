@@ -7,7 +7,6 @@ const Page = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Redirect to login page every time
     router.push('/auth/login');
   }, [router]);
 

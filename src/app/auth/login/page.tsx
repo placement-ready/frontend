@@ -1,63 +1,67 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+import { Form } from '@/components/auth/AuthForm';
+import { AuthLayout } from '@/components/auth/AuthLayout';
 import { useRouter } from 'next/navigation';
-import AuthForm from '@/components/auth/AuthForm';
-import { useAuthState } from '@/hooks/useAuthState';
-import { useCheckUserExists } from '@/lib/queries/auth';
+import { authClient } from '@/lib/auth-client';
 
-const Login: React.FC = () => {
-  const [localEmail, setLocalEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-
+export default function LoginForm() {
   const router = useRouter();
-  const { setEmail } = useAuthState();
 
-  // React Query hook for checking user existence
-  const { refetch: checkUser, isLoading: isCheckingUser } = useCheckUserExists(localEmail, false);
+  const handleSubmit = async (email: string, password: string) => {
+    await authClient.signIn.email(
+      { email, password, callbackURL: '/dashboard' },
+      {
+        onSuccess: () => {
+          router.push('/dashboard');
+        },
+        onError: (ctx) => {
+          console.error('Login error:', ctx.error);
+        },
+      },
+    );
+  };
 
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!localEmail) return;
-
-    setIsLoading(true);
-    setError('');
-
-    try {
-      // Store email in sessionStorage
-      setEmail(localEmail);
-
-      // Use React Query to check if user exists
-      const result = await checkUser();
-      const userExists = result.data?.exists || false;
-
-      if (userExists) router.push('/auth/login/password');
-      else router.push('/auth/create-account/password');
-    } catch (error) {
-      console.error('Error checking user:', error);
-      setError('Something went wrong. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
+  const handleGoogleSignIn = async () => {
+    await authClient.signIn.social({
+      provider: 'google',
+      callbackURL: '/dashboard',
+      errorCallbackURL: '/auth/login',
+    });
   };
 
   return (
-    <AuthForm
+    <AuthLayout
       title="Welcome back"
-      subtitle="Sign in to your account to continue"
-      email={localEmail}
-      setEmail={setLocalEmail}
-      onSubmit={handleEmailSubmit}
-      isLoading={isLoading || isCheckingUser}
-      error={error}
-      buttonText="Continue"
-      loadingText="Checking..."
-      footerText="Don't have an account?"
-      footerLinkText="Sign Up"
-      footerLinkHref="/auth/create-account"
-    />
-  );
-};
+      subtitle="Sign in to continue to HireMind"
+      footer={
+        <>
+          <Form.FooterLink
+            text="Don't have an account?"
+            linkText="Sign up"
+            linkHref="/auth/signup"
+          />
+          <Form.TermsFooter />
+        </>
+      }
+    >
+      <Form.Root onSubmit={handleSubmit} className="space-y-6">
+        <Form.Error />
 
-export default Login;
+        <Form.EmailField placeholder="Enter your email" />
+
+        <div className="space-y-2">
+          <Form.PasswordField placeholder="Enter your password" />
+          <Form.ForgotPassword />
+        </div>
+
+        <Form.SubmitButton loadingText="Signing in...">Sign In</Form.SubmitButton>
+
+        <Form.Separator />
+
+        <Form.GoogleButton onGoogleSignIn={handleGoogleSignIn} />
+      </Form.Root>
+    </AuthLayout>
+  );
+}

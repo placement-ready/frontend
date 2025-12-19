@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Placement Hub',
+  title: 'HireMind - Placement Preparation Platform',
   description: 'Your comprehensive placement preparation platform',
 };
 

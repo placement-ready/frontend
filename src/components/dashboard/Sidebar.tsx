@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { MdLogout } from 'react-icons/md';
-import { useAuth } from '@/hooks/useAuth';
+import { usePathname, useRouter } from 'next/navigation';
+import { LogOut } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+import { authClient } from '@/lib/auth-client';
 
 interface SidebarMenuItem {
   id: string;
@@ -19,11 +21,7 @@ interface SidebarMenuItem {
 }
 
 interface SidebarConfig {
-  logo: {
-    src: string;
-    alt: string;
-    title: string;
-  };
+  logo: { src: string; alt: string; title: string };
   menuItems: SidebarMenuItem[];
   showProfile?: boolean;
   showLogout?: boolean;
@@ -36,157 +34,103 @@ interface SidebarProps {
   className?: string;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className = '' }) => {
+export default function Sidebar({ config, isOpen, setIsOpen, className = '' }: SidebarProps) {
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
-  const { user, logout } = useAuth();
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
 
-  // Handle responsive behavior
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth < 1024;
       setIsMobile(mobile);
       if (mobile) setIsOpen(false);
     };
-
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [setIsOpen]);
 
-  // Close sidebar on mobile when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (e: MouseEvent) => {
       if (isMobile && isOpen) {
         const sidebar = document.getElementById('sidebar');
-        if (sidebar && !sidebar.contains(event.target as Node)) {
-          setIsOpen(false);
-        }
+        if (sidebar && !sidebar.contains(e.target as Node)) setIsOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isMobile, isOpen, setIsOpen]);
 
   const handleSignOut = async () => {
-    try {
-      await logout.mutate();
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
+    await authClient.signOut();
+    router.push('/');
   };
 
-  const isActiveLink = (href: string) => {
-    if (href === '/dashboard') {
-      return pathname === '/dashboard';
-    }
-    return pathname.startsWith(href);
+  const isActive = (href: string) =>
+    href === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(href);
+
+  const getInitials = (name?: string | null) => {
+    if (!name) return 'U';
+    const parts = name.split(' ');
+    return parts.length > 1 ? parts[0][0] + parts[1][0] : parts[0][0].toUpperCase();
   };
 
-  const getInitials = (name: string) => {
-    const names = name.split(' ');
-    if (names.length > 1) {
-      return names[0].charAt(0) + names[1].charAt(0);
-    }
-    return names[0].charAt(0).toLocaleUpperCase();
-  };
-
-  const renderMenuItem = (item: SidebarMenuItem, depth: number = 0) => {
-    const isActive = item.href ? isActiveLink(item.href) : false;
+  const renderItem = (item: SidebarMenuItem) => {
+    const active = item.href ? isActive(item.href) : false;
     const hasChildren = item.children && item.children.length > 0;
 
-    if (item.type === 'heading' && hasChildren && isOpen) {
+    if (item.type === 'heading' && hasChildren) {
       return (
         <li key={item.id} className="w-full">
-          <div className={`mb-2 mt-4`}>
-            <div className="flex items-center gap-3 px-4 py-2">
-              <span className="text-lg text-green-600 dark:text-green-400 flex-shrink-0">
-                {item.icon}
-              </span>
-              <span className="text-sm font-bold uppercase tracking-wide text-green-700 dark:text-green-300">
+          {isOpen && (
+            <div className="mb-2 mt-4 px-3">
+              <span className="flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-slate-400">
+                <span className="inline-flex h-2 w-2 rounded-full bg-emerald-500/70" />
                 {item.name}
               </span>
             </div>
-            <div className="h-px bg-green-200/50 dark:bg-green-700/50 mx-4"></div>
-          </div>
-          <ul className="space-y-1 mb-4">
-            {item.children?.map((child) => renderMenuItem(child, depth + 1))}
-          </ul>
+          )}
+          <ul className="space-y-1">{item.children?.map(renderItem)}</ul>
         </li>
       );
     }
-
-    // Don't render heading when sidebar is collapsed
-    if (item.type === 'heading' && !isOpen) {
-      return (
-        <li key={item.id} className="w-full">
-          <div className={`mb-2 mt-4`}>
-            <div className="h-px bg-green-400/50 dark:bg-green-700/50 mx-1"></div>
-          </div>
-          <ul className="space-y-1 mb-4">
-            {item.children?.map((child) => renderMenuItem(child, depth + 1))}
-          </ul>
-        </li>
-      );
-    }
-
-    // Regular link item
-    const content = (
-      <>
-        <span
-          className={`
-            text-xl flex-shrink-0 
-            ${isActive ? 'drop-shadow-sm' : ''}
-            group-hover:scale-110 transition-transform duration-200
-            text-green-700 dark:text-green-400
-            ${isActive ? 'dark:drop-shadow-md' : ''}
-          `}
-        >
-          {item.icon}
-        </span>
-        <span
-          className={`
-            text-sm font-medium truncate
-            ${isOpen ? 'opacity-100 max-w-xs' : 'opacity-0 max-w-0'}
-            transition-all duration-300
-            overflow-hidden
-            ${!isActive && isOpen ? 'group-hover:translate-x-1' : ''}
-            text-green-700 dark:text-green-300
-          `}
-        >
-          {item.name}
-        </span>
-        {item.badge && isOpen && (
-          <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full ml-auto shadow-sm dark:bg-green-600">
-            {item.badge}
-          </span>
-        )}
-      </>
-    );
 
     return (
-      <li key={item.id} className="w-full">
+      <li key={item.id} className="w-full px-2">
         {item.href ? (
           <Link
             href={item.href}
-            onClick={() => {
-              if (isMobile) setIsOpen(false);
-              item.onClick?.();
-            }}
-            className={`
-              flex items-center ${isOpen ? 'gap-4 px-4' : 'gap-0 px-0'} 
-              py-3 w-full rounded-xl
-              ${isOpen ? 'justify-start' : 'justify-center'}
-              group transition-all duration-200 focus:outline-none
-              ${
-                isActive
-                  ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg transform scale-[1.02] dark:from-green-600 dark:to-green-700'
-                  : 'bg-white/50 backdrop-blur-sm text-green-700 hover:bg-white/80 hover:text-green-600 hover:shadow-md border border-green-200/30 dark:bg-gray-900 dark:text-green-400 dark:hover:bg-gray-800 dark:hover:text-green-300 dark:hover:shadow-lg dark:border-green-700/50'
-              }
-            `}
+            onClick={() => isMobile && setIsOpen(false)}
+            className={`group relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-600 transition-all duration-150 hover:text-slate-900 dark:text-slate-200 hover:dark:text-slate-200 ${
+              !isOpen ? 'justify-center px-2' : ''
+            }`}
           >
-            {content}
+            {active && (
+              <motion.span
+                layoutId="sidebar-active-indicator"
+                className="absolute inset-0 rounded-xl border border-emerald-200 bg-emerald-50 shadow-sm dark:border-emerald-500/40 dark:bg-emerald-500/10"
+                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+              />
+            )}
+            <span
+              className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-lg border border-transparent bg-slate-100 text-base transition-colors duration-150 dark:bg-slate-900/40 ${
+                active
+                  ? 'text-emerald-600 dark:text-emerald-400'
+                  : 'text-slate-500 group-hover:text-emerald-600'
+              }`}
+            >
+              {item.icon}
+            </span>
+            {isOpen && (
+              <span className="relative z-10 truncate text-sm font-medium">{item.name}</span>
+            )}
+            {isOpen && item.badge && (
+              <span className="relative z-10 ml-auto rounded-full border border-slate-200 bg-white px-2 py-0.5 text-xs text-slate-600">
+                {item.badge}
+              </span>
+            )}
           </Link>
         ) : (
           <button
@@ -194,17 +138,14 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
               item.onClick?.();
               if (isMobile) setIsOpen(false);
             }}
-            className={`
-              flex items-center ${isOpen ? 'gap-4 px-4' : 'gap-0 px-0'} 
-              py-3 w-full rounded-xl
-              ${isOpen ? 'justify-start' : 'justify-center'}
-              group transition-all duration-200
-              focus:outline-none
-              bg-white/50 backdrop-blur-sm text-green-700 hover:bg-white/80 hover:text-green-600 hover:shadow-md border border-green-200/30
-              dark:bg-gray-900 dark:text-green-400 dark:hover:bg-gray-800 dark:hover:text-green-300 dark:hover:shadow-lg dark:border-green-700/50
-            `}
+            className={`group relative flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 ${
+              !isOpen ? 'justify-center px-2' : ''
+            }`}
           >
-            {content}
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition-colors group-hover:text-emerald-600 dark:bg-slate-900/40">
+              {item.icon}
+            </span>
+            {isOpen && <span className="truncate">{item.name}</span>}
           </button>
         )}
       </li>
@@ -213,10 +154,9 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
 
   return (
     <>
-      {/* Mobile Overlay */}
       {isMobile && isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -224,172 +164,75 @@ const Sidebar: React.FC<SidebarProps> = ({ config, isOpen, setIsOpen, className 
       <aside
         id="sidebar"
         className={`
-          ${isOpen ? 'w-64' : isMobile ? 'w-0' : 'w-16'}
-          ${isMobile && !isOpen ? 'overflow-hidden' : ''}
+          ${isOpen ? 'w-60' : isMobile ? 'w-0 overflow-hidden' : 'w-16'}
           ${isMobile ? 'fixed' : 'sticky'}
-          transition-all duration-300 ease-out
-          bg-gradient-to-br from-green-50 via-green-100 to-green-200
-          dark:from-gray-900 dark:via-gray-800 dark:to-gray-900
-          backdrop-blur-sm border-r border-green-200/50 dark:border-gray-700/50
-          shadow-xl shadow-green-500/10 dark:shadow-black/30
-          flex flex-col top-0 left-0 h-screen py-4 px-0
-          ${isOpen ? 'items-start px-4' : 'items-center md:px-2'}
-          z-40
+          top-0 left-0 z-40 flex h-screen flex-col border-r border-slate-200/80 bg-white/95 shadow-sm transition-all duration-200 dark:border-slate-800 dark:bg-slate-950/70 lg:rounded-r-3xl
           ${className}
         `}
       >
-        {/* Logo & App Name */}
+        {/* Logo */}
         <div
-          className={`
-            flex items-center gap-3 mb-8 w-full
-            ${isOpen ? 'justify-start' : 'justify-center'}
-            transition-all duration-300
-          `}
+          className={`flex h-16 items-center gap-3 border-b border-slate-200/70 px-4 ${!isOpen && 'justify-center'}`}
         >
-          <div
-            className={`
-              bg-gradient-to-br from-green-500 to-green-600
-              rounded-xl ${isOpen ? 'p-3' : 'p-2'}
-              flex items-center shadow-lg
-              hover:shadow-xl transition-shadow duration-200
-            `}
-          >
-            <Image
-              src={config.logo.src}
-              alt={config.logo.alt}
-              width={isOpen ? 28 : 24}
-              height={isOpen ? 28 : 24}
-              className="block"
-            />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-100 bg-emerald-50 text-emerald-600 shadow-sm">
+            <Image src={config.logo.src} alt={config.logo.alt} width={20} height={20} />
           </div>
-          <span
-            className={`
-              font-extrabold text-green-700 text-xl tracking-tight
-              ${isOpen ? 'inline' : 'hidden'}
-              transition-all duration-300
-              dark:text-green-400
-            `}
-          >
-            {config.logo.title}
-          </span>
+          {isOpen && (
+            <span className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+              {config.logo.title}
+            </span>
+          )}
         </div>
 
-        {/* Menu Links */}
-        <nav className="w-full flex-1 overflow-y-auto overflow-x-hidden scrollbar-hidden">
-          <ul className="list-none m-0 p-0.5 space-y-2">
-            {config.menuItems.map((item) => renderMenuItem(item))}
-          </ul>
+        {/* Nav */}
+        <nav className="flex-1 overflow-y-auto py-4">
+          <ul className="space-y-1">{config.menuItems.map(renderItem)}</ul>
         </nav>
 
-        {/* Profile & Logout */}
+        {/* Footer */}
         {(config.showProfile || config.showLogout) && (
-          <div className="w-full mt-auto pt-6">
-            {isOpen ? (
-              <div
-                className={`
-                  w-full flex items-center justify-between
-                  bg-white/90 backdrop-blur-sm rounded-xl shadow-lg
-                  px-4 py-4 border border-green-200/50
-                  transition-all duration-200
-                  hover:shadow-xl hover:bg-white
-                  dark:bg-gray-900/90 dark:border-gray-700/50 dark:hover:bg-gray-800 dark:hover:shadow-lg
-                `}
+          <div
+            className={`border-t border-slate-200/70 p-3 ${!isOpen && 'flex flex-col items-center gap-2'}`}
+          >
+            {config.showProfile && isOpen && (
+              <Link
+                href="/dashboard/profile"
+                onClick={() => isMobile && setIsOpen(false)}
+                className="mb-2 flex items-center gap-3 rounded-xl border border-transparent px-2 py-2 text-sm font-medium text-slate-700 transition-colors hover:border-slate-200"
               >
-                {config.showProfile && (
-                  <Link
-                    href="/dashboard/profile"
-                    className="flex items-center gap-3 flex-1 hover:opacity-80 transition-opacity duration-200"
-                    onClick={() => {
-                      if (isMobile) setIsOpen(false);
-                    }}
-                  >
-                    {user?.avatar ? (
-                      <Image
-                        src={user?.avatar}
-                        alt="User Avatar"
-                        width={40}
-                        height={40}
-                        className="rounded-full"
-                      />
-                    ) : (
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center shadow-md">
-                        <span className="text-white font-bold text-lg">
-                          {getInitials(user?.name || 'User')}
-                        </span>
-                      </div>
-                    )}
-                    <div className="flex flex-col">
-                      <span className="text-sm font-semibold text-green-700 dark:text-green-400">
-                        {user?.name || 'User'}
-                      </span>
-                      <span className="text-xs text-green-600 dark:text-green-300">
-                        {user?.role || 'Student'}
-                      </span>
-                    </div>
-                  </Link>
-                )}
-                {config.showLogout && (
-                  <button
-                    onClick={handleSignOut}
-                    className={`
-                      bg-red-50 text-red-500 rounded-xl p-2.5 ${config.showProfile ? 'ml-3' : ''}
-                      shadow-sm border border-red-200/50
-                      flex items-center justify-center
-                      hover:bg-red-100 hover:shadow-md
-                      transition-all duration-200
-                      focus:outline-none focus:ring-2 focus:ring-red-400
-                      dark:bg-red-900/70 dark:text-red-400 dark:hover:bg-red-800 dark:hover:shadow-lg dark:ring-red-600
-                    `}
-                    aria-label="Logout"
-                    title="Logout"
-                  >
-                    <MdLogout size={18} />
-                  </button>
-                )}
-              </div>
-            ) : (
-              <div className="flex flex-col items-center space-y-4 w-full">
-                {config.showProfile && (
-                  <Link
-                    href="/dashboard/profile"
-                    className="hover:opacity-80 transition-opacity duration-200"
-                    onClick={() => {
-                      if (isMobile) setIsOpen(false);
-                    }}
-                  >
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center shadow-md hover:shadow-lg transition-shadow duration-200">
-                      <span className="text-white font-bold text-lg">
-                        {getInitials(user?.name || 'User')}
-                      </span>
-                    </div>
-                  </Link>
-                )}
-                {config.showLogout && (
-                  <button
-                    onClick={handleSignOut}
-                    className={`
-                      bg-red-50 text-red-500 rounded-xl p-2.5
-                      shadow-sm border border-red-200/50
-                      flex items-center justify-center
-                      hover:bg-red-100 hover:shadow-md
-                      transition-all duration-200
-                      focus:outline-none focus:ring-2 focus:ring-red-400
-                      dark:bg-red-900/70 dark:text-red-400 dark:hover:bg-red-800 dark:hover:shadow-lg dark:ring-red-600
-                    `}
-                    aria-label="Logout"
-                    title="Logout"
-                  >
-                    <MdLogout size={18} />
-                  </button>
-                )}
-              </div>
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-sm font-semibold text-emerald-700">
+                  {getInitials(user?.name)}
+                </div>
+                <div className="flex-1 truncate">
+                  <p className="truncate font-semibold">{user?.name ?? 'User'}</p>
+                </div>
+              </Link>
+            )}
+
+            {config.showProfile && !isOpen && (
+              <Link href="/dashboard/profile" onClick={() => isMobile && setIsOpen(false)}>
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-sm font-semibold text-emerald-700">
+                  {getInitials(user?.name)}
+                </div>
+              </Link>
+            )}
+
+            {config.showLogout && (
+              <button
+                onClick={handleSignOut}
+                className={`flex items-center gap-2 rounded-xl text-sm font-medium text-rose-600 transition-colors hover:bg-rose-50 ${
+                  isOpen ? 'w-full px-3 py-2' : 'p-2'
+                }`}
+              >
+                <LogOut className="h-4 w-4" />
+                {isOpen && 'Sign out'}
+              </button>
             )}
           </div>
         )}
       </aside>
     </>
   );
-};
+}
 
-export default Sidebar;
 export type { SidebarMenuItem, SidebarConfig, SidebarProps };

@@ -3,23 +3,23 @@
 import React from 'react';
 import Link from 'next/link';
 import {
-  MdQuiz,
-  MdDescription,
-  MdSchedule,
-  MdChat,
-  MdAnalytics,
-  MdBookmark,
-  MdCode,
-  MdGroup,
-  MdLibraryBooks,
-  MdAssignment,
-  MdTrendingUp,
-  MdSchool,
-  MdWork,
-  MdEmojiEvents,
-  MdUpload,
-  MdVideoCall,
-} from 'react-icons/md';
+  HelpCircle,
+  FileText,
+  CalendarClock,
+  MessageCircle,
+  BarChart3,
+  Bookmark,
+  Code2,
+  Users,
+  Library,
+  ClipboardList,
+  TrendingUp,
+  GraduationCap,
+  Briefcase,
+  Trophy,
+  Upload,
+  Video,
+} from 'lucide-react';
 
 interface QuickAction {
   id: string;
@@ -38,7 +38,7 @@ const quickActions: QuickAction[] = [
     id: 'take-assessment',
     title: 'Take Skills Assessment',
     description: 'Evaluate your current skills and get personalized recommendations',
-    icon: <MdQuiz className="w-6 h-6" />,
+    icon: <HelpCircle className="w-6 h-6" />,
     href: '/dashboard/skills-assessment',
     category: 'assessment',
     badge: 'Popular',
@@ -48,8 +48,8 @@ const quickActions: QuickAction[] = [
     id: 'resume-builder',
     title: 'Build Resume',
     description: 'Create a professional resume with our AI-powered builder',
-    icon: <MdDescription className="w-6 h-6" />,
-    href: '/dashboard/resume',
+    icon: <FileText className="w-6 h-6" />,
+    href: '/resume',
     category: 'career',
     color: 'bg-green-50 text-green-600 border-green-200 hover:bg-green-100',
   },
@@ -57,7 +57,7 @@ const quickActions: QuickAction[] = [
     id: 'study-planner',
     title: 'Create Study Plan',
     description: 'Generate a personalized study schedule for your goals',
-    icon: <MdSchedule className="w-6 h-6" />,
+    icon: <CalendarClock className="w-6 h-6" />,
     href: '/dashboard/study-planner',
     category: 'learning',
     color: 'bg-purple-50 text-purple-600 border-purple-200 hover:bg-purple-100',
@@ -66,7 +66,7 @@ const quickActions: QuickAction[] = [
     id: 'ai-mentor',
     title: 'Chat with AI Mentor',
     description: 'Get instant help and guidance from our AI mentor',
-    icon: <MdChat className="w-6 h-6" />,
+    icon: <MessageCircle className="w-6 h-6" />,
     href: '/dashboard/ai-chat',
     category: 'learning',
     badge: 'New',
@@ -76,7 +76,7 @@ const quickActions: QuickAction[] = [
     id: 'progress-analytics',
     title: 'View Progress',
     description: 'Track your learning progress and achievements',
-    icon: <MdAnalytics className="w-6 h-6" />,
+    icon: <BarChart3 className="w-6 h-6" />,
     href: '/dashboard/skill-progress',
     category: 'assessment',
     color: 'bg-indigo-50 text-indigo-600 border-indigo-200 hover:bg-indigo-100',
@@ -85,7 +85,7 @@ const quickActions: QuickAction[] = [
     id: 'save-resources',
     title: 'Browse Resources',
     description: 'Explore curated learning materials and save favorites',
-    icon: <MdBookmark className="w-6 h-6" />,
+    icon: <Bookmark className="w-6 h-6" />,
     href: '/dashboard/browse-resources',
     category: 'learning',
     color: 'bg-pink-50 text-pink-600 border-pink-200 hover:bg-pink-100',
@@ -94,7 +94,7 @@ const quickActions: QuickAction[] = [
     id: 'coding-practice',
     title: 'Practice Coding',
     description: 'Solve coding problems and improve your programming skills',
-    icon: <MdCode className="w-6 h-6" />,
+    icon: <Code2 className="w-6 h-6" />,
     href: '/dashboard/dsa',
     category: 'learning',
     color: 'bg-cyan-50 text-cyan-600 border-cyan-200 hover:bg-cyan-100',
@@ -103,7 +103,7 @@ const quickActions: QuickAction[] = [
     id: 'mock-interview',
     title: 'Mock Interview',
     description: 'Practice interviews with AI or connect with mentors',
-    icon: <MdVideoCall className="w-6 h-6" />,
+    icon: <Video className="w-6 h-6" />,
     href: '/dashboard/mentor',
     category: 'career',
     color: 'bg-red-50 text-red-600 border-red-200 hover:bg-red-100',
@@ -112,7 +112,7 @@ const quickActions: QuickAction[] = [
     id: 'learning-paths',
     title: 'Explore Learning Paths',
     description: 'Discover structured learning journeys for your career goals',
-    icon: <MdSchool className="w-6 h-6" />,
+    icon: <GraduationCap className="w-6 h-6" />,
     href: '/dashboard/browse-paths',
     category: 'learning',
     color: 'bg-teal-50 text-teal-600 border-teal-200 hover:bg-teal-100',
@@ -121,7 +121,7 @@ const quickActions: QuickAction[] = [
     id: 'career-goals',
     title: 'Set Career Goals',
     description: 'Define and track your professional objectives',
-    icon: <MdWork className="w-6 h-6" />,
+    icon: <Briefcase className="w-6 h-6" />,
     href: '/dashboard/career-goals',
     category: 'career',
     color: 'bg-yellow-50 text-yellow-600 border-yellow-200 hover:bg-yellow-100',
@@ -130,7 +130,7 @@ const quickActions: QuickAction[] = [
     id: 'achievements',
     title: 'View Achievements',
     description: 'See your accomplishments and earned badges',
-    icon: <MdEmojiEvents className="w-6 h-6" />,
+    icon: <Trophy className="w-6 h-6" />,
     href: '/dashboard/achievements',
     category: 'assessment',
     color: 'bg-amber-50 text-amber-600 border-amber-200 hover:bg-amber-100',
@@ -139,7 +139,7 @@ const quickActions: QuickAction[] = [
     id: 'upload-content',
     title: 'Upload Resources',
     description: 'Share your own learning materials with the community',
-    icon: <MdUpload className="w-6 h-6" />,
+    icon: <Upload className="w-6 h-6" />,
     href: '/dashboard/upload',
     category: 'collaboration',
     color: 'bg-emerald-50 text-emerald-600 border-emerald-200 hover:bg-emerald-100',
@@ -147,10 +147,10 @@ const quickActions: QuickAction[] = [
 ];
 
 const categoryConfig = {
-  learning: { label: 'Learning & Development', icon: <MdLibraryBooks className="w-5 h-5" /> },
-  assessment: { label: 'Assessment & Progress', icon: <MdTrendingUp className="w-5 h-5" /> },
-  career: { label: 'Career Preparation', icon: <MdWork className="w-5 h-5" /> },
-  collaboration: { label: 'Community & Sharing', icon: <MdGroup className="w-5 h-5" /> },
+  learning: { label: 'Learning & Development', icon: <Library className="w-5 h-5" /> },
+  assessment: { label: 'Assessment & Progress', icon: <TrendingUp className="w-5 h-5" /> },
+  career: { label: 'Career Preparation', icon: <Briefcase className="w-5 h-5" /> },
+  collaboration: { label: 'Community & Sharing', icon: <Users className="w-5 h-5" /> },
 };
 
 const QuickActionsPage: React.FC = () => {
@@ -173,7 +173,7 @@ const QuickActionsPage: React.FC = () => {
           <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
             <div className="flex items-center">
               <div className="p-2 bg-green-100 rounded-lg">
-                <MdAssignment className="w-6 h-6 text-green-600" />
+                <ClipboardList className="w-6 h-6 text-green-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Available Actions</p>
@@ -184,7 +184,7 @@ const QuickActionsPage: React.FC = () => {
           <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
             <div className="flex items-center">
               <div className="p-2 bg-blue-100 rounded-lg">
-                <MdTrendingUp className="w-6 h-6 text-blue-600" />
+                <TrendingUp className="w-6 h-6 text-blue-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Categories</p>
@@ -195,7 +195,7 @@ const QuickActionsPage: React.FC = () => {
           <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
             <div className="flex items-center">
               <div className="p-2 bg-purple-100 rounded-lg">
-                <MdEmojiEvents className="w-6 h-6 text-purple-600" />
+                <Trophy className="w-6 h-6 text-purple-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">New Features</p>
@@ -208,7 +208,7 @@ const QuickActionsPage: React.FC = () => {
           <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
             <div className="flex items-center">
               <div className="p-2 bg-orange-100 rounded-lg">
-                <MdBookmark className="w-6 h-6 text-orange-600" />
+                <Bookmark className="w-6 h-6 text-orange-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Popular</p>
@@ -262,7 +262,7 @@ const QuickActionsPage: React.FC = () => {
         })}
 
         {/* Call to Action */}
-        <div className="mt-12 bg-gradient-to-r from-green-600 to-blue-600 rounded-2xl p-8 text-center text-white">
+        <div className="mt-12 bg-linear-to-r from-green-600 to-blue-600 rounded-2xl p-8 text-center text-white">
           <h2 className="text-2xl font-bold mb-4">Ready to Accelerate Your Learning?</h2>
           <p className="text-green-100 mb-6 max-w-2xl mx-auto">
             These quick actions are designed to help you make the most of your learning journey.

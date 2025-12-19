@@ -1,19 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { env } from '@/config';
 
 export async function middleware(req: NextRequest) {
-  // Get access token from cookies
-  const accessToken = req.cookies.get('accessToken')?.value;
+  try {
+    const res = await fetch(`${env.apiUrl}/api/me`, {
+      headers: req.headers,
+      credentials: 'include',
+    });
 
-  // If no token, redirect to login
-  if (!accessToken) {
-    const loginUrl = new URL('/auth/login', req.url);
-    loginUrl.searchParams.set('callbackUrl', req.url);
-    return NextResponse.redirect(loginUrl);
+    const session = await res.json();
+
+    if (!session?.user) {
+      const loginUrl = new URL('/auth/login', req.url);
+      const callbackUrl = req.nextUrl.pathname + req.nextUrl.search;
+      loginUrl.searchParams.set('callbackUrl', callbackUrl);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    return NextResponse.next();
+  } catch (error) {
+    console.error('Unable to read auth session', error);
   }
-
-  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/dashboard/d/:path*'],
+  matcher: ['/dashboard/:path*'],
 };

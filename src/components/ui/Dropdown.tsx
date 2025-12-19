@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, ReactNode, createContext, useContext } from 'react';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon } from 'lucide-react';
 
 // Context for dropdown state
 interface DropdownContextValue {
@@ -205,7 +205,7 @@ const DropdownItem: React.FC<DropdownItemProps> = ({
         children
       ) : (
         <>
-          {icon && <span className="flex-shrink-0">{icon}</span>}
+          {icon && <span className="shrink-0">{icon}</span>}
           <div className="flex-1">
             {label && <div className="font-medium">{label}</div>}
             {description && (

@@ -1,70 +1,68 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, ArrowLeft, Compass } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ArrowLeft, Compass, Home } from 'lucide-react';
 
 export default function NotFound() {
+  const router = useRouter();
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center px-4 sm:px-6 lg:px-8 relative">
-      <div className="max-w-xl w-full text-center relative z-10">
-        <div>
-          <div className="text-8xl sm:text-9xl lg:text-[12rem] font-bold bg-gradient-to-r from-green-500 via-emerald-600 to-green-700 dark:from-green-400 dark:via-emerald-500 dark:to-teal-500 bg-clip-text text-transparent select-none">
-            404
+    <div className="min-h-screen bg-slate-950 px-4 py-16 text-slate-100">
+      <div className="mx-auto flex max-w-5xl flex-col gap-10 rounded-3xl border border-slate-800/60 bg-slate-950/60 p-8 shadow-[0_40px_120px_rgba(2,6,23,0.65)] md:flex-row">
+        <section className="flex-1 space-y-6">
+          <p className="text-xs uppercase tracking-[0.4em] text-emerald-300/80">Not found</p>
+          <div>
+            <span className="text-7xl font-semibold text-white md:text-8xl">404</span>
+            <p className="mt-4 text-2xl font-semibold text-white">We could not find that page.</p>
+            <p className="mt-3 text-sm leading-relaxed text-slate-400">
+              The link might be outdated or the page may have moved. Double-check the URL or pick
+              one of the next actions to continue working.
+            </p>
           </div>
-        </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+            >
+              <Home className="h-4 w-4" />
+              Back to homepage
+            </Link>
+            <button
+              type="button"
+              onClick={() => router.back()}
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-700 px-5 py-3 text-sm font-semibold text-slate-100 transition hover:bg-slate-900"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Go back
+            </button>
+          </div>
+        </section>
 
-        {/* Error Message */}
-        <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gray-800 dark:text-gray-100">
-            Page Not Found
-          </h1>
-          <p className="text-lg sm:text-xl leading-relaxed text-gray-600 dark:text-gray-400">
-            Oops! The page you&apos;re looking for seems to have taken a detour.
-            <br className="hidden sm:block" />
-            Let&apos;s get you back on track.
-          </p>
-        </div>
-
-        {/* Suggestions */}
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700 shadow-xl mb-8">
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center justify-center gap-2">
-            <Compass className="w-5 h-5 text-green-600 dark:text-green-400" />
-            What you can do:
-          </h3>
-          <div className="space-y-3 text-sm sm:text-base text-gray-600 dark:text-gray-400">
-            <div className="flex items-center justify-center gap-3">
-              <div className="w-2 h-2 bg-green-500 dark:bg-green-400 rounded-full"></div>
-              <span>Check if the URL is spelled correctly</span>
+        <section className="flex-1 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+          <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">
+            <Compass className="h-4 w-4 text-emerald-300" />
+            Try this
+          </div>
+          <div className="mt-4 space-y-4 text-sm text-slate-300">
+            <div className="rounded-2xl border border-slate-800/80 bg-slate-950/40 p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
+                Search
+              </p>
+              <p className="mt-2">
+                Use the main nav to jump into dashboard, interviews, or resume builder.
+              </p>
             </div>
-            <div className="flex items-center justify-center gap-3">
-              <div className="w-2 h-2 bg-green-500 dark:bg-green-400 rounded-full"></div>
-              <span>Go back to the homepage</span>
+            <div className="rounded-2xl border border-slate-800/80 bg-slate-950/40 p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
+                Shortcut
+              </p>
+              <p className="mt-2">
+                If you saved a link earlier, refresh it from the dashboard quick actions panel.
+              </p>
             </div>
           </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <Link
-            href="/"
-            className="group flex items-center gap-3 px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base rounded-xl text-white bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-500 dark:to-emerald-500 hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg"
-          >
-            <Home className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
-            Go to Homepage
-          </Link>
-          <button
-            onClick={() => window.history.back()}
-            className="group flex items-center gap-3 px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base rounded-xl border-2 border-green-600 text-green-600 dark:text-green-400 bg-white dark:bg-gray-800 hover:bg-green-50 dark:hover:bg-green-900 transition-all duration-200 shadow-lg"
-          >
-            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
-            Go Back
-          </button>
-        </div>
-
-        {/* Decorative Elements */}
-        <div className="absolute -z-10 top-1/4 left-1/4 w-32 h-32 rounded-full opacity-20 animate-pulse bg-green-200 dark:bg-green-800"></div>
-        <div className="absolute -z-10 bottom-1/4 right-1/4 w-24 h-24 rounded-full opacity-20 animate-pulse bg-emerald-200 dark:bg-emerald-900 delay-1000"></div>
-        <div className="absolute -z-10 top-3/4 left-1/3 w-16 h-16 rounded-full opacity-20 animate-pulse bg-green-300 dark:bg-green-700 delay-500"></div>
+        </section>
       </div>
     </div>
   );

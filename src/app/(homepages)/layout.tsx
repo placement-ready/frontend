@@ -1,5 +1,5 @@
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Navbar from '@/components/landing/Navbar';
+import Footer from '@/components/landing/Footer';
 
 export default function HomeLayout({
   children,
@@ -7,9 +7,9 @@ export default function HomeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="min-h-screen bg-green-50 font-sans">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
-      <div>{children}</div>
+      <main>{children}</main>
       <Footer />
     </div>
   );
