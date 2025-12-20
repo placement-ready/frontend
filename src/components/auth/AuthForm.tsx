@@ -1,183 +1,406 @@
-import React, { useState } from "react";
-import Image from "next/image";
-import { EnvelopeIcon } from "@heroicons/react/24/outline";
+'use client';
 
-interface AuthFormProps {
-	title: string;
-	subtitle: string;
-	email: string;
-	setEmail: (email: string) => void;
-	onSubmit: (e: React.FormEvent) => void;
-	isLoading: boolean;
-	error: string;
-	buttonText: string;
-	loadingText: string;
-	footerText: string;
-	footerLinkText: string;
-	footerLinkHref: string;
-	onGoogleSignIn?: () => void;
-	showEmailField?: boolean;
+import React, { createContext, useContext, useState, FormEvent } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion, EasingDefinition } from 'framer-motion';
+import { Mail, Lock, Eye, EyeClosed } from 'lucide-react';
+
+import { Spinner } from '@/components/ui/spinner';
+import { cn } from '@/lib/utils';
+
+// Context for form state management
+interface FormContextType {
+  email: string;
+  setEmail: (email: string) => void;
+  password: string;
+  setPassword: (password: string) => void;
+  isLoading: boolean;
+  setIsLoading: (loading: boolean) => void;
+  error: string;
+  setError: (error: string) => void;
+  showPassword: boolean;
+  setShowPassword: (show: boolean) => void;
 }
 
-const AuthForm: React.FC<AuthFormProps> = ({
-	title,
-	subtitle,
-	email,
-	setEmail,
-	onSubmit,
-	isLoading,
-	error,
-	buttonText,
-	loadingText,
-	footerText,
-	footerLinkText,
-	footerLinkHref,
-	onGoogleSignIn,
-	showEmailField = true,
-}) => {
-	const [processing, setProcessing] = useState(false);
+const FormContext = createContext<FormContextType | undefined>(undefined);
 
-	const handleGoogleSignIn = async () => {
-		setProcessing(true);
-		try {
-			// For now, we'll disable Google Sign-In since we removed NextAuth
-			// You can implement this later with your backend
-			console.log("Google Sign-In not implemented yet");
-		} catch (error) {
-			console.error("Error signing in with Google:", error);
-		} finally {
-			setProcessing(false);
-		}
-	};
-
-	return (
-		<div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f0fdf4] via-[#ecfdf5] to-[#d1fae5] p-4">
-			<div className="max-w-md w-full bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-green-100 p-6 sm:p-8">
-				{/* Header */}
-				<div className="text-center mb-8">
-					<div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4 transform hover:scale-105 transition-transform duration-200">
-						<Image src="/brain.png" alt="Brain" width={40} height={40} className="object-contain" />
-					</div>
-					<h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">{title}</h1>
-					<p className="text-gray-600 text-sm sm:text-base">{subtitle}</p>
-				</div>
-
-				{/* Email Form */}
-				<form onSubmit={onSubmit} className="space-y-4 mb-6">
-					{error && (
-						<div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-							<p className="text-sm text-red-600">{error}</p>
-						</div>
-					)}
-					{showEmailField && (
-						<div>
-							<label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-								Email address
-							</label>
-							<div className="relative">
-								<input
-									id="email"
-									type="email"
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-									placeholder="Enter your email"
-									required
-									disabled={isLoading}
-									className="w-full pl-10 pr-4 py-3 sm:py-4 border-2 text-black border-gray-200 rounded-xl focus:border-green-400 focus:ring-0 focus:outline-none bg-gray-50 hover:bg-white hover:border-green-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
-								/>
-								<EnvelopeIcon className="w-5 h-5 text-gray-600 absolute left-3 top-1/2 transform -translate-y-1/2" />
-							</div>
-						</div>
-					)}
-
-					<button
-						type="submit"
-						disabled={isLoading || !email}
-						className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 sm:py-4 px-6 rounded-xl transform hover:scale-[1.02] hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm sm:text-base cursor-pointer"
-					>
-						{isLoading ? (
-							<div className="flex items-center justify-center gap-2">
-								<div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-								{loadingText}
-							</div>
-						) : (
-							buttonText
-						)}
-					</button>
-				</form>
-
-				{/* Footer Link */}
-				<div className="text-center mb-6">
-					<p className="text-sm text-gray-500">
-						{footerText}{" "}
-						<a
-							href={footerLinkHref}
-							className="text-green-600 hover:text-green-700 font-medium transition-colors duration-200"
-						>
-							{footerLinkText}
-						</a>
-					</p>
-				</div>
-
-				{/* Divider */}
-				<div className="relative mb-6">
-					<div className="absolute inset-0 flex items-center">
-						<div className="w-full border-t border-gray-200"></div>
-					</div>
-					<div className="relative flex justify-center text-sm">
-						<span className="px-4 bg-white text-gray-500">or</span>
-					</div>
-				</div>
-
-				{/* Google Sign In */}
-				<button
-					onClick={onGoogleSignIn ?? handleGoogleSignIn}
-					disabled={processing}
-					className="w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-200 rounded-xl p-3 sm:p-4 font-medium text-gray-700 hover:border-green-300 hover:bg-green-50 hover:shadow-md transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer"
-				>
-					<svg
-						width="20"
-						height="20"
-						viewBox="0 0 18 18"
-						xmlns="http://www.w3.org/2000/svg"
-						aria-hidden="true"
-					>
-						<path
-							d="M17.64 9.2045c0-.638-.057-1.252-.164-1.841H9v3.481h4.844c-.209 1.125-.842 2.078-1.795 2.717v2.258h2.908c1.703-1.57 2.683-3.885 2.683-6.615z"
-							fill="#4285F4"
-						/>
-						<path
-							d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.258c-.806.54-1.838.86-3.048.86-2.345 0-4.33-1.584-5.037-3.711H.957v2.332C2.438 15.983 5.481 18 9 18z"
-							fill="#34A853"
-						/>
-						<path
-							d="M3.963 10.711a5.408 5.408 0 0 1 0-3.422V4.957H.957a8.998 8.998 0 0 0 0 8.086l3.006-2.332z"
-							fill="#FBBC05"
-						/>
-						<path
-							d="M9 3.542c1.319 0 2.506.454 3.44 1.343l2.58-2.58C13.463.906 11.426 0 9 0 5.481 0 2.438 2.017.957 4.957l3.006 2.332C4.67 5.126 6.655 3.542 9 3.542z"
-							fill="#EA4335"
-						/>
-					</svg>
-					{processing ? "Signing in..." : "Continue with Google"}
-				</button>
-
-				{/* Terms Footer */}
-				<div className="mt-8 text-center">
-					<p className="text-xs sm:text-sm text-gray-500">
-						By continuing, you agree to our{" "}
-						<a href="#" className="text-green-600 hover:text-green-700 font-medium">
-							Terms of Service
-						</a>{" "}
-						and{" "}
-						<a href="#" className="text-green-600 hover:text-green-700 font-medium">
-							Privacy Policy
-						</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	);
+const useFormContext = () => {
+  const context = useContext(FormContext);
+  if (!context) {
+    throw new Error('Form components must be used within Form.Root');
+  }
+  return context;
 };
 
-export default AuthForm;
+// Root Form Component
+interface FormRootProps {
+  children: React.ReactNode;
+  onSubmit: (email: string, password: string) => void | Promise<void>;
+  className?: string;
+}
+
+const FormRoot = ({ children, onSubmit, className = '' }: FormRootProps) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+    try {
+      await onSubmit(email, password);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <FormContext.Provider
+      value={{
+        email,
+        setEmail,
+        password,
+        setPassword,
+        isLoading,
+        setIsLoading,
+        error,
+        setError,
+        showPassword,
+        setShowPassword,
+      }}
+    >
+      <form onSubmit={handleSubmit} className={cn('space-y-5', className)}>
+        {children}
+      </form>
+    </FormContext.Provider>
+  );
+};
+
+// Header Component
+interface FormHeaderProps {
+  title: string;
+  subtitle: string;
+  icon?: string;
+}
+
+const FormHeader = ({ title, subtitle, icon = '/brain.png' }: FormHeaderProps) => {
+  return (
+    <div className="text-center">
+      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-300">
+        <Image src={icon} alt="Icon" width={28} height={28} className="object-contain" />
+      </div>
+      <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{title}</h1>
+      <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">{subtitle}</p>
+    </div>
+  );
+};
+
+// Error Display Component
+const FormError = () => {
+  const { error } = useFormContext();
+
+  if (!error) return null;
+
+  return (
+    <div
+      className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200"
+      role="alert"
+    >
+      {error}
+    </div>
+  );
+};
+
+// Label Component
+interface FormLabelProps {
+  htmlFor: string;
+  children: React.ReactNode;
+}
+
+const FormLabel = ({ htmlFor, children }: FormLabelProps) => {
+  return (
+    <label
+      htmlFor={htmlFor}
+      className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200"
+    >
+      {children}
+    </label>
+  );
+};
+
+// Email Field Component
+interface FormEmailFieldProps {
+  placeholder?: string;
+  required?: boolean;
+}
+
+const FormEmailField = ({
+  placeholder = 'Enter your email',
+  required = true,
+}: FormEmailFieldProps) => {
+  const { email, setEmail, isLoading } = useFormContext();
+
+  return (
+    <div>
+      <FormLabel htmlFor="email">Email address</FormLabel>
+      <div className="relative">
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder={placeholder}
+          required={required}
+          disabled={isLoading}
+          className="w-full rounded-xl border border-gray-200 bg-white px-10 py-3 text-sm text-gray-900 shadow-sm transition focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200 disabled:cursor-not-allowed disabled:opacity-60 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-emerald-400 dark:focus:ring-emerald-400/20"
+        />
+        <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-gray-400" />
+      </div>
+    </div>
+  );
+};
+
+// Password Field Component
+interface FormPasswordFieldProps {
+  placeholder?: string;
+  required?: boolean;
+  showToggle?: boolean;
+}
+
+const FormPasswordField = ({
+  placeholder = 'Enter your password',
+  required = true,
+  showToggle = true,
+}: FormPasswordFieldProps) => {
+  const { password, setPassword, isLoading, showPassword, setShowPassword } = useFormContext();
+
+  return (
+    <div>
+      <FormLabel htmlFor="password">Password</FormLabel>
+      <div className="relative">
+        <input
+          id="password"
+          type={showPassword ? 'text' : 'password'}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder={placeholder}
+          required={required}
+          disabled={isLoading}
+          className="w-full rounded-xl border border-gray-200 bg-white px-10 py-3 text-sm text-gray-900 shadow-sm transition focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200 disabled:cursor-not-allowed disabled:opacity-60 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-emerald-400 dark:focus:ring-emerald-400/20"
+        />
+        <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-gray-400" />
+        {showToggle && (
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 transition-colors duration-200 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+          >
+            {showPassword ? <EyeClosed className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Submit Button Component
+interface FormSubmitButtonProps {
+  children: React.ReactNode;
+  loadingText?: string;
+}
+
+const submitButtonVariants = {
+  idle: { scale: 1 },
+  loading: {
+    scale: [1, 0.98, 1],
+    transition: { duration: 1.1, repeat: Infinity, ease: 'easeInOut' as EasingDefinition },
+  },
+};
+
+const FormSubmitButton = ({ children, loadingText = 'Loading...' }: FormSubmitButtonProps) => {
+  const { isLoading, email, password } = useFormContext();
+
+  return (
+    <motion.button
+      type="submit"
+      variants={submitButtonVariants}
+      animate={isLoading ? 'loading' : 'idle'}
+      disabled={isLoading || !email || !password}
+      className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-emerald-500 hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-emerald-600/60 disabled:text-white/80 dark:bg-emerald-500 dark:hover:bg-emerald-400"
+      aria-busy={isLoading}
+    >
+      {isLoading ? (
+        <>
+          <Spinner className="h-4 w-4 text-white" />
+          <span>{loadingText}</span>
+        </>
+      ) : (
+        children
+      )}
+    </motion.button>
+  );
+};
+
+// Separator Component
+interface FormSeparatorProps {
+  text?: string;
+}
+
+const FormSeparator = ({ text = 'or' }: FormSeparatorProps) => {
+  return (
+    <div className="relative">
+      <div className="absolute inset-0 flex items-center">
+        <div className="w-full border-t border-gray-200 dark:border-gray-800" />
+      </div>
+      <div className="relative flex justify-center text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+        <span className="bg-white px-3 text-[0.7rem] font-medium dark:bg-gray-900">{text}</span>
+      </div>
+    </div>
+  );
+};
+
+// Google Sign In Component
+interface FormGoogleButtonProps {
+  onGoogleSignIn: () => void | Promise<void>;
+  text?: string;
+}
+
+const FormGoogleButton = ({
+  onGoogleSignIn,
+  text = 'Continue with Google',
+}: FormGoogleButtonProps) => {
+  const [processing, setProcessing] = useState(false);
+
+  const handleClick = async () => {
+    setProcessing(true);
+    try {
+      await onGoogleSignIn();
+    } catch (error) {
+      console.error('Error signing in with Google:', error);
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  return (
+    <motion.button
+      type="button"
+      onClick={handleClick}
+      disabled={processing}
+      className="flex w-full items-center justify-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-sm transition hover:border-emerald-400 hover:bg-emerald-50 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-emerald-400 disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-400 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:hover:border-emerald-400 dark:hover:bg-gray-800"
+      whileTap={{ scale: processing ? 1 : 0.98 }}
+      aria-busy={processing}
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 18 18"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path
+          d="M17.64 9.2045c0-.638-.057-1.252-.164-1.841H9v3.481h4.844c-.209 1.125-.842 2.078-1.795 2.717v2.258h2.908c1.703-1.57 2.683-3.885 2.683-6.615z"
+          fill="#4285F4"
+        />
+        <path
+          d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.258c-.806.54-1.838.86-3.048.86-2.345 0-4.33-1.584-5.037-3.711H.957v2.332C2.438 15.983 5.481 18 9 18z"
+          fill="#34A853"
+        />
+        <path
+          d="M3.963 10.711a5.408 5.408 0 0 1 0-3.422V4.957H.957a8.998 8.998 0 0 0 0 8.086l3.006-2.332z"
+          fill="#FBBC05"
+        />
+        <path
+          d="M9 3.542c1.319 0 2.506.454 3.44 1.343l2.58-2.58C13.463.906 11.426 0 9 0 5.481 0 2.438 2.017.957 4.957l3.006 2.332C4.67 5.126 6.655 3.542 9 3.542z"
+          fill="#EA4335"
+        />
+      </svg>
+      {processing ? (
+        <span className="flex items-center gap-2">
+          <Spinner className="h-4 w-4 text-gray-500 dark:text-gray-300" />
+          Signing in...
+        </span>
+      ) : (
+        text
+      )}
+    </motion.button>
+  );
+};
+
+// Footer Link Component
+interface FormFooterLinkProps {
+  text: string;
+  linkText: string;
+  linkHref: string;
+}
+
+const FormFooterLink = ({ text, linkText, linkHref }: FormFooterLinkProps) => {
+  return (
+    <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+      {text}{' '}
+      <Link
+        href={linkHref}
+        className="font-medium text-emerald-600 transition-colors duration-200 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300"
+      >
+        {linkText}
+      </Link>
+    </p>
+  );
+};
+
+// Terms Footer Component
+const FormTermsFooter = () => {
+  return (
+    <p className="text-center text-xs text-gray-500 dark:text-gray-500">
+      By continuing, you agree to our{' '}
+      <a
+        href="#"
+        className="font-medium text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300"
+      >
+        Terms of Service
+      </a>{' '}
+      and{' '}
+      <a
+        href="#"
+        className="font-medium text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300"
+      >
+        Privacy Policy
+      </a>
+    </p>
+  );
+};
+
+// Forgot Password Link Component
+const FormForgotPassword = () => {
+  return (
+    <div className="text-right">
+      <Link
+        href="#"
+        className="text-sm font-medium text-emerald-600 transition-colors duration-200 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300"
+      >
+        Forgot password?
+      </Link>
+    </div>
+  );
+};
+
+// Export all components
+export const Form = {
+  Root: FormRoot,
+  Header: FormHeader,
+  Error: FormError,
+  EmailField: FormEmailField,
+  PasswordField: FormPasswordField,
+  SubmitButton: FormSubmitButton,
+  Separator: FormSeparator,
+  GoogleButton: FormGoogleButton,
+  FooterLink: FormFooterLink,
+  TermsFooter: FormTermsFooter,
+  ForgotPassword: FormForgotPassword,
+};
