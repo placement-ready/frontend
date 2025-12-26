@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Bell, Settings, LogOut, User, Menu, X, ChevronDown, Moon, SunMedium } from 'lucide-react';
-import { authClient } from '@/lib/auth-client';
+import { Bell, Settings, LogOut, User, Menu, X, ChevronDown } from 'lucide-react';
 import Sidebar from './Sidebar';
 import menuItems from './MenuItems';
-import { useTheme } from '@/providers/ThemeContext';
+import { useAuth } from '@/providers/AuthProvider';
+import ThemeToggle from '../ui/themeToggle';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -17,25 +17,15 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const { data: session } = authClient.useSession();
-  const user = session?.user;
+  const { user, isAuthenticated, signOut } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
-  const { theme, toggleTheme } = useTheme();
 
-  // Sync dark mode with localStorage
   useEffect(() => {
-    const theme = localStorage.getItem('theme');
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-
-    const handleStorage = (e: StorageEvent) => {
-      if (e.key === 'theme') {
-        document.documentElement.classList.toggle('dark', e.newValue === 'dark');
-      }
-    };
-    window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
-  }, []);
+    if (!isAuthenticated) {
+      router.replace('/');
+    }
+  }, [isAuthenticated, router]);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -49,7 +39,7 @@ export default function Layout({ children }: LayoutProps) {
   }, []);
 
   const handleLogout = async () => {
-    await authClient.signOut();
+    await signOut();
     router.push('/');
   };
 
@@ -94,19 +84,8 @@ export default function Layout({ children }: LayoutProps) {
             </div>
 
             {/* Right: Profile */}
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={toggleTheme}
-                className="rounded-full border border-slate-200 p-2.5 text-slate-500 transition-colors hover:border-slate-400 hover:text-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:border-slate-600"
-                aria-label="Toggle theme"
-              >
-                {theme === 'dark' ? (
-                  <Moon className="h-5 w-5" />
-                ) : (
-                  <SunMedium className="h-5 w-5" />
-                )}
-              </button>
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
               <Link
                 href="/dashboard/notifications"
                 className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"

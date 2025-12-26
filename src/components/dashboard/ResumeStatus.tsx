@@ -5,11 +5,9 @@ import type { ComponentType, SVGProps } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle2, FileText, Loader2 } from 'lucide-react';
-
 import { Button } from '@/components/ui/button';
 import { NoResumeState } from '@/components/empty-states/NoResumeState';
 import { cn } from '@/lib/utils';
-
 import { DashboardCard, DashboardCardFooter, DashboardCardSection } from './DashboardCard';
 import { fadeInUp } from './motion';
 

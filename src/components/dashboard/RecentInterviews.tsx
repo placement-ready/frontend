@@ -3,9 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, BadgeCheck, Mic2 } from 'lucide-react';
-
 import { NoInterviewsState } from '@/components/empty-states/NoInterviewsState';
-
 import { DashboardCard } from './DashboardCard';
 import { staggerContainer, subtleListItem } from './motion';
 

@@ -140,6 +140,15 @@
 }
 
 /* Global Styles */
+html,
+body {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
 button {
   cursor: pointer;
 }

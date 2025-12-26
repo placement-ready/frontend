@@ -1,14 +1,11 @@
 'use client';
 
 import type { ComponentType, SVGProps } from 'react';
-
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, FileText, LayoutDashboard, Sparkles } from 'lucide-react';
-
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-
 import { DashboardCard, DashboardCardSection } from './DashboardCard';
 
 interface ActionItem {

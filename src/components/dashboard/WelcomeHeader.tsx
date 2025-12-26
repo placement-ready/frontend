@@ -3,10 +3,8 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { CalendarCheck, Clock, TrendingUp } from 'lucide-react';
-
 import { Button } from '@/components/ui/button';
-import { authClient } from '@/lib/auth-client';
-
+import { useAuth } from '@/providers/AuthProvider';
 import { DashboardCard, DashboardCardSection } from './DashboardCard';
 import { fadeInUp } from './motion';
 
@@ -29,8 +27,8 @@ const focusHighlights = [
 ];
 
 const WelcomeHeader = () => {
-  const { data: session } = authClient.useSession();
-  const firstName = session?.user?.name?.split(' ')[0] ?? 'there';
+  const { user } = useAuth();
+  const firstName = user?.name?.split(' ')[0] ?? 'there';
 
   return (
     <DashboardCard

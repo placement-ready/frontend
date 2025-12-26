@@ -4,8 +4,8 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  image?: string;
+  image?: string | null | undefined;
   emailVerified: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

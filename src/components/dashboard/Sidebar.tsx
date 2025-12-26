@@ -6,8 +6,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { LogOut } from 'lucide-react';
 import { motion } from 'framer-motion';
-
-import { authClient } from '@/lib/auth-client';
+import { useAuth } from '@/providers/AuthProvider';
 
 interface SidebarMenuItem {
   id: string;
@@ -38,8 +37,7 @@ export default function Sidebar({ config, isOpen, setIsOpen, className = '' }: S
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const { data: session } = authClient.useSession();
-  const user = session?.user;
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     const handleResize = () => {
@@ -64,7 +62,7 @@ export default function Sidebar({ config, isOpen, setIsOpen, className = '' }: S
   }, [isMobile, isOpen, setIsOpen]);
 
   const handleSignOut = async () => {
-    await authClient.signOut();
+    await signOut();
     router.push('/');
   };
 

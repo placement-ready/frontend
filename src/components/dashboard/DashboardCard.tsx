@@ -1,8 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import * as React from 'react';
-
+import React from 'react';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { cardHover, cardVariants, defaultTransition } from './motion';
